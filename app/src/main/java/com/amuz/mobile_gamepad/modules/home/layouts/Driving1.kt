@@ -11,9 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.modules.home.HomeController
 import com.amuz.mobile_gamepad.modules.widgets.buttons.DirectionButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LBButton

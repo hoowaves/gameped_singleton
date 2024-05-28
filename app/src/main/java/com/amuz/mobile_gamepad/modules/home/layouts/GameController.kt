@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.amuz.mobile_gamepad.modules.home.HomeController
+import com.amuz.mobile_gamepad.modules.layoutSetting.LayoutSettingController
 import com.amuz.mobile_gamepad.modules.widgets.buttons.DirectionButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LBButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LTButton
@@ -32,7 +33,7 @@ import com.amuz.mobile_gamepad.modules.widgets.buttons.YBXAButton
 import com.amuz.mobile_gamepad.modules.widgets.joysticks.LeftJoystick
 import com.amuz.mobile_gamepad.modules.widgets.joysticks.RightJoystick
 
-class GameController {
+class GameController() {
 
     @Composable
     fun Render() {

@@ -88,7 +88,7 @@ class DirectionButton {
                                     if (!isEnable) return@pointerInput
                                     detectTapGestures(
                                         onPress = {
-                                            if (HomeController.getIsVibrator() == true) {
+                                            if (HomeController.appIsVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
                                             isPressedY.value = true
@@ -119,7 +119,7 @@ class DirectionButton {
                                     if (!isEnable) return@pointerInput
                                     detectTapGestures(
                                         onPress = {
-                                            if (HomeController.getIsVibrator() == true) {
+                                            if (HomeController.appIsVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
                                             isPressedB.value = true
@@ -152,7 +152,7 @@ class DirectionButton {
                                     if (!isEnable) return@pointerInput
                                     detectTapGestures(
                                         onPress = {
-                                            if (HomeController.getIsVibrator() == true) {
+                                            if (HomeController.appIsVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
                                             isPressedX.value = true
@@ -183,7 +183,7 @@ class DirectionButton {
                                     if (!isEnable) return@pointerInput
                                     detectTapGestures(
                                         onPress = {
-                                            if (HomeController.getIsVibrator() == true) {
+                                            if (HomeController.appIsVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
                                             isPressedA.value = true
@@ -219,7 +219,7 @@ class DirectionButton {
                             if (!isEnable) return@pointerInput
                             detectTapGestures(
                                 onPress = {
-                                    if (HomeController.getIsVibrator() == true) {
+                                    if (HomeController.appIsVibration.value == true) {
                                         systemRepository.setVibration()
                                     }
                                     isPressedCenter.value = true

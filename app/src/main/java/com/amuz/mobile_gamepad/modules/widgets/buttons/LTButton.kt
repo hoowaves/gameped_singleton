@@ -1,5 +1,6 @@
 package com.amuz.mobile_gamepad.modules.widgets.buttons
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -20,6 +21,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -28,8 +30,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.amuz.mobile_gamepad.modules.home.HomeController
 import com.amuz.mobile_gamepad.modules.home.HomeView
+import com.amuz.mobile_gamepad.modules.layoutSetting.LayoutSettingController
 import com.amuz.mobile_gamepad.modules.layoutSetting.LayoutSettingView
-import com.amuz.mobile_gamepad.modules.widgets.dialogs.customColorDialog.CustomColorDialog
+import com.amuz.mobile_gamepad.modules.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.settings.SystemRepository
 
 class LTButton {
@@ -41,7 +44,13 @@ class LTButton {
         val isEnable = remember { context is HomeView }
         val isSetting = remember { context is LayoutSettingView }
         var customColorDialog by remember { mutableStateOf(false) }
-        var defaultBrush by remember { mutableStateOf(SolidColor(HomeController.getButtonColor())) }
+        val buttonColor = HomeController.ltButton.value ?: 0
+        val defaultBrushColor = if (buttonColor == 0) {
+            HomeController.getButtonColor()
+        } else {
+            Color(buttonColor)
+        }
+        var defaultBrush by remember { mutableStateOf(SolidColor(defaultBrushColor)) }
 
         BoxWithConstraints {
             val isPressed = remember { mutableStateOf(false) }
@@ -70,7 +79,7 @@ class LTButton {
                         detectTapGestures(
                             onPress = {
                                 if (isEnable) {
-                                    if (HomeController.getIsVibrator() == true) {
+                                    if (HomeController.appIsVibration.value == true) {
                                         systemRepository.setVibration()
                                     }
                                     isPressed.value = true
@@ -103,6 +112,7 @@ class LTButton {
                         customColorDialog = false
                         isPressed.value = false
                         defaultBrush = SolidColor(color)
+                        LayoutSettingController.setLtButton(color.toArgb())
                     }
                 )
             }

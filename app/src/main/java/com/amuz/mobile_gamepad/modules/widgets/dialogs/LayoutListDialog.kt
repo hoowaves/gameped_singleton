@@ -104,7 +104,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
                                 },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            if (HomeController.layoutState.value == text) {
+                            if (HomeController.appLayout.value == index) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
                                     contentDescription = null,
@@ -166,19 +166,23 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
     selectedItem?.let { index ->
         when (index) {
             1 -> {
-                HomeController.setLayoutState("Driving 1")
+                HomeController.setLayout(1)
+//                HomeController.setLayoutState("Driving 1")
             }
 
             2 -> {
-                HomeController.setLayoutState("Driving 2")
+                HomeController.setLayout(2)
+//                HomeController.setLayoutState("Driving 2")
             }
 
             3 -> {
-                HomeController.setLayoutState("Casual")
+                HomeController.setLayout(3)
+//                HomeController.setLayoutState("Casual")
             }
 
             else -> {
-                HomeController.setLayoutState("Game Controller")
+                HomeController.setLayout(0)
+//                HomeController.setLayoutState("Game Controller")
             }
         }
         onDismissRequest()

@@ -61,7 +61,7 @@ class RightJoystick {
                             touchPosition = offset // 터치 위치 설정
                             handlePosition = offset // 핸들 위치를 터치한 지점으로
                             middlePosition = offset // 핸들 위치를 터치한 지점으로
-                            if (HomeController.getIsVibrator() == true) {
+                            if (HomeController.appIsVibration.value == true) {
                                 systemRepository.setVibration()
                             }
                         },

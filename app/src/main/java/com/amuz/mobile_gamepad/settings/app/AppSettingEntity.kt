@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "app_settings")
 data class AppSettingEntity(
     @PrimaryKey
-    val id: Int = 1,
-    val appLayout: Int,
-    val appIsDark: Boolean,
-    val appTouchEffect: Boolean,
-    val appPowerSaving: Int,
-    val appIsVibration: Boolean
+    val id: Int,
+    val layout: Int,
+    val isDark: Boolean,
+    val touchEffect: Boolean,
+    val powerSaving: Int,
+    val isVibration: Boolean
 )

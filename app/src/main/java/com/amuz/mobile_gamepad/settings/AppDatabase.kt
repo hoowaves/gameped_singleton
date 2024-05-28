@@ -1,13 +1,22 @@
-package com.amuz.mobile_gamepad.settings.app
+package com.amuz.mobile_gamepad.settings
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.amuz.mobile_gamepad.settings.app.AppSettingDao
+import com.amuz.mobile_gamepad.settings.app.AppSettingEntity
+import com.amuz.mobile_gamepad.settings.layout.LayoutSettingDao
+import com.amuz.mobile_gamepad.settings.layout.LayoutSettingEntity
 
-@Database(entities = [AppSettingEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [AppSettingEntity::class, LayoutSettingEntity::class],
+    version = 1,
+    exportSchema = true
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun appSettingDao(): AppSettingDao
+    abstract fun layoutSettingDao(): LayoutSettingDao
 
     companion object {
         @Volatile

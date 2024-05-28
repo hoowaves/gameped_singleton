@@ -1,31 +1,88 @@
 package com.amuz.mobile_gamepad.modules.layoutSetting
 
-import androidx.compose.ui.graphics.Color
 import com.amuz.mobile_gamepad.modules.home.HomeController
-import com.amuz.mobile_gamepad.settings.ColorRepository
+import com.amuz.mobile_gamepad.settings.layout.LayoutSettingEntity
+import kotlinx.coroutines.runBlocking
 
 class LayoutSettingModel {
-    private var colorRepository: ColorRepository
+    private val id: Int = LayoutSettingController.appLayout.value ?: 0
+    private lateinit var layoutEntity: LayoutSettingEntity
+    private lateinit var name: String
+    private var ltButton: Int = 0
+    private var lbButton: Int = 0
+    private var rtButton: Int = 0
+    private var rbButton: Int = 0
+    private var ltsButton: Int = 0
+    private var rtsButton: Int = 0
+    private var directionButton: Int = 0
+    private var yButton: Int = 0
+    private var bButton: Int = 0
+    private var xButton: Int = 0
+    private var aButton: Int = 0
 
-    init {
-        colorRepository = when (HomeController.getLayoutState()) {
-            "Game Controller" -> ColorRepository.GameController
-            "Driving 1" -> ColorRepository.Driving1
-            "Driving 2" -> ColorRepository.Driving2
-            "Casual" -> ColorRepository.Casual
-            else -> ColorRepository.GameController
-        }
+    suspend fun init(id: Int){
+        layoutEntity = HomeController.layoutRepository.value?.getSetting(id)!!
+        name = layoutEntity.name
+        ltButton = layoutEntity.ltButton
+        lbButton = layoutEntity.lbButton
+        rtButton = layoutEntity.rtButton
+        rbButton = layoutEntity.rbButton
+        ltsButton = layoutEntity.ltsButton
+        rtsButton = layoutEntity.rtsButton
+        directionButton = layoutEntity.directionButton
+        yButton = layoutEntity.yButton
+        bButton = layoutEntity.bButton
+        xButton = layoutEntity.xButton
+        aButton = layoutEntity.aButton
     }
 
-    private val ltButton: Color? = colorRepository.ltButton
-    private val lbButton: Color? = colorRepository.lbButton
-
-    fun getLtButton(): Color? {
-        return ltButton
+    fun getName(): String {
+        return this.name
     }
 
-    fun getLbButton(): Color? {
-        return lbButton
+    fun getLtButton(): Int {
+        return this.ltButton
     }
+
+    fun getLbButton(): Int {
+        return this.lbButton
+    }
+
+    fun getRtButton(): Int {
+        return this.rtButton
+    }
+
+    fun getRbButton(): Int {
+        return this.rbButton
+    }
+
+    fun getLtsButton(): Int {
+        return this.ltsButton
+    }
+
+    fun getRtsButton(): Int {
+        return this.rtsButton
+    }
+
+    fun getDirectionButton(): Int {
+        return this.directionButton
+    }
+
+    fun getYButton(): Int {
+        return this.yButton
+    }
+
+    fun getBButton(): Int {
+        return this.bButton
+    }
+
+    fun getXButton(): Int {
+        return this.xButton
+    }
+
+    fun getAButton(): Int {
+        return this.aButton
+    }
+
 
 }

@@ -31,10 +31,12 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,8 +51,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.amuz.mobile_gamepad.constants.Theme
 import com.amuz.mobile_gamepad.modules.home.HomeController
+import kotlinx.coroutines.launch
 
 @Composable
 fun DisplayDialog(
@@ -76,14 +78,23 @@ fun DisplayDialog(
 
     var isDropDownTheme by remember { mutableStateOf(false) }
     var isDropDownPowerSaving by remember { mutableStateOf(false) }
-    var isTouchEffectChecked by remember { mutableStateOf(displayDialogController.getModelTouchEffect()) }
-    var isVibrationChecked by remember { mutableStateOf(displayDialogController.getModelVibration()) }
+    var isTouchEffectChecked by remember {
+        mutableStateOf(
+            displayDialogController.getModelTouchEffect() ?: true
+        )
+    }
+    var isVibrationChecked by remember {
+        mutableStateOf(
+            displayDialogController.getModelVibration() ?: true
+        )
+    }
     var brightnessPosition by remember {
         mutableFloatStateOf(
             displayDialogController.getModelBrightness()
                 .toFloat()
         )
     }
+    val scope = rememberCoroutineScope()
 
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -186,7 +197,7 @@ fun DisplayDialog(
                                                             )
                                                         },
                                                         leadingIcon = {
-                                                            if (displayDialogController.getModelTheme() == Theme.DARK) {
+                                                            if (displayDialogController.getModelIsDark() == true) {
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = null,
@@ -195,8 +206,8 @@ fun DisplayDialog(
                                                             }
                                                         },
                                                         onClick = {
-                                                            displayDialogController.setViewTheme(
-                                                                Theme.DARK
+                                                            displayDialogController.setIsDark(
+                                                                true
                                                             )
                                                             isDropDownTheme = false
                                                         },
@@ -218,7 +229,7 @@ fun DisplayDialog(
                                                             )
                                                         },
                                                         leadingIcon = {
-                                                            if (displayDialogController.getModelTheme() == Theme.LIGHT) {
+                                                            if (displayDialogController.getModelIsDark() == false) {
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = null,
@@ -227,8 +238,8 @@ fun DisplayDialog(
                                                             }
                                                         },
                                                         onClick = {
-                                                            displayDialogController.setViewTheme(
-                                                                Theme.LIGHT
+                                                            displayDialogController.setIsDark(
+                                                                false
                                                             )
                                                             isDropDownTheme = false
                                                         },
@@ -788,11 +799,13 @@ fun DisplayDialog(
                                     .fillMaxHeight()
                                     .alpha(if (displayDialogController.isChanged.value == true) 1.0f else 0.3f)
                                     .clickable(enabled = displayDialogController.isChanged.value == true) {
-                                        displayDialogController.update()
-                                        Toast
-                                            .makeText(context, "설정이 완료되었습니다.", Toast.LENGTH_SHORT)
-                                            .show()
-                                        onDismissRequest()
+                                        scope.launch {
+                                            displayDialogController.update()
+                                            Toast
+                                                .makeText(context, "설정이 완료되었습니다.", Toast.LENGTH_SHORT)
+                                                .show()
+                                            onDismissRequest()
+                                        }
                                     },
                             ) {
                                 Text(

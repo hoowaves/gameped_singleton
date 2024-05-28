@@ -44,6 +44,7 @@ import com.amuz.mobile_gamepad.modules.home.layouts.Casual
 import com.amuz.mobile_gamepad.modules.home.layouts.Driving1
 import com.amuz.mobile_gamepad.modules.home.layouts.Driving2
 import com.amuz.mobile_gamepad.modules.home.layouts.GameController
+import com.amuz.mobile_gamepad.modules.layoutSetting.LayoutSettingController
 import com.amuz.mobile_gamepad.modules.layoutSetting.LayoutSettingView
 
 class LayoutSettingListView : ComponentActivity() {
@@ -151,6 +152,7 @@ class LayoutSettingListView : ComponentActivity() {
                             modifier = Modifier
                                 .alpha(0.3f)
                                 .clickable {
+                                    LayoutSettingController.setLayout(0)
                                     val intent = Intent(context, LayoutSettingView::class.java)
                                     context.startActivity(intent)
                                 },
@@ -284,6 +286,11 @@ class LayoutSettingListView : ComponentActivity() {
                         Box(
                             modifier = Modifier
                                 .alpha(0.3f)
+                                .clickable {
+                                    LayoutSettingController.setLayout(1)
+                                    val intent = Intent(context, LayoutSettingView::class.java)
+                                    context.startActivity(intent)
+                                },
                         ) {
                             val driving1 = Driving1()
                             driving1.Render()

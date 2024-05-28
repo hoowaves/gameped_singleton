@@ -9,15 +9,9 @@ import androidx.room.Update
 
 @Dao
 interface AppSettingDao {
-    @Query("SELECT * FROM app_settings WHERE id = 1")
-    suspend fun getSettings(): AppSettingEntity?
+    @Query("SELECT * FROM app_settings WHERE id = 0")
+    suspend fun getSetting(): AppSettingEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSettings(settings: AppSettingEntity)
-
-    @Update
-    suspend fun updateSettings(settings: AppSettingEntity)
-
-    @Delete
-    suspend fun deleteSettings(settings: AppSettingEntity)
+    suspend fun insert(setting: AppSettingEntity)
 }

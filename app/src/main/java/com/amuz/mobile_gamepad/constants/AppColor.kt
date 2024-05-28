@@ -4,7 +4,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 
 object AppColor {
-
     object DarkMode{
         val backgroundColor = Color(0xFF212121)
         val buttonColor = Color(0xFF606160)

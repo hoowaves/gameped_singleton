@@ -1,85 +1,86 @@
 package com.amuz.mobile_gamepad.modules.widgets.dialogs.displayDialog
 
 import android.content.Context
+import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.amuz.mobile_gamepad.constants.Theme
 import com.amuz.mobile_gamepad.modules.home.HomeController
+import com.amuz.mobile_gamepad.settings.app.AppSettingEntity
 
 
 class DisplayDialogController(context: Context) {
-    private val displayDialogModel = DisplayDialogModel(context)
+    private val model = DisplayDialogModel(context)
 
-    private val _viewTheme: MutableLiveData<Theme> = MutableLiveData(displayDialogModel.getTheme())
-    val viewTheme: LiveData<Theme> get() = _viewTheme
-    val viewThemeText: String get() = if (viewTheme.value == Theme.DARK) "다크" else "라이트"
+    private val _viewIsDark: MutableLiveData<Boolean> = MutableLiveData(model.getIsDark())
+    val viewIsDark: LiveData<Boolean> get() = _viewIsDark
+    val viewThemeText: String get() = if (viewIsDark.value == true) "다크" else "라이트"
 
     private val _viewPowerSaving: MutableLiveData<Int> =
-        MutableLiveData(displayDialogModel.getPowerSaving())
+        MutableLiveData(model.getPowerSaving())
     val viewPowerSaving: LiveData<Int> get() = _viewPowerSaving
     val viewPowerSavingText: String get() = if (viewPowerSaving.value == 0) "안함" else "${viewPowerSaving.value}분"
 
     private val _viewTouchEffect: MutableLiveData<Boolean> =
-        MutableLiveData(displayDialogModel.getTouchEffect())
+        MutableLiveData(model.getTouchEffect())
     val viewTouchEffect: LiveData<Boolean> get() = _viewTouchEffect
 
     private val _viewIsVibration: MutableLiveData<Boolean> =
-        MutableLiveData(displayDialogModel.getIsVibration())
+        MutableLiveData(model.getIsVibration())
     val viewIsVibration: LiveData<Boolean> get() = _viewIsVibration
 
     private var _viewBrightness: MutableLiveData<Int> =
-        MutableLiveData(displayDialogModel.getBrightness())
+        MutableLiveData(model.getBrightness())
     val viewBrightness: LiveData<Int> get() = _viewBrightness
-    val defaultBrightness = displayDialogModel.getBrightness()
+    val defaultBrightness = model.getBrightness()
 
     private val _isChanged: MutableLiveData<Boolean> = MutableLiveData(false)
     val isChanged: LiveData<Boolean> get() = _isChanged
 
     init {
-        viewTheme.observeForever { theme ->
-            _isChanged.value = theme != displayDialogModel.getTheme()
+        viewIsDark.observeForever { value ->
+            _isChanged.value = value != model.getIsDark()
         }
         viewPowerSaving.observeForever { value ->
-            _isChanged.value = value != displayDialogModel.getPowerSaving()
+            _isChanged.value = value != model.getPowerSaving()
         }
         viewTouchEffect.observeForever { value ->
-            _isChanged.value = value != displayDialogModel.getTouchEffect()
+            _isChanged.value = value != model.getTouchEffect()
         }
         viewIsVibration.observeForever { value ->
-            _isChanged.value = value != displayDialogModel.getIsVibration()
+            _isChanged.value = value != model.getIsVibration()
         }
         viewBrightness.observeForever { value ->
-            displayDialogModel.setBrightness(value)
-            _isChanged.value = value != displayDialogModel.getBrightness()
+            model.setBrightness(value)
+            _isChanged.value = value != model.getBrightness()
         }
     }
 
-    fun getModelTheme(): Theme? {
-        return displayDialogModel.getTheme()
+    fun getModelIsDark(): Boolean? {
+        return model.getIsDark()
     }
 
-    fun setViewTheme(theme: Theme) {
-        _viewTheme.value = theme
+    fun setIsDark(value: Boolean) {
+        _viewIsDark.value = value
     }
 
-    fun getModelPowerSaving(): Int {
-        return displayDialogModel.getPowerSaving()
+    fun getModelPowerSaving(): Int? {
+        return model.getPowerSaving()
     }
 
     fun setViewPowerSaving(value: Int) {
         _viewPowerSaving.value = value
     }
 
-    fun getModelTouchEffect(): Boolean {
-        return displayDialogModel.getTouchEffect()
+    fun getModelTouchEffect(): Boolean? {
+        return model.getTouchEffect()
     }
 
     fun setViewTouchEffect(value: Boolean) {
         _viewTouchEffect.value = value
     }
 
-    fun getModelVibration(): Boolean {
-        return displayDialogModel.getIsVibration()
+    fun getModelVibration(): Boolean? {
+        return model.getIsVibration()
     }
 
     fun setViewVibration(value: Boolean) {
@@ -87,7 +88,7 @@ class DisplayDialogController(context: Context) {
     }
 
     fun getModelBrightness(): Int {
-        return displayDialogModel.getBrightness()
+        return model.getBrightness()
     }
 
     fun setModelBrightness(value: Int) {
@@ -95,19 +96,25 @@ class DisplayDialogController(context: Context) {
     }
 
     fun setDefaultBrightness() {
-        displayDialogModel.setBrightness(defaultBrightness)
+        model.setBrightness(defaultBrightness)
     }
 
-    fun update() {
-        // 다른 요소 추가해주기
-        HomeController.setLayoutTheme(viewTheme.value ?: Theme.DARK)
+    suspend fun update() {
         // 현재 페이지에 적용
-        HomeController.setIsVibrator(viewIsVibration.value ?: false)
-        if (viewIsVibration.value == true) {
-            displayDialogModel.enableIsVibration()
-        } else {
-            displayDialogModel.disableIsVibration()
-        }
-    }
+        HomeController.setIsDark(viewIsDark.value ?: true)
+        HomeController.setPowerSaving(viewPowerSaving.value ?: 0)
+        HomeController.setIsTouchEffect(viewTouchEffect.value ?: false)
+        HomeController.setIsVibration(viewIsVibration.value ?: false)
 
+        HomeController.saveAppSetting(
+            AppSettingEntity(
+                id = 0,
+                layout = HomeController.appLayout.value ?: 0,
+                isDark = viewIsDark.value ?: true,
+                touchEffect = viewTouchEffect.value ?: false,
+                powerSaving = viewPowerSaving.value ?: 0,
+                isVibration = viewIsVibration.value ?: false
+            )
+        )
+    }
 }

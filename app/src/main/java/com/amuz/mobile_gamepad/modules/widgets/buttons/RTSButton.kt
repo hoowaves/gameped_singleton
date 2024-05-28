@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.amuz.mobile_gamepad.modules.home.HomeController
 import com.amuz.mobile_gamepad.modules.home.HomeView
 import com.amuz.mobile_gamepad.modules.layoutSetting.LayoutSettingView
-import com.amuz.mobile_gamepad.modules.widgets.dialogs.customColorDialog.CustomColorDialog
+import com.amuz.mobile_gamepad.modules.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.settings.SystemRepository
 
 class RTSButton() {
@@ -70,7 +70,7 @@ class RTSButton() {
                         detectTapGestures(
                             onPress = {
                                 if (isEnable) {
-                                    if (HomeController.getIsVibrator() == true) {
+                                    if (HomeController.appIsVibration.value == true) {
                                         systemRepository.setVibration()
                                     }
                                     isPressed.value = true

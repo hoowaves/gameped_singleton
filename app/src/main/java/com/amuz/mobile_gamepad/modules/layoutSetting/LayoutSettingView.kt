@@ -1,6 +1,7 @@
 package com.amuz.mobile_gamepad.modules.layoutSetting
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -21,17 +22,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.amuz.mobile_gamepad.constants.AppColor
-import com.amuz.mobile_gamepad.constants.Theme
 import com.amuz.mobile_gamepad.modules.home.HomeController
 import com.amuz.mobile_gamepad.modules.home.layouts.Casual
 import com.amuz.mobile_gamepad.modules.home.layouts.Driving1
 import com.amuz.mobile_gamepad.modules.home.layouts.Driving2
 import com.amuz.mobile_gamepad.modules.home.layouts.GameController
+import kotlinx.coroutines.launch
 
 class LayoutSettingView : ComponentActivity() {
     private val gameController = GameController()
@@ -41,7 +43,6 @@ class LayoutSettingView : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             Render()
         }
@@ -49,77 +50,38 @@ class LayoutSettingView : ComponentActivity() {
 
     @Composable
     fun Render() {
-        val layoutState by HomeController.layoutState.observeAsState()
-        val layoutTheme by HomeController.layoutTheme.observeAsState()
-
-        when (layoutState) {
-            "Game Controller" -> {
+        val scope = rememberCoroutineScope()
+        val context = LocalContext.current
+        val layout by HomeController.appLayout.observeAsState()
+        val isDark by HomeController.appIsDark.observeAsState()
+        when (layout) {
+            0 -> {
                 gameController.Render()
             }
-
-            "Driving 1" -> {
-                driving1.Render()
-            }
-
-            "Driving 2" -> {
-                driving2.Render()
-            }
-
-            "Casual" -> {
-                casual.Render()
-            }
-
-            else -> {
-                gameController.Render()
-            }
+            1 -> driving1.Render()
+            2 -> driving2.Render()
+            3 -> casual.Render()
+            else -> gameController.Render()
         }
 
-        when (layoutTheme) {
-            Theme.DARK -> {
-                when (layoutState) {
-                    "Game Controller" -> {
-                        gameController.Render()
-                    }
-
-                    "Driving 1" -> {
-                        driving1.Render()
-                    }
-
-                    "Driving 2" -> {
-                        driving2.Render()
-                    }
-
-                    "Casual" -> {
-                        casual.Render()
-                    }
-
-                    else -> {
-                        gameController.Render()
-                    }
+        when (isDark) {
+            true -> {
+                when (layout) {
+                    0 -> gameController.Render()
+                    1 -> driving1.Render()
+                    2 -> driving2.Render()
+                    3 -> casual.Render()
+                    else -> gameController.Render()
                 }
             }
 
-            Theme.LIGHT -> {
-                when (layoutState) {
-                    "Game Controller" -> {
-                        gameController.Render()
-                    }
-
-                    "Driving 1" -> {
-                        driving1.Render()
-                    }
-
-                    "Driving 2" -> {
-                        driving2.Render()
-                    }
-
-                    "Casual" -> {
-                        casual.Render()
-                    }
-
-                    else -> {
-                        gameController.Render()
-                    }
+            false -> {
+                when (layout) {
+                    0 -> gameController.Render()
+                    1 -> driving1.Render()
+                    2 -> driving2.Render()
+                    3 -> casual.Render()
+                    else -> gameController.Render()
                 }
             }
 
@@ -176,7 +138,15 @@ class LayoutSettingView : ComponentActivity() {
                                         .fillMaxHeight()
                                         .weight(5f)
                                         .clickable {
-                                            finish()
+                                            scope.launch {
+                                                println(LayoutSettingController.isChanged.value)
+                                                LayoutSettingController.update()
+                                                finish()
+                                                Toast
+                                                    .makeText(context, "설정이 완료되었습니다.", Toast.LENGTH_SHORT)
+                                                    .show()
+                                            }
+
                                         },
                                     contentAlignment = Alignment.Center
                                 ) {

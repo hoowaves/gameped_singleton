@@ -1,4 +1,4 @@
-package com.amuz.mobile_gamepad.modules.widgets.dialogs.customColorDialog
+package com.amuz.mobile_gamepad.modules.widgets.dialogs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

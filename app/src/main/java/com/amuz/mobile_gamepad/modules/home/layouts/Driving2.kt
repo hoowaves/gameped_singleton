@@ -7,13 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.magnifier
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.modules.home.HomeController
 import com.amuz.mobile_gamepad.modules.widgets.buttons.DirectionButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LBButton
