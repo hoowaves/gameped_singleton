@@ -1,5 +1,10 @@
 package com.amuz.mobile_gamepad.modules.home.layouts
 
+import android.content.Context.SENSOR_SERVICE
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,10 +14,16 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.zIndex
-import com.amuz.mobile_gamepad.modules.home.HomeController
+import com.amuz.mobile_gamepad.modules.layoutCustom.LayoutCustomController
+import com.amuz.mobile_gamepad.settings.layout.LayoutSettingModel
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LBButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LTButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LTSButton
@@ -25,14 +36,16 @@ import com.amuz.mobile_gamepad.modules.widgets.buttons.SettingButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.ViewButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.YBXAButton
 import com.amuz.mobile_gamepad.modules.widgets.joysticks.LeftJoystick
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 class Casual {
+
     @Composable
-    fun Render() {
+    fun Render(layoutCustomController: LayoutCustomController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(HomeController.getBackgroundColor())
+                .background(AppSettingModel.getBackgroundColor())
         ) {
             Column(
                 modifier = Modifier
@@ -76,7 +89,7 @@ class Casual {
                                         .weight(6.5f)
                                 ) {
                                     val ltButton = LTButton()
-                                    ltButton.Render()
+                                    ltButton.Render(layoutCustomController)
                                 }
                                 Column(
                                     modifier = Modifier
@@ -108,7 +121,7 @@ class Casual {
                                         .weight(6.5f)
                                 ) {
                                     val lbButton = LBButton()
-                                    lbButton.Render()
+                                    lbButton.Render(layoutCustomController)
                                 }
                             }
                         }
@@ -223,7 +236,7 @@ class Casual {
                                     horizontalAlignment = Alignment.End
                                 ) {
                                     val rbButton = RBButton()
-                                    rbButton.Render()
+                                    rbButton.Render(layoutCustomController)
                                 }
                             }
                         }
@@ -243,7 +256,7 @@ class Casual {
                                     horizontalAlignment = Alignment.End
                                 ) {
                                     val rtButton = RTButton()
-                                    rtButton.Render()
+                                    rtButton.Render(layoutCustomController)
                                 }
                                 Column(
                                     modifier = Modifier
@@ -307,9 +320,9 @@ class Casual {
                             contentAlignment = Alignment.BottomCenter
                         ) {
                             val ltsButton = LTSButton()
-                            ltsButton.Render()
+                            ltsButton.Render(layoutCustomController)
                             val rtsButton = RTSButton()
-                            rtsButton.Render()
+                            rtsButton.Render(layoutCustomController)
                         }
                         Box(
                             modifier = Modifier
@@ -318,7 +331,7 @@ class Casual {
                             contentAlignment = Alignment.Center
                         ) {
                             val ybxaButton = YBXAButton()
-                            ybxaButton.Render()
+                            ybxaButton.Render(layoutCustomController)
                         }
                         Box(
                             modifier = Modifier

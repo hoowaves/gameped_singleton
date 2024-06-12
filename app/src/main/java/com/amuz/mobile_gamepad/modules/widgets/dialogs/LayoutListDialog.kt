@@ -1,5 +1,6 @@
 package com.amuz.mobile_gamepad.modules.widgets.dialogs
 
+import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,6 +21,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,8 +37,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.amuz.mobile_gamepad.modules.home.HomeController
-import com.amuz.mobile_gamepad.modules.layoutSettingList.LayoutSettingListView
+import com.amuz.mobile_gamepad.modules.layoutCustomList.LayoutCustomListView
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 @Composable
 fun LayoutListDialog(onDismissRequest: () -> Unit) {
@@ -52,7 +54,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
                 .height(230.dp)
                 .border(
                     1.5.dp,
-                    color = HomeController.getBorderColor(),
+                    color = AppSettingModel.getBorderColor(),
                     shape = RoundedCornerShape(16.dp)
                 ),
             shape = RoundedCornerShape(16.dp),
@@ -60,7 +62,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(HomeController.getBackgroundColor())
+                    .background(AppSettingModel.getBackgroundColor())
             ) {
                 Row(
                     modifier = Modifier
@@ -77,7 +79,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp,
-                                color = HomeController.getTextColor()
+                                color = AppSettingModel.getTextColor()
                             ),
                         )
                     }
@@ -89,7 +91,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
                         .fillMaxHeight()
                         .weight(1f)
                         .padding(start = 10.dp, end = 10.dp)
-                        .background(HomeController.getBackgroundColor())
+                        .background(AppSettingModel.getBackgroundColor())
                         .verticalScroll(scrollState)
                         .verticalScrollbar(scrollState)
                 ) {
@@ -104,7 +106,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
                                 },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            if (HomeController.appLayout.value == index) {
+                            if (AppSettingModel.layout.value == index) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
                                     contentDescription = null,
@@ -116,7 +118,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
                                 style = TextStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 14.sp,
-                                    color = HomeController.getTextColor()
+                                    color = AppSettingModel.getTextColor()
                                 ),
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -125,25 +127,26 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
                             )
                         }
                         if (index < layouts.size - 1) {
-                            Divider(color = HomeController.getButtonColor())
+                            Divider(color = AppSettingModel.getButtonColor())
                         }
                     }
                 }
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(HomeController.getBackgroundColor())
+                        .background(AppSettingModel.getBackgroundColor())
                         .padding(top = 10.dp)
                 ) {
-                    Divider(color = HomeController.getButtonColor())
+                    Divider(color = AppSettingModel.getButtonColor())
                 }
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(HomeController.getBackgroundColor())
+                        .background(AppSettingModel.getBackgroundColor())
                         .clickable {
-                            val intent = Intent(context, LayoutSettingListView::class.java)
-                            context.startActivity(intent)
+                            context.startActivity(Intent(context, LayoutCustomListView::class.java))
+                            (context as Activity).finish()
+                            context.overridePendingTransition(0, 0)
                         },
                 ) {
                     Text(
@@ -151,7 +154,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
-                            color = HomeController.getTextColor()
+                            color = AppSettingModel.getTextColor()
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -166,23 +169,19 @@ fun LayoutListDialog(onDismissRequest: () -> Unit) {
     selectedItem?.let { index ->
         when (index) {
             1 -> {
-                HomeController.setLayout(1)
-//                HomeController.setLayoutState("Driving 1")
+                AppSettingModel.layout.value = 1
             }
 
             2 -> {
-                HomeController.setLayout(2)
-//                HomeController.setLayoutState("Driving 2")
+                AppSettingModel.layout.value = 2
             }
 
             3 -> {
-                HomeController.setLayout(3)
-//                HomeController.setLayoutState("Casual")
+                AppSettingModel.layout.value = 3
             }
 
             else -> {
-                HomeController.setLayout(0)
-//                HomeController.setLayoutState("Game Controller")
+                AppSettingModel.layout.value = 0
             }
         }
         onDismissRequest()

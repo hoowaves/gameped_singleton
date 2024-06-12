@@ -34,11 +34,11 @@
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".modules.layoutSettingList.LayoutSettingListView"
+            android:name=".modules.layoutCustomList.LayoutCustomListView"
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".modules.layoutSetting.LayoutSettingView"
+            android:name=".modules.layoutCustom.LayoutCustomView"
             android:exported="false"
             android:screenOrientation="landscape" />
     </application>

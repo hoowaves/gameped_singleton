@@ -12,12 +12,21 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -30,9 +39,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.amuz.mobile_gamepad.modules.home.HomeController
 import com.amuz.mobile_gamepad.modules.home.HomeView
 import com.amuz.mobile_gamepad.settings.SystemRepository
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 class DirectionButton {
 
@@ -55,7 +64,7 @@ class DirectionButton {
                 start = Offset(0f, 0f),
                 end = Offset(maxWidth.value * 2, maxHeight.value * 2)
             )
-            val defaultBrush = SolidColor(HomeController.getButtonColor())
+            val defaultBrush = SolidColor(AppSettingModel.getButtonColor())
             val maxHeight = maxHeight
             val size = (maxHeight.value)
             val fontSize = (maxHeight.value / 8).sp
@@ -68,7 +77,14 @@ class DirectionButton {
                         rotationZ = 45f
                     }
             ) {
-                Column(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier
+                    .fillMaxSize()
+                    .border(
+                        1.5.dp,
+                        color = AppSettingModel.getBorderColor(),
+                        shape = RoundedCornerShape((size / 2).dp)
+                    )
+                ) {
                     Row(modifier = Modifier.weight(1f)) {
                         // Y
                         Box(
@@ -81,14 +97,19 @@ class DirectionButton {
                                 )
                                 .border(
                                     1.5.dp,
-                                    color = HomeController.getBorderColor(),
+                                    color = AppSettingModel.getBorderColor(),
                                     shape = RoundedCornerShape(topStart = (size / 2).dp)
+                                )
+                                .innerShadow(
+                                    spread = 3.dp,
+                                    blur = 10.dp,
+                                    color = AppSettingModel.getBackgroundColor(),
                                 )
                                 .pointerInput(Unit) {
                                     if (!isEnable) return@pointerInput
                                     detectTapGestures(
                                         onPress = {
-                                            if (HomeController.appIsVibration.value == true) {
+                                            if (AppSettingModel.isVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
                                             isPressedY.value = true
@@ -99,7 +120,12 @@ class DirectionButton {
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            TextButton(text = "↑", fontSize)
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowUp,
+                                contentDescription = null,
+                                tint = AppSettingModel.getTextColor(),
+                                modifier = Modifier.graphicsLayer { rotationZ = -45f }
+                            )
                         }
                         // B
                         Box(
@@ -110,16 +136,16 @@ class DirectionButton {
                                     brush = if (isPressedB.value) gradientBrush else defaultBrush,
                                     shape = RoundedCornerShape(topEnd = (size / 2).dp)
                                 )
-                                .border(
-                                    1.5.dp,
-                                    color = HomeController.getBorderColor(),
-                                    shape = RoundedCornerShape(topEnd = (size / 2).dp)
+                                .innerShadow(
+                                    spread = 3.dp,
+                                    blur = 10.dp,
+                                    color = AppSettingModel.getBackgroundColor(),
                                 )
                                 .pointerInput(Unit) {
                                     if (!isEnable) return@pointerInput
                                     detectTapGestures(
                                         onPress = {
-                                            if (HomeController.appIsVibration.value == true) {
+                                            if (AppSettingModel.isVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
                                             isPressedB.value = true
@@ -130,7 +156,12 @@ class DirectionButton {
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            TextButton(text = "→", fontSize = fontSize)
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowRight,
+                                contentDescription = null,
+                                tint = AppSettingModel.getTextColor(),
+                                modifier = Modifier.graphicsLayer { rotationZ = -45f }
+                            )
                         }
                     }
                     Row(modifier = Modifier.weight(1f)) {
@@ -143,16 +174,16 @@ class DirectionButton {
                                     brush = if (isPressedX.value) gradientBrush else defaultBrush,
                                     shape = RoundedCornerShape(bottomStart = (size / 2).dp)
                                 )
-                                .border(
-                                    1.5.dp,
-                                    color = HomeController.getBorderColor(),
-                                    shape = RoundedCornerShape(bottomStart = (size / 2).dp)
+                                .innerShadow(
+                                    spread = 3.dp,
+                                    blur = 10.dp,
+                                    color = AppSettingModel.getBackgroundColor(),
                                 )
                                 .pointerInput(Unit) {
                                     if (!isEnable) return@pointerInput
                                     detectTapGestures(
                                         onPress = {
-                                            if (HomeController.appIsVibration.value == true) {
+                                            if (AppSettingModel.isVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
                                             isPressedX.value = true
@@ -163,7 +194,13 @@ class DirectionButton {
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            TextButton(text = "←", fontSize = fontSize)
+
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowLeft,
+                                contentDescription = null,
+                                tint = AppSettingModel.getTextColor(),
+                                modifier = Modifier.graphicsLayer { rotationZ = -45f }
+                            )
                         }
                         // A
                         Box(
@@ -176,14 +213,19 @@ class DirectionButton {
                                 )
                                 .border(
                                     1.5.dp,
-                                    color = HomeController.getBorderColor(),
+                                    color = AppSettingModel.getBorderColor(),
                                     shape = RoundedCornerShape(bottomEnd = (size / 2).dp)
+                                )
+                                .innerShadow(
+                                    spread = 3.dp,
+                                    blur = 10.dp,
+                                    color = AppSettingModel.getBackgroundColor(),
                                 )
                                 .pointerInput(Unit) {
                                     if (!isEnable) return@pointerInput
                                     detectTapGestures(
                                         onPress = {
-                                            if (HomeController.appIsVibration.value == true) {
+                                            if (AppSettingModel.isVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
                                             isPressedA.value = true
@@ -194,32 +236,45 @@ class DirectionButton {
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            TextButton(text = "↓", fontSize = fontSize)
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowDown,
+                                contentDescription = null,
+                                tint = AppSettingModel.getTextColor(),
+                                modifier = Modifier.graphicsLayer { rotationZ = -45f }
+                            )
                         }
                     }
                 }
             }
             Box(
                 modifier = Modifier
-                    .size(size.dp), contentAlignment = Alignment.Center
+                    .size(size.dp)
+                , contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .size((size / 2.5).dp)
+                        .size((size / 3).dp)
+                        .shadow(
+                            elevation = 10.dp,
+                            spotColor = AppSettingModel.getBorderColor(),
+                            shape = RoundedCornerShape(15.dp)
+                        )
                         .background(
-                            brush = if (isPressedCenter.value) gradientBrush else defaultBrush,
+                            brush = if (isPressedCenter.value) gradientBrush else SolidColor(
+                                AppSettingModel.getBackgroundColor()
+                            ),
                             shape = RoundedCornerShape((size / 2).dp)
                         )
                         .border(
                             1.5.dp,
-                            color = HomeController.getBorderColor(),
+                            color = AppSettingModel.getBorderColor(),
                             shape = RoundedCornerShape((size / 2).dp)
                         )
                         .pointerInput(Unit) {
                             if (!isEnable) return@pointerInput
                             detectTapGestures(
                                 onPress = {
-                                    if (HomeController.appIsVibration.value == true) {
+                                    if (AppSettingModel.isVibration.value == true) {
                                         systemRepository.setVibration()
                                     }
                                     isPressedCenter.value = true
@@ -240,7 +295,7 @@ class DirectionButton {
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = fontSize,
-                color = HomeController.getTextColor()
+                color = AppSettingModel.getTextColor()
             ),
             modifier = Modifier.graphicsLayer { rotationZ = -45f }
         )

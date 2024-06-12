@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.amuz.mobile_gamepad.modules.home.HomeController
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 @Composable
 fun LicenseDialog(onDismissRequest: () -> Unit) {
@@ -36,7 +36,7 @@ fun LicenseDialog(onDismissRequest: () -> Unit) {
                 .height(250.dp)
                 .border(
                     1.5.dp,
-                    color = HomeController.getBorderColor(),
+                    color = AppSettingModel.getBorderColor(),
                     shape = RoundedCornerShape(16.dp)
                 ),
             shape = RoundedCornerShape(16.dp),
@@ -44,7 +44,7 @@ fun LicenseDialog(onDismissRequest: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(HomeController.getBackgroundColor())
+                    .background(AppSettingModel.getBackgroundColor())
                     .padding(10.dp)
             ) {
                 Text(
@@ -52,7 +52,7 @@ fun LicenseDialog(onDismissRequest: () -> Unit) {
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
-                        color = HomeController.getTextColor()
+                        color = AppSettingModel.getTextColor()
                     ),
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -64,7 +64,7 @@ fun LicenseDialog(onDismissRequest: () -> Unit) {
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .weight(1f)
-                    .background(HomeController.getBackgroundColor())
+                    .background(AppSettingModel.getBackgroundColor())
                     .verticalScroll(scrollState)
                     .verticalScrollbar(scrollState)
             ) {
@@ -74,24 +74,26 @@ fun LicenseDialog(onDismissRequest: () -> Unit) {
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
-                        color = HomeController.getTextColor()
+                        color = AppSettingModel.getTextColor()
                     ),
-                    text = "ㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ",
+                    text = "Licensed under the Apache License, Verseion 2.0 (the “License”); you may not use this file except in compliance withe the License. You may obtain a copy of the License at\n" +
+                            "\n" +
+                            "http://www.apache.org/licenses/LICENSE-2.0",
                 )
             }
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(HomeController.getBackgroundColor())
+                    .background(AppSettingModel.getBackgroundColor())
                     .padding(top = 10.dp)
             ) {
-                Divider(color = HomeController.getButtonColor())
+                Divider(color = AppSettingModel.getButtonColor())
             }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(HomeController.getBackgroundColor())
+                    .background(AppSettingModel.getBackgroundColor())
                     .clickable { onDismissRequest() },
             ) {
                 Text(
@@ -99,7 +101,7 @@ fun LicenseDialog(onDismissRequest: () -> Unit) {
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
-                        color = HomeController.getTextColor()
+                        color = AppSettingModel.getTextColor()
                     ),
                     modifier = Modifier
                         .fillMaxWidth()

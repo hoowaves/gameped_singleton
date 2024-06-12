@@ -8,8 +8,8 @@ data class AppSettingEntity(
     @PrimaryKey
     val id: Int,
     val layout: Int,
-    val isDark: Boolean,
-    val touchEffect: Boolean,
-    val powerSaving: Int,
-    val isVibration: Boolean
+    var isDark: Boolean,
+    var touchEffect: Boolean,
+    var powerSaving: Int,
+    var isVibration: Boolean
 )

@@ -1,15 +1,18 @@
 package com.amuz.mobile_gamepad.modules.widgets.dialogs.displayDialog
 
 import android.content.Context
-import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.amuz.mobile_gamepad.modules.home.HomeController
+import com.amuz.mobile_gamepad.settings.AppDatabase
 import com.amuz.mobile_gamepad.settings.app.AppSettingEntity
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
+import com.amuz.mobile_gamepad.settings.app.AppSettingRepository
 
 
 class DisplayDialogController(context: Context) {
     private val model = DisplayDialogModel(context)
+    private val database = AppDatabase.getDatabase(context)
+    private val repository = AppSettingRepository(database.appSettingDao())
 
     private val _viewIsDark: MutableLiveData<Boolean> = MutableLiveData(model.getIsDark())
     val viewIsDark: LiveData<Boolean> get() = _viewIsDark
@@ -101,19 +104,18 @@ class DisplayDialogController(context: Context) {
 
     suspend fun update() {
         // 현재 페이지에 적용
-        HomeController.setIsDark(viewIsDark.value ?: true)
-        HomeController.setPowerSaving(viewPowerSaving.value ?: 0)
-        HomeController.setIsTouchEffect(viewTouchEffect.value ?: false)
-        HomeController.setIsVibration(viewIsVibration.value ?: false)
-
-        HomeController.saveAppSetting(
+        AppSettingModel.isDark.value = viewIsDark.value ?: true
+        AppSettingModel.powerSaving.value = viewPowerSaving.value ?: 0
+        AppSettingModel.touchEffect.value = viewTouchEffect.value ?: false
+        AppSettingModel.isVibration.value = viewIsVibration.value ?: false
+        repository.saveSetting(
             AppSettingEntity(
                 id = 0,
-                layout = HomeController.appLayout.value ?: 0,
+                layout = AppSettingModel.layout.value ?: 0,
                 isDark = viewIsDark.value ?: true,
                 touchEffect = viewTouchEffect.value ?: false,
                 powerSaving = viewPowerSaving.value ?: 0,
-                isVibration = viewIsVibration.value ?: false
+                isVibration = viewIsVibration.value ?: false,
             )
         )
     }

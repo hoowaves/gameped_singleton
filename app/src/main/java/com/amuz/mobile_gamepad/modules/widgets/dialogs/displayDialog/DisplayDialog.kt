@@ -31,7 +31,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -51,7 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.amuz.mobile_gamepad.modules.home.HomeController
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -113,7 +112,7 @@ fun DisplayDialog(
                     .height(250.dp)
                     .border(
                         1.5.dp,
-                        color = HomeController.getBorderColor(),
+                        color = AppSettingModel.getBorderColor(),
                         shape = RoundedCornerShape(16.dp)
                     ),
                 shape = RoundedCornerShape(16.dp),
@@ -121,7 +120,7 @@ fun DisplayDialog(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(HomeController.getBackgroundColor())
+                        .background(AppSettingModel.getBackgroundColor())
                 ) {
                     Column(
                         modifier = Modifier
@@ -150,7 +149,7 @@ fun DisplayDialog(
                                             .weight(5f)
                                             .padding(bottom = 10.dp)
                                             .background(
-                                                HomeController.getButtonColor(),
+                                                AppSettingModel.getButtonColor(),
                                                 shape = RoundedCornerShape(16.dp)
                                             )
                                     ) {
@@ -169,7 +168,7 @@ fun DisplayDialog(
                                                     style = TextStyle(
                                                         fontWeight = FontWeight.Bold,
                                                         fontSize = 14.sp,
-                                                        color = HomeController.getTextColor()
+                                                        color = AppSettingModel.getTextColor()
                                                     ),
                                                     modifier = Modifier
                                                         .fillMaxWidth()
@@ -185,7 +184,7 @@ fun DisplayDialog(
                                                     modifier = Modifier
                                                         .width(140.dp)
                                                         .height(90.dp)
-                                                        .background(HomeController.getBackgroundColor()),
+                                                        .background(AppSettingModel.getBackgroundColor()),
                                                     expanded = isDropDownTheme,
                                                     onDismissRequest = { isDropDownTheme = false }
                                                 ) {
@@ -193,7 +192,7 @@ fun DisplayDialog(
                                                         text = {
                                                             Text(
                                                                 text = "다크 모드",
-                                                                color = HomeController.getTextColor()
+                                                                color = AppSettingModel.getTextColor()
                                                             )
                                                         },
                                                         leadingIcon = {
@@ -219,13 +218,13 @@ fun DisplayDialog(
                                                             start = 8.dp,
                                                             end = 8.dp
                                                         ),
-                                                        color = HomeController.getButtonColor()
+                                                        color = AppSettingModel.getButtonColor()
                                                     )
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
                                                                 text = "라이트 모드",
-                                                                color = HomeController.getTextColor()
+                                                                color = AppSettingModel.getTextColor()
                                                             )
                                                         },
                                                         leadingIcon = {
@@ -259,7 +258,7 @@ fun DisplayDialog(
                                                     style = TextStyle(
                                                         fontWeight = FontWeight.Bold,
                                                         fontSize = 14.sp,
-                                                        color = HomeController.getTextColor()
+                                                        color = AppSettingModel.getTextColor()
                                                     ),
                                                     modifier = Modifier
                                                         .fillMaxWidth()
@@ -275,7 +274,7 @@ fun DisplayDialog(
                                                 Icon(
                                                     imageVector = Icons.Default.KeyboardArrowDown,
                                                     contentDescription = null,
-                                                    tint = HomeController.getTextColor(),
+                                                    tint = AppSettingModel.getTextColor(),
                                                 )
                                             }
                                         }
@@ -286,7 +285,7 @@ fun DisplayDialog(
                                             .weight(5f)
                                             .padding(top = 10.dp)
                                             .background(
-                                                HomeController.getButtonColor(),
+                                                AppSettingModel.getButtonColor(),
                                                 shape = RoundedCornerShape(16.dp)
                                             )
                                     ) {
@@ -305,7 +304,7 @@ fun DisplayDialog(
                                                     style = TextStyle(
                                                         fontWeight = FontWeight.Bold,
                                                         fontSize = 14.sp,
-                                                        color = HomeController.getTextColor()
+                                                        color = AppSettingModel.getTextColor()
                                                     ),
                                                     modifier = Modifier
                                                         .fillMaxWidth()
@@ -360,7 +359,7 @@ fun DisplayDialog(
                                             .weight(5f)
                                             .padding(bottom = 10.dp)
                                             .background(
-                                                HomeController.getButtonColor(),
+                                                AppSettingModel.getButtonColor(),
                                                 shape = RoundedCornerShape(16.dp)
                                             )
                                     ) {
@@ -379,7 +378,7 @@ fun DisplayDialog(
                                                     style = TextStyle(
                                                         fontWeight = FontWeight.Bold,
                                                         fontSize = 14.sp,
-                                                        color = HomeController.getTextColor()
+                                                        color = AppSettingModel.getTextColor()
                                                     ),
                                                     modifier = Modifier
                                                         .fillMaxWidth()
@@ -395,7 +394,7 @@ fun DisplayDialog(
                                                     modifier = Modifier
                                                         .width(140.dp)
                                                         .height(150.dp)
-                                                        .background(HomeController.getBackgroundColor()),
+                                                        .background(AppSettingModel.getBackgroundColor()),
                                                     expanded = isDropDownPowerSaving,
                                                     onDismissRequest = {
                                                         isDropDownPowerSaving = false
@@ -405,7 +404,7 @@ fun DisplayDialog(
                                                         text = {
                                                             Text(
                                                                 text = "안함",
-                                                                color = HomeController.getTextColor()
+                                                                color = AppSettingModel.getTextColor()
                                                             )
                                                         },
                                                         leadingIcon = {
@@ -431,13 +430,13 @@ fun DisplayDialog(
                                                             start = 8.dp,
                                                             end = 8.dp
                                                         ),
-                                                        color = HomeController.getButtonColor()
+                                                        color = AppSettingModel.getButtonColor()
                                                     )
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
                                                                 text = "1분",
-                                                                color = HomeController.getTextColor()
+                                                                color = AppSettingModel.getTextColor()
                                                             )
                                                         },
                                                         leadingIcon = {
@@ -463,13 +462,13 @@ fun DisplayDialog(
                                                             start = 8.dp,
                                                             end = 8.dp
                                                         ),
-                                                        color = HomeController.getButtonColor()
+                                                        color = AppSettingModel.getButtonColor()
                                                     )
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
                                                                 text = "5분",
-                                                                color = HomeController.getTextColor()
+                                                                color = AppSettingModel.getTextColor()
                                                             )
                                                         },
                                                         leadingIcon = {
@@ -495,13 +494,13 @@ fun DisplayDialog(
                                                             start = 8.dp,
                                                             end = 8.dp
                                                         ),
-                                                        color = HomeController.getButtonColor()
+                                                        color = AppSettingModel.getButtonColor()
                                                     )
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
                                                                 text = "15분",
-                                                                color = HomeController.getTextColor()
+                                                                color = AppSettingModel.getTextColor()
                                                             )
                                                         },
                                                         leadingIcon = {
@@ -527,13 +526,13 @@ fun DisplayDialog(
                                                             start = 8.dp,
                                                             end = 8.dp
                                                         ),
-                                                        color = HomeController.getButtonColor()
+                                                        color = AppSettingModel.getButtonColor()
                                                     )
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
                                                                 text = "30분",
-                                                                color = HomeController.getTextColor()
+                                                                color = AppSettingModel.getTextColor()
                                                             )
                                                         },
                                                         leadingIcon = {
@@ -559,13 +558,13 @@ fun DisplayDialog(
                                                             start = 8.dp,
                                                             end = 8.dp
                                                         ),
-                                                        color = HomeController.getButtonColor()
+                                                        color = AppSettingModel.getButtonColor()
                                                     )
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
                                                                 text = "60분",
-                                                                color = HomeController.getTextColor()
+                                                                color = AppSettingModel.getTextColor()
                                                             )
                                                         },
                                                         leadingIcon = {
@@ -599,7 +598,7 @@ fun DisplayDialog(
                                                     style = TextStyle(
                                                         fontWeight = FontWeight.Bold,
                                                         fontSize = 14.sp,
-                                                        color = HomeController.getTextColor()
+                                                        color = AppSettingModel.getTextColor()
                                                     ),
                                                     modifier = Modifier
                                                         .fillMaxWidth()
@@ -615,7 +614,7 @@ fun DisplayDialog(
                                                 Icon(
                                                     imageVector = Icons.Default.KeyboardArrowDown,
                                                     contentDescription = null,
-                                                    tint = HomeController.getTextColor(),
+                                                    tint = AppSettingModel.getTextColor(),
                                                 )
                                             }
                                         }
@@ -626,7 +625,7 @@ fun DisplayDialog(
                                             .weight(5f)
                                             .padding(top = 10.dp)
                                             .background(
-                                                HomeController.getButtonColor(),
+                                                AppSettingModel.getButtonColor(),
                                                 shape = RoundedCornerShape(16.dp)
                                             )
                                     ) {
@@ -645,7 +644,7 @@ fun DisplayDialog(
                                                     style = TextStyle(
                                                         fontWeight = FontWeight.Bold,
                                                         fontSize = 14.sp,
-                                                        color = HomeController.getTextColor()
+                                                        color = AppSettingModel.getTextColor()
                                                     ),
                                                     modifier = Modifier
                                                         .fillMaxWidth()
@@ -688,7 +687,7 @@ fun DisplayDialog(
                                     .fillMaxHeight()
                                     .padding(start = 10.dp)
                                     .background(
-                                        HomeController.getButtonColor(),
+                                        AppSettingModel.getButtonColor(),
                                         shape = RoundedCornerShape(16.dp)
                                     )
                             ) {
@@ -711,7 +710,7 @@ fun DisplayDialog(
                                                 style = TextStyle(
                                                     fontWeight = FontWeight.Bold,
                                                     fontSize = 14.sp,
-                                                    color = HomeController.getTextColor()
+                                                    color = AppSettingModel.getTextColor()
                                                 )
                                             )
                                         }
@@ -735,7 +734,7 @@ fun DisplayDialog(
                                                 colors = SliderDefaults.colors(
                                                     thumbColor = Color.White,
                                                     activeTrackColor = Color.Green,
-                                                    inactiveTrackColor = HomeController.getBackgroundColor(),
+                                                    inactiveTrackColor = AppSettingModel.getBackgroundColor(),
                                                 ),
                                                 valueRange = 0f..255f,
                                                 value = brightnessPosition,
@@ -759,7 +758,7 @@ fun DisplayDialog(
                                 start = 8.dp,
                                 end = 8.dp
                             ),
-                            color = HomeController.getButtonColor()
+                            color = AppSettingModel.getButtonColor()
                         )
                     }
                     Column(
@@ -785,7 +784,7 @@ fun DisplayDialog(
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
-                                        color = HomeController.getTextColor()
+                                        color = AppSettingModel.getTextColor()
                                     ),
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -813,7 +812,7 @@ fun DisplayDialog(
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
-                                        color = HomeController.getTextColor()
+                                        color = AppSettingModel.getTextColor()
                                     ),
                                     modifier = Modifier
                                         .fillMaxWidth()

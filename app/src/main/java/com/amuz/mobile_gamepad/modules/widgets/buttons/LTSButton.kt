@@ -1,5 +1,6 @@
 package com.amuz.mobile_gamepad.modules.widgets.buttons
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -10,7 +11,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -20,27 +23,46 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.amuz.mobile_gamepad.modules.home.HomeController
 import com.amuz.mobile_gamepad.modules.home.HomeView
-import com.amuz.mobile_gamepad.modules.layoutSetting.LayoutSettingView
+import com.amuz.mobile_gamepad.modules.layoutCustom.LayoutCustomController
+import com.amuz.mobile_gamepad.settings.layout.LayoutSettingModel
+import com.amuz.mobile_gamepad.modules.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.modules.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.settings.SystemRepository
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 class LTSButton() {
     @Composable
-    fun Render() {
+    fun Render(layoutCustomController: LayoutCustomController) {
         val context = LocalContext.current
         val systemRepository = SystemRepository(context)
         val isEnable = remember { context is HomeView }
-        val isSetting = remember { context is LayoutSettingView }
+        val isSetting = remember { context is LayoutCustomView }
         var customColorDialog by remember { mutableStateOf(false) }
-        var defaultBrush by remember { mutableStateOf(SolidColor(HomeController.getButtonColor())) }
+
+        val ltsButton by layoutCustomController.ltsButton.observeAsState()
+        val defaultBrushColor = if (ltsButton == 0) {
+            AppSettingModel.getButtonColor()
+        } else {
+            Color(ltsButton ?: 0)
+        }
+
+        var defaultBrush by remember { mutableStateOf(SolidColor(defaultBrushColor)) }
+        LaunchedEffect(ltsButton) {
+            val newBrushColor = if (ltsButton == 0) {
+                AppSettingModel.getButtonColor()
+            } else {
+                Color(ltsButton ?: 0)
+            }
+            defaultBrush = SolidColor(newBrushColor)
+        }
 
         BoxWithConstraints {
             val isPressed = remember { mutableStateOf(false) }
@@ -63,14 +85,20 @@ class LTSButton() {
                     )
                     .border(
                         width = if (isSetting && isPressed.value) 3.dp else 1.5.dp,
-                        color = if (isSetting && isPressed.value) HomeController.getTextColor() else HomeController.getBorderColor(),
+                        color = if (isSetting && isPressed.value) AppSettingModel.getTextColor() else AppSettingModel.getBorderColor(),
                         shape = RoundedCornerShape(15.dp)
+                    )
+                    .innerShadow(
+                        spread = 5.dp,
+                        blur = 10.dp,
+                        color = AppSettingModel.getBackgroundColor(),
+                        cornersRadius = 15.dp
                     )
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onPress = {
                                 if (isEnable) {
-                                    if (HomeController.appIsVibration.value == true) {
+                                    if (AppSettingModel.isVibration.value == true) {
                                         systemRepository.setVibration()
                                     }
                                     isPressed.value = true
@@ -92,7 +120,7 @@ class LTSButton() {
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = fontSize,
-                        color = HomeController.getTextColor()
+                        color = AppSettingModel.getTextColor()
                     ),
                 )
             }
@@ -103,6 +131,12 @@ class LTSButton() {
                         customColorDialog = false
                         isPressed.value = false
                         defaultBrush = SolidColor(color)
+                        if (color.toArgb() == AppSettingModel.getButtonColor().toArgb()) {
+                            layoutCustomController.ltsButton.value = 0
+                        } else {
+                            layoutCustomController.ltsButton.value = color.toArgb()
+                        }
+
                     }
                 )
             }

@@ -6,17 +6,17 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "layout_settings")
 data class LayoutSettingEntity(
     @PrimaryKey
-    val id: Int,
-    val name: String,
-    val ltButton: Int,
-    val lbButton: Int,
-    val rtButton: Int,
-    val rbButton: Int,
-    val ltsButton: Int,
-    val rtsButton: Int,
-    val directionButton: Int,
-    val yButton: Int,
-    val bButton: Int,
-    val xButton: Int,
-    val aButton: Int
+    var id: Int,
+    var name: String,
+    var ltButton: Int,
+    var lbButton: Int,
+    var rtButton: Int,
+    var rbButton: Int,
+    var ltsButton: Int,
+    var rtsButton: Int,
+    var directionButton: Int,
+    var yButton: Int,
+    var bButton: Int,
+    var xButton: Int,
+    var aButton: Int
 )

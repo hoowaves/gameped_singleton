@@ -2,5 +2,8 @@
 <resources>
     <style name="Theme.Mobile_GamePad" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
+        <item name="android:windowDisablePreview">true</item>
+<!--        <item name="android:windowBackground">@null</item>-->
+<!--        <item name="android:windowIsTranslucent">true</item>-->
     </style>
 </resources>

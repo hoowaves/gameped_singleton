@@ -19,9 +19,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.amuz.mobile_gamepad.modules.home.HomeController
 import com.amuz.mobile_gamepad.modules.home.HomeView
 import com.amuz.mobile_gamepad.settings.SystemRepository
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.min
@@ -61,7 +61,7 @@ class RightJoystick {
                             touchPosition = offset // 터치 위치 설정
                             handlePosition = offset // 핸들 위치를 터치한 지점으로
                             middlePosition = offset // 핸들 위치를 터치한 지점으로
-                            if (HomeController.appIsVibration.value == true) {
+                            if (AppSettingModel.isVibration.value == true) {
                                 systemRepository.setVibration()
                             }
                         },
@@ -102,7 +102,7 @@ class RightJoystick {
                     )
 
                     drawCircle(
-                        color = HomeController.getBackgroundColor(),
+                        color = AppSettingModel.getBackgroundColor(),
                         center = it,
                         radius = ((sizePx*0.8).toFloat()),
                     )

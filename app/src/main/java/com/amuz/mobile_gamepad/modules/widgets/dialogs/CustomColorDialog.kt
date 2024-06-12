@@ -29,12 +29,12 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogWindowProvider
 import com.amuz.mobile_gamepad.constants.AppColor
-import com.amuz.mobile_gamepad.modules.home.HomeController
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 @Composable
 fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
 
-    Dialog(onDismissRequest = { onDismissRequest(HomeController.getButtonColor()) }) {
+    Dialog(onDismissRequest = { onDismissRequest(AppSettingModel.getButtonColor()) }) {
         (LocalView.current.parent as DialogWindowProvider).window.setDimAmount(0f)
         Card(
             modifier = Modifier
@@ -42,7 +42,7 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                 .height(160.dp)
                 .border(
                     1.5.dp,
-                    color = HomeController.getBorderColor(),
+                    color = AppSettingModel.getBorderColor(),
                     shape = RoundedCornerShape(16.dp)
                 ),
             shape = RoundedCornerShape(16.dp),
@@ -50,7 +50,7 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(HomeController.getBackgroundColor())
+                    .background(AppSettingModel.getBackgroundColor())
             ) {
                 Column(
                     modifier = Modifier
@@ -67,7 +67,7 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp,
-                                color = HomeController.getTextColor()
+                                color = AppSettingModel.getTextColor()
                             ),
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -95,13 +95,13 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(HomeController.getButtonColor())
+                                .background(AppSettingModel.getButtonColor())
                                 .border(
                                     1.dp,
-                                    color = HomeController.getBorderColor()
+                                    color = AppSettingModel.getBorderColor()
                                 )
                                 .clickable {
-                                    onDismissRequest(HomeController.getButtonColor())
+                                    onDismissRequest(AppSettingModel.getButtonColor())
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -122,13 +122,13 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.skyBlue)
+                                .background(AppColor.CustomColor.orange)
                                 .border(
                                     1.dp,
-                                    color = HomeController.getBorderColor()
+                                    color = AppSettingModel.getBorderColor()
                                 )
                                 .clickable {
-                                    onDismissRequest(AppColor.CustomColor.skyBlue)
+                                    onDismissRequest(AppColor.CustomColor.orange)
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -149,13 +149,13 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.red)
+                                .background(AppColor.CustomColor.strawberry)
                                 .border(
                                     1.dp,
-                                    color = HomeController.getBorderColor()
+                                    color = AppSettingModel.getBorderColor()
                                 )
                                 .clickable {
-                                    onDismissRequest(AppColor.CustomColor.red)
+                                    onDismissRequest(AppColor.CustomColor.strawberry)
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -176,13 +176,13 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.pink)
+                                .background(AppColor.CustomColor.lemon)
                                 .border(
                                     1.dp,
-                                    color = HomeController.getBorderColor()
+                                    color = AppSettingModel.getBorderColor()
                                 )
                                 .clickable {
-                                    onDismissRequest(AppColor.CustomColor.pink)
+                                    onDismissRequest(AppColor.CustomColor.lemon)
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -203,13 +203,13 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.ash)
+                                .background(AppColor.CustomColor.magenta)
                                 .border(
                                     1.dp,
-                                    color = HomeController.getBorderColor()
+                                    color = AppSettingModel.getBorderColor()
                                 )
                                 .clickable {
-                                    onDismissRequest(AppColor.CustomColor.ash)
+                                    onDismissRequest(AppColor.CustomColor.magenta)
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -254,13 +254,13 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.redPink)
+                                .background(AppColor.CustomColor.ultramarineBlue)
                                 .border(
                                     1.dp,
-                                    color = HomeController.getBorderColor()
+                                    color = AppSettingModel.getBorderColor()
                                 )
                                 .clickable {
-                                    onDismissRequest(AppColor.CustomColor.redPink)
+                                    onDismissRequest(AppColor.CustomColor.ultramarineBlue)
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -281,13 +281,13 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.yellow)
+                                .background(AppColor.CustomColor.cyan)
                                 .border(
                                     1.dp,
-                                    color = HomeController.getBorderColor()
+                                    color = AppSettingModel.getBorderColor()
                                 )
                                 .clickable {
-                                    onDismissRequest(AppColor.CustomColor.yellow)
+                                    onDismissRequest(AppColor.CustomColor.cyan)
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -308,13 +308,13 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.orange)
+                                .background(AppColor.CustomColor.violet)
                                 .border(
                                     1.dp,
-                                    color = HomeController.getBorderColor()
+                                    color = AppSettingModel.getBorderColor()
                                 )
                                 .clickable {
-                                    onDismissRequest(AppColor.CustomColor.orange)
+                                    onDismissRequest(AppColor.CustomColor.violet)
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -335,13 +335,13 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.lightGreen)
+                                .background(AppColor.CustomColor.lime)
                                 .border(
                                     1.dp,
-                                    color = HomeController.getBorderColor()
+                                    color = AppSettingModel.getBorderColor()
                                 )
                                 .clickable {
-                                    onDismissRequest(AppColor.CustomColor.lightGreen)
+                                    onDismissRequest(AppColor.CustomColor.lime)
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -362,13 +362,13 @@ fun CustomColorDialog(onDismissRequest: (color: Color) -> Unit) {
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.green)
+                                .background(AppColor.CustomColor.realRed)
                                 .border(
                                     1.dp,
-                                    color = HomeController.getBorderColor()
+                                    color = AppSettingModel.getBorderColor()
                                 )
                                 .clickable {
-                                    onDismissRequest(AppColor.CustomColor.green)
+                                    onDismissRequest(AppColor.CustomColor.realRed)
                                 },
                             contentAlignment = Alignment.Center
                         ) {

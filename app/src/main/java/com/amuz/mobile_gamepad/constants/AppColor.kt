@@ -5,30 +5,32 @@ import androidx.compose.ui.graphics.SolidColor
 
 object AppColor {
     object DarkMode{
-        val backgroundColor = Color(0xFF212121)
-        val buttonColor = Color(0xFF606160)
-        val borderColor = Color.Black
-        val textColor = Color.White
+        val backgroundColor = Color(0xFF1B1B1B)
+        val buttonColor = Color(0xFF3B3B3B)
+        val borderColor = Color(0xFF000000)
+        val pressBorderColor = Color(0xFF00CDA8)
+        val textColor = Color(0xFFB3B3B3)
     }
 
     object LightMode{
-        val backgroundColor = Color(0xFFC5C7C4)
-        val buttonColor = Color(0xFFFFFFFE)
-        val borderColor = Color(0xFFB4B5B4)
-        val textColor = Color(0xFF505150)
+        val backgroundColor = Color(0xFFEFF1F4)
+        val buttonColor = Color(0xFFCFD3DB)
+        val borderColor = Color(0xFF78808D)
+        val pressBorderColor = Color(0x4C00CDA8)
+        val textColor = Color(0xFF565656)
     }
 
     object CustomColor{
         val tap = Color(0xFFD6D8D6)
-        val gray = Color(0xFF606160)
-        val skyBlue = Color(0xFF1290D1)
-        val red = Color(0xFFD6424A)
-        val pink = Color(0xFFE48CB0)
-        val ash = Color(0xFF66649D)
-        val redPink = Color(0xFFD12056)
-        val yellow = Color(0xFFFFF30A)
-        val orange = Color(0xFFE48223)
-        val lightGreen = Color(0xFF83BA30)
-        val green = Color(0xFF249429)
+
+        val orange = Color(0xFFFF853C)
+        val strawberry = Color(0xFFF44279)
+        val lemon = Color(0xFFFFCD00)
+        val magenta = Color(0xFFFF4EF4)
+        val ultramarineBlue = Color(0xFF533DE8)
+        val cyan = Color(0xFF2A8DFF)
+        val violet = Color(0xFFBA42FF)
+        val lime = Color(0xFF8CDC27)
+        val realRed = Color(0xFFFF3E3E)
     }
 }

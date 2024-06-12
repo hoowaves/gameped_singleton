@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.amuz.mobile_gamepad.modules.home.HomeController
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 @Composable
 fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit) {
@@ -40,7 +40,7 @@ fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit) {
                 .height(200.dp)
                 .border(
                     1.5.dp,
-                    color = HomeController.getBorderColor(),
+                    color = AppSettingModel.getBorderColor(),
                     shape = RoundedCornerShape(16.dp)
                 ),
             shape = RoundedCornerShape(16.dp),
@@ -48,7 +48,7 @@ fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(HomeController.getBackgroundColor())
+                    .background(AppSettingModel.getBackgroundColor())
                     .padding(16.dp)
             ) {
                 Row(
@@ -70,7 +70,7 @@ fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit) {
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp,
-                                color = HomeController.getTextColor()
+                                color = AppSettingModel.getTextColor()
                             ),
                         )
                     }
@@ -82,7 +82,7 @@ fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit) {
                         Icon(
                             imageVector = Icons.Default.Info,
                             contentDescription = null,
-                            tint = HomeController.getTextColor(),
+                            tint = AppSettingModel.getTextColor(),
                         )
                     }
 
@@ -110,12 +110,12 @@ fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit) {
                                 style = TextStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 14.sp,
-                                    color = HomeController.getTextColor()
+                                    color = AppSettingModel.getTextColor()
                                 ),
                             )
                         }
                         if (index < options.size - 1) {
-                            Divider(color = HomeController.getButtonColor())
+                            Divider(color = AppSettingModel.getButtonColor())
                         }
                     }
                 }

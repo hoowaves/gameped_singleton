@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.amuz.mobile_gamepad.modules.home.HomeView
 import com.amuz.mobile_gamepad.modules.splash.SplashView
 import com.amuz.mobile_gamepad.ui.theme.Mobile_GamePadTheme
 

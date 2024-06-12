@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,6 +26,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -31,28 +34,95 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.amuz.mobile_gamepad.modules.home.HomeController
 import com.amuz.mobile_gamepad.modules.home.HomeView
-import com.amuz.mobile_gamepad.modules.layoutSetting.LayoutSettingView
+import com.amuz.mobile_gamepad.modules.layoutCustom.LayoutCustomController
+import com.amuz.mobile_gamepad.modules.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.modules.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.settings.SystemRepository
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 class YBXAButton {
 
     @Composable
-    fun Render() {
+    fun Render(layoutCustomController: LayoutCustomController) {
         val context = LocalContext.current
         val systemRepository = SystemRepository(context)
         val isEnable = remember { context is HomeView }
-        val isSetting = remember { context is LayoutSettingView }
+        val isSetting = remember { context is LayoutCustomView }
         var customColorDialogY by remember { mutableStateOf(false) }
         var customColorDialogB by remember { mutableStateOf(false) }
         var customColorDialogX by remember { mutableStateOf(false) }
         var customColorDialogA by remember { mutableStateOf(false) }
-        var defaultBrushY by remember { mutableStateOf(SolidColor(HomeController.getButtonColor())) }
-        var defaultBrushB by remember { mutableStateOf(SolidColor(HomeController.getButtonColor())) }
-        var defaultBrushX by remember { mutableStateOf(SolidColor(HomeController.getButtonColor())) }
-        var defaultBrushA by remember { mutableStateOf(SolidColor(HomeController.getButtonColor())) }
+
+        val yButton by layoutCustomController.yButton.observeAsState()
+        val bButton by layoutCustomController.bButton.observeAsState()
+        val xButton by layoutCustomController.xButton.observeAsState()
+        val aButton by layoutCustomController.aButton.observeAsState()
+
+        val defaultBrushColorY = if (yButton == 0) {
+            AppSettingModel.getButtonColor()
+        } else {
+            Color(yButton ?: 0)
+        }
+
+        val defaultBrushColorB = if (bButton == 0) {
+            AppSettingModel.getButtonColor()
+        } else {
+            Color(bButton ?: 0)
+        }
+
+        val defaultBrushColorX = if (bButton == 0) {
+            AppSettingModel.getButtonColor()
+        } else {
+            Color(xButton ?: 0)
+        }
+
+        val defaultBrushColorA = if (bButton == 0) {
+            AppSettingModel.getButtonColor()
+        } else {
+            Color(aButton ?: 0)
+        }
+
+        var defaultBrushY by remember { mutableStateOf(SolidColor(defaultBrushColorY)) }
+        var defaultBrushB by remember { mutableStateOf(SolidColor(defaultBrushColorB)) }
+        var defaultBrushX by remember { mutableStateOf(SolidColor(defaultBrushColorX)) }
+        var defaultBrushA by remember { mutableStateOf(SolidColor(defaultBrushColorA)) }
+
+        LaunchedEffect(yButton) {
+            val newBrushColor = if (yButton == 0) {
+                AppSettingModel.getButtonColor()
+            } else {
+                Color(yButton ?: 0)
+            }
+            defaultBrushY = SolidColor(newBrushColor)
+        }
+
+        LaunchedEffect(bButton) {
+            val newBrushColor = if (bButton == 0) {
+                AppSettingModel.getButtonColor()
+            } else {
+                Color(bButton ?: 0)
+            }
+            defaultBrushB = SolidColor(newBrushColor)
+        }
+
+        LaunchedEffect(xButton) {
+            val newBrushColor = if (xButton == 0) {
+                AppSettingModel.getButtonColor()
+            } else {
+                Color(xButton ?: 0)
+            }
+            defaultBrushX = SolidColor(newBrushColor)
+        }
+
+        LaunchedEffect(aButton) {
+            val newBrushColor = if (aButton == 0) {
+                AppSettingModel.getButtonColor()
+            } else {
+                Color(aButton ?: 0)
+            }
+            defaultBrushA = SolidColor(newBrushColor)
+        }
 
         BoxWithConstraints {
             val isPressedY = remember { mutableStateOf(false) }
@@ -76,7 +146,13 @@ class YBXAButton {
                         rotationZ = 45f
                     }
             ) {
-                Column(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier
+                    .fillMaxSize()
+                    .border(
+                        1.5.dp,
+                        color = AppSettingModel.getBorderColor(),
+                        shape = RoundedCornerShape(20.dp)
+                    )) {
                     Row(modifier = Modifier.weight(1f)) {
                         // Y
                         Box(
@@ -88,15 +164,20 @@ class YBXAButton {
                                     shape = RoundedCornerShape(topStart = 20.dp)
                                 )
                                 .border(
-                                    width = if (isSetting && isPressedY.value) 3.dp else 1.5.dp,
-                                    color = if (isSetting && isPressedY.value) HomeController.getTextColor() else HomeController.getBorderColor(),
+                                    width = if (isSetting && isPressedY.value) 3.dp else 0.75.dp,
+                                    color = if (isSetting && isPressedY.value) AppSettingModel.getTextColor() else AppSettingModel.getBorderColor(),
                                     shape = RoundedCornerShape(topStart = 20.dp)
+                                )
+                                .innerShadow(
+                                    spread = 3.dp,
+                                    blur = 10.dp,
+                                    color = AppSettingModel.getBackgroundColor(),
                                 )
                                 .pointerInput(Unit) {
                                     detectTapGestures(
                                         onPress = {
                                             if (isEnable) {
-                                                if (HomeController.appIsVibration.value == true) {
+                                                if (AppSettingModel.isVibration.value == true) {
                                                     systemRepository.setVibration()
                                                 }
                                                 isPressedY.value = true
@@ -124,16 +205,21 @@ class YBXAButton {
                                     brush = if (isEnable && isPressedB.value) gradientBrush else defaultBrushB,
                                     shape = RoundedCornerShape(topEnd = 20.dp)
                                 )
+                                .innerShadow(
+                                    spread = 3.dp,
+                                    blur = 10.dp,
+                                    color = AppSettingModel.getBackgroundColor(),
+                                )
                                 .border(
-                                    width = if (isSetting && isPressedB.value) 3.dp else 1.5.dp,
-                                    color = if (isSetting && isPressedB.value) HomeController.getTextColor() else HomeController.getBorderColor(),
+                                    width = if (isSetting && isPressedB.value) 3.dp else 0.75.dp,
+                                    color = if (isSetting && isPressedB.value) AppSettingModel.getTextColor() else AppSettingModel.getBorderColor(),
                                     shape = RoundedCornerShape(topEnd = 20.dp)
                                 )
                                 .pointerInput(Unit) {
                                     detectTapGestures(
                                         onPress = {
                                             if (isEnable) {
-                                                if (HomeController.appIsVibration.value == true) {
+                                                if (AppSettingModel.isVibration.value == true) {
                                                     systemRepository.setVibration()
                                                 }
                                                 isPressedB.value = true
@@ -164,15 +250,20 @@ class YBXAButton {
                                     shape = RoundedCornerShape(bottomStart = 20.dp)
                                 )
                                 .border(
-                                    width = if (isSetting && isPressedX.value) 3.dp else 1.5.dp,
-                                    color = if (isSetting && isPressedX.value) HomeController.getTextColor() else HomeController.getBorderColor(),
+                                    width = if (isSetting && isPressedX.value) 3.dp else 0.75.dp,
+                                    color = if (isSetting && isPressedX.value) AppSettingModel.getTextColor() else AppSettingModel.getBorderColor(),
                                     shape = RoundedCornerShape(bottomStart = 20.dp)
+                                )
+                                .innerShadow(
+                                    spread = 3.dp,
+                                    blur = 10.dp,
+                                    color = AppSettingModel.getBackgroundColor(),
                                 )
                                 .pointerInput(Unit) {
                                     detectTapGestures(
                                         onPress = {
                                             if (isEnable) {
-                                                if (HomeController.appIsVibration.value == true) {
+                                                if (AppSettingModel.isVibration.value == true) {
                                                     systemRepository.setVibration()
                                                 }
                                                 isPressedX.value = true
@@ -201,15 +292,20 @@ class YBXAButton {
                                     shape = RoundedCornerShape(bottomEnd = 20.dp)
                                 )
                                 .border(
-                                    width = if (isSetting && isPressedA.value) 3.dp else 1.5.dp,
-                                    color = if (isSetting && isPressedA.value) HomeController.getTextColor() else HomeController.getBorderColor(),
+                                    width = if (isSetting && isPressedA.value) 3.dp else 0.75.dp,
+                                    color = if (isSetting && isPressedA.value) AppSettingModel.getTextColor() else AppSettingModel.getBorderColor(),
                                     shape = RoundedCornerShape(bottomEnd = 20.dp)
+                                )
+                                .innerShadow(
+                                    spread = 3.dp,
+                                    blur = 10.dp,
+                                    color = AppSettingModel.getBackgroundColor(),
                                 )
                                 .pointerInput(Unit) {
                                     detectTapGestures(
                                         onPress = {
                                             if (isEnable) {
-                                                if (HomeController.appIsVibration.value == true) {
+                                                if (AppSettingModel.isVibration.value == true) {
                                                     systemRepository.setVibration()
                                                 }
                                                 isPressedA.value = true
@@ -237,6 +333,11 @@ class YBXAButton {
                             customColorDialogY = false
                             isPressedY.value = false
                             defaultBrushY = SolidColor(color)
+                            if (color.toArgb() == AppSettingModel.getButtonColor().toArgb()) {
+                                layoutCustomController.yButton.value = 0
+                            } else {
+                                layoutCustomController.yButton.value = color.toArgb()
+                            }
                         }
                     )
                 }
@@ -247,6 +348,11 @@ class YBXAButton {
                             customColorDialogB = false
                             isPressedB.value = false
                             defaultBrushB = SolidColor(color)
+                            if (color.toArgb() == AppSettingModel.getButtonColor().toArgb()) {
+                                layoutCustomController.bButton.value = 0
+                            } else {
+                                layoutCustomController.bButton.value = color.toArgb()
+                            }
                         }
                     )
                 }
@@ -257,6 +363,11 @@ class YBXAButton {
                             customColorDialogX = false
                             isPressedX.value = false
                             defaultBrushX = SolidColor(color)
+                            if (color.toArgb() == AppSettingModel.getButtonColor().toArgb()) {
+                                layoutCustomController.xButton.value = 0
+                            } else {
+                                layoutCustomController.xButton.value = color.toArgb()
+                            }
                         }
                     )
                 }
@@ -267,6 +378,11 @@ class YBXAButton {
                             customColorDialogA = false
                             isPressedA.value = false
                             defaultBrushA = SolidColor(color)
+                            if (color.toArgb() == AppSettingModel.getButtonColor().toArgb()) {
+                                layoutCustomController.aButton.value = 0
+                            } else {
+                                layoutCustomController.aButton.value = color.toArgb()
+                            }
                         }
                     )
                 }
@@ -283,7 +399,7 @@ class YBXAButton {
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = fontSize,
-                color = HomeController.getTextColor()
+                color = AppSettingModel.getTextColor()
             ),
             modifier = Modifier.graphicsLayer { rotationZ = -45f }
         )

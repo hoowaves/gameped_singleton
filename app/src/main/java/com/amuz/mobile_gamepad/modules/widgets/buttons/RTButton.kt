@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -20,27 +22,45 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.amuz.mobile_gamepad.modules.home.HomeController
 import com.amuz.mobile_gamepad.modules.home.HomeView
-import com.amuz.mobile_gamepad.modules.layoutSetting.LayoutSettingView
+import com.amuz.mobile_gamepad.modules.layoutCustom.LayoutCustomController
+import com.amuz.mobile_gamepad.settings.layout.LayoutSettingModel
+import com.amuz.mobile_gamepad.modules.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.modules.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.settings.SystemRepository
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 class RTButton {
     @Composable
-    fun Render() {
+    fun Render(layoutCustomController: LayoutCustomController) {
         val context = LocalContext.current
         val systemRepository = SystemRepository(context)
         val isEnable = remember { context is HomeView }
-        val isSetting = remember { context is LayoutSettingView }
+        val isSetting = remember { context is LayoutCustomView }
         var customColorDialog by remember { mutableStateOf(false) }
-        var defaultBrush by remember { mutableStateOf(SolidColor(HomeController.getButtonColor())) }
+        val rtButton by layoutCustomController.rtButton.observeAsState()
+        val defaultBrushColor = if (rtButton == 0) {
+            AppSettingModel.getButtonColor()
+        } else {
+            Color(rtButton ?: 0)
+        }
+
+        var defaultBrush by remember { mutableStateOf(SolidColor(defaultBrushColor)) }
+        LaunchedEffect(rtButton) {
+            val newBrushColor = if (rtButton == 0) {
+                AppSettingModel.getButtonColor()
+            } else {
+                Color(rtButton ?: 0)
+            }
+            defaultBrush = SolidColor(newBrushColor)
+        }
 
         BoxWithConstraints {
             val isPressed = remember { mutableStateOf(false) }
@@ -50,7 +70,7 @@ class RTButton {
                 start = Offset(0f, 0f),
                 end = Offset(maxWidth.value * 2, maxHeight.value * 2)
             )
-            val fontSize = (maxWidth.value / 5).sp
+            val fontSize = (maxWidth.value / 4).sp
 
             Box(
                 modifier = Modifier
@@ -62,14 +82,20 @@ class RTButton {
                     )
                     .border(
                         width = if (isSetting && isPressed.value) 3.dp else 1.5.dp,
-                        color = if (isSetting && isPressed.value) HomeController.getTextColor() else HomeController.getBorderColor(),
+                        color = if (isSetting && isPressed.value) AppSettingModel.getTextColor() else AppSettingModel.getBorderColor(),
                         shape = RoundedCornerShape(15.dp)
+                    )
+                    .innerShadow(
+                        spread = 5.dp,
+                        blur = 10.dp,
+                        color = AppSettingModel.getBackgroundColor(),
+                        cornersRadius = 15.dp
                     )
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onPress = {
                                 if (isEnable) {
-                                    if (HomeController.appIsVibration.value == true) {
+                                    if (AppSettingModel.isVibration.value == true) {
                                         systemRepository.setVibration()
                                     }
                                     isPressed.value = true
@@ -91,7 +117,7 @@ class RTButton {
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = fontSize,
-                        color = HomeController.getTextColor()
+                        color = AppSettingModel.getTextColor()
                     ),
                 )
             }
@@ -102,6 +128,11 @@ class RTButton {
                         customColorDialog = false
                         isPressed.value = false
                         defaultBrush = SolidColor(color)
+                        if (color.toArgb() == AppSettingModel.getButtonColor().toArgb()) {
+                            layoutCustomController.rtButton.value = 0
+                        } else {
+                            layoutCustomController.rtButton.value = color.toArgb()
+                        }
                     }
                 )
             }

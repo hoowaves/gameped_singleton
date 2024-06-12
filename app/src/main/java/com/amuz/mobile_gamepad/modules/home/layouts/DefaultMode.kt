@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.amuz.mobile_gamepad.modules.home.HomeController
-import com.amuz.mobile_gamepad.modules.layoutSetting.LayoutSettingController
+import com.amuz.mobile_gamepad.modules.layoutCustom.LayoutCustomController
+import com.amuz.mobile_gamepad.settings.layout.LayoutSettingModel
 import com.amuz.mobile_gamepad.modules.widgets.buttons.DirectionButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LBButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LTButton
@@ -30,17 +30,19 @@ import com.amuz.mobile_gamepad.modules.widgets.buttons.RTSButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.SettingButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.ViewButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.YBXAButton
+import com.amuz.mobile_gamepad.modules.widgets.buttons.testButton
 import com.amuz.mobile_gamepad.modules.widgets.joysticks.LeftJoystick
 import com.amuz.mobile_gamepad.modules.widgets.joysticks.RightJoystick
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
-class GameController() {
+class DefaultMode {
 
     @Composable
-    fun Render() {
+    fun Render(layoutCustomController: LayoutCustomController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(HomeController.getBackgroundColor())
+                .background(AppSettingModel.getBackgroundColor())
         ) {
             // 위쪽
             Column(
@@ -76,7 +78,8 @@ class GameController() {
                                     contentAlignment = Alignment.Center
                                 ) {
                                     val ltButton = LTButton()
-                                    ltButton.Render()
+//                                    testButton()
+                                    ltButton.Render(layoutCustomController)
                                 }
                                 Box(
                                     modifier = Modifier
@@ -86,7 +89,7 @@ class GameController() {
                                     contentAlignment = Alignment.Center
                                 ) {
                                     val lbButton = LBButton()
-                                    lbButton.Render()
+                                    lbButton.Render(layoutCustomController)
                                 }
                             }
                         }
@@ -150,7 +153,7 @@ class GameController() {
                             contentAlignment = Alignment.Center
                         ) {
                             val ybxaButton = YBXAButton()
-                            ybxaButton.Render()
+                            ybxaButton.Render(layoutCustomController)
                         }
                         Box(
                             modifier = Modifier
@@ -166,7 +169,7 @@ class GameController() {
                                     contentAlignment = Alignment.Center
                                 ) {
                                     val rtButton = RTButton()
-                                    rtButton.Render()
+                                    rtButton.Render(layoutCustomController)
                                 }
                                 Box(
                                     modifier = Modifier
@@ -176,7 +179,7 @@ class GameController() {
                                     contentAlignment = Alignment.Center
                                 ) {
                                     val rbButton = RBButton()
-                                    rbButton.Render()
+                                    rbButton.Render(layoutCustomController)
                                 }
                             }
                         }
@@ -221,9 +224,9 @@ class GameController() {
                         contentAlignment = Alignment.BottomCenter
                     ) {
                         val ltsButton = LTSButton()
-                        ltsButton.Render()
+                        ltsButton.Render(layoutCustomController)
                         val rtsButton = RTSButton()
-                        rtsButton.Render()
+                        rtsButton.Render(layoutCustomController)
                     }
                     Box(
                         modifier = Modifier

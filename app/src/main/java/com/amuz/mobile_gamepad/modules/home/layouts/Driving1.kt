@@ -1,5 +1,11 @@
 package com.amuz.mobile_gamepad.modules.home.layouts
 
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,12 +13,22 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.zIndex
-import com.amuz.mobile_gamepad.modules.home.HomeController
+import com.amuz.mobile_gamepad.modules.layoutCustom.LayoutCustomController
+import com.amuz.mobile_gamepad.settings.layout.LayoutSettingModel
 import com.amuz.mobile_gamepad.modules.widgets.buttons.DirectionButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LBButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.LTButton
@@ -26,23 +42,64 @@ import com.amuz.mobile_gamepad.modules.widgets.buttons.SettingButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.ViewButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.YBXAButton
 import com.amuz.mobile_gamepad.modules.widgets.joysticks.RightJoystick
+import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
-class Driving1 {
+class Driving1 : SensorEventListener {
+    private val y = mutableFloatStateOf(0f)
+    private val leftProgress = mutableFloatStateOf(0f)
+    private val rightProgress = mutableFloatStateOf(0f)
+
     @Composable
-    fun Render() {
+    fun Render(layoutCustomController: LayoutCustomController) {
+        val sensorManager =
+            LocalContext.current.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val accelerometer: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        accelerometer.also { accel ->
+            sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(HomeController.getBackgroundColor())
+                .background(AppSettingModel.getBackgroundColor())
         ) {
             // 상단 게이지
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(0.5f)
-                    .background(Color.Red)
             ) {
-
+                Row(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .weight(5f)
+                            .fillMaxHeight()
+                    ) {
+                        LinearProgressIndicator(
+                            progress = animateFloatAsState(targetValue = leftProgress.floatValue).value,
+                            color = Color.Green,
+                            trackColor = AppSettingModel.getButtonColor(),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .graphicsLayer(rotationZ = 180f),
+                        )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .weight(5f)
+                            .fillMaxHeight()
+                    ) {
+                        LinearProgressIndicator(
+                            progress = animateFloatAsState(targetValue = rightProgress.floatValue).value,
+                            color = Color.Green,
+                            trackColor = AppSettingModel.getButtonColor(),
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
+                }
             }
             Column(
                 modifier = Modifier
@@ -86,7 +143,7 @@ class Driving1 {
                                         contentAlignment = Alignment.CenterEnd
                                     ) {
                                         val lbButton = LBButton()
-                                        lbButton.Render()
+                                        lbButton.Render(layoutCustomController)
                                     }
                                     Box(
                                         modifier = Modifier
@@ -95,7 +152,7 @@ class Driving1 {
                                         contentAlignment = Alignment.CenterEnd
                                     ) {
                                         val rbButton = RBButton()
-                                        rbButton.Render()
+                                        rbButton.Render(layoutCustomController)
                                     }
                                     Box(
                                         modifier = Modifier
@@ -189,7 +246,7 @@ class Driving1 {
                                                         contentAlignment = Alignment.Center
                                                     ) {
                                                         val ybxaButton = YBXAButton()
-                                                        ybxaButton.Render()
+                                                        ybxaButton.Render(layoutCustomController)
                                                     }
                                                     Box(
                                                         modifier = Modifier
@@ -232,9 +289,9 @@ class Driving1 {
                                                         contentAlignment = Alignment.BottomCenter
                                                     ) {
                                                         val ltsButton = LTSButton()
-                                                        ltsButton.Render()
+                                                        ltsButton.Render(layoutCustomController)
                                                         val rtsButton = RTSButton()
-                                                        rtsButton.Render()
+                                                        rtsButton.Render(layoutCustomController)
                                                     }
                                                     Box(
                                                         modifier = Modifier
@@ -276,7 +333,7 @@ class Driving1 {
                                 contentAlignment = Alignment.CenterStart
                             ) {
                                 val ltButton = LTButton()
-                                ltButton.Render()
+                                ltButton.Render(layoutCustomController)
                             }
                             Box(
                                 modifier = Modifier
@@ -285,7 +342,7 @@ class Driving1 {
                                 contentAlignment = Alignment.CenterStart
                             ) {
                                 val rtButton = RTButton()
-                                rtButton.Render()
+                                rtButton.Render(layoutCustomController)
                             }
                         }
                     }
@@ -300,4 +357,25 @@ class Driving1 {
             }
         }
     }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        event?.let {
+            y.floatValue = it.values[1]
+            if (y.floatValue > 0) {
+                rightProgress.floatValue = normalize(y.floatValue, 0f, 9.81f)
+                leftProgress.floatValue = 0f
+            } else {
+                leftProgress.floatValue = 1 - normalize(y.floatValue, -9.81f, 0f)
+                rightProgress.floatValue = 0f
+            }
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+    }
+
+    private fun normalize(value: Float, minVal: Float, maxVal: Float): Float {
+        return (value - minVal) / (maxVal - minVal)
+    }
+
 }
