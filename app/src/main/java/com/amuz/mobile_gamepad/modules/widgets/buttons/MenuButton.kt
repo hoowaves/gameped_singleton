@@ -18,8 +18,10 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.amuz.mobile_gamepad.R
 import com.amuz.mobile_gamepad.modules.home.HomeView
+import com.amuz.mobile_gamepad.modules.widgets.dialogs.ConnectDialog
 import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 class MenuButton {
@@ -46,6 +49,7 @@ class MenuButton {
 
         BoxWithConstraints {
             val isPressed = remember { mutableStateOf(false) }
+            var showDialog by remember { mutableStateOf(false) }
             val gradientColor = remember { mutableStateOf(Color.White) }
             val gradientBrush = Brush.linearGradient(
                 colors = listOf(gradientColor.value, Color.Transparent),
@@ -74,6 +78,9 @@ class MenuButton {
                                 isPressed.value = true
                                 tryAwaitRelease()
                                 isPressed.value = false
+                            },
+                            onTap = {
+                                showDialog = true
                             }
                         )
                     },
@@ -84,6 +91,11 @@ class MenuButton {
                     contentDescription = "메뉴 버튼",
                     modifier = Modifier
                         .size(size = size / 2)
+                )
+            }
+            if (showDialog) {
+                ConnectDialog(
+                    onDismissRequest = { showDialog = false },
                 )
             }
         }

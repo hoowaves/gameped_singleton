@@ -15,8 +15,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +32,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.amuz.mobile_gamepad.R
 import com.amuz.mobile_gamepad.modules.home.HomeView
+import com.amuz.mobile_gamepad.modules.widgets.dialogs.ConnectDialog
+import com.amuz.mobile_gamepad.modules.widgets.dialogs.SettingDialog
 import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
 class PortalButton {
@@ -83,35 +87,10 @@ class PortalButton {
                     painter = painterResource(id = R.drawable.mapping),
                     contentDescription = "포털 버튼",
                     modifier = Modifier
-                        .size(size = size/2)
+                        .size(size = size / 2)
                 )
             }
 
-//            Image(
-//                painter = painterResource(id = R.drawable.mapping),
-//                contentDescription = "포털 버튼",
-//                modifier = Modifier
-//                    .size(size = maxWidth / 2)
-//                    .clip(CircleShape)
-//                    .background(brush)
-//                    .border(1.5.dp, AppSettingModel.getBorderColor(), CircleShape)
-//                    .padding(PaddingValues(10.dp))
-//                    .pointerInput(Unit) {
-//                        if (!isEnable) return@pointerInput
-//                        detectTapGestures(
-//                            onPress = {
-//                                isPressed.value = true
-//                                tryAwaitRelease()
-//                                isPressed.value = false
-//                            },
-//                            onTap = {
-//                                Toast
-//                                    .makeText(context, "게임 포털 연동 준비 중입니다.", Toast.LENGTH_SHORT)
-//                                    .show()
-//                            }
-//                        )
-//                    }
-//            )
         }
     }
 }

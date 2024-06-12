@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.amuz.mobile_gamepad.modules.home.HomeView
+import com.amuz.mobile_gamepad.modules.network.WebOSManager
 import com.amuz.mobile_gamepad.settings.SystemRepository
 import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 
@@ -112,6 +113,7 @@ class DirectionButton {
                                             if (AppSettingModel.isVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
+                                            WebOSManager.sendUp()
                                             isPressedY.value = true
                                             tryAwaitRelease()
                                             isPressedY.value = false
@@ -148,6 +150,7 @@ class DirectionButton {
                                             if (AppSettingModel.isVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
+                                            WebOSManager.sendRight()
                                             isPressedB.value = true
                                             tryAwaitRelease()
                                             isPressedB.value = false
@@ -186,6 +189,7 @@ class DirectionButton {
                                             if (AppSettingModel.isVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
+                                            WebOSManager.sendLeft()
                                             isPressedX.value = true
                                             tryAwaitRelease()
                                             isPressedX.value = false
@@ -228,6 +232,7 @@ class DirectionButton {
                                             if (AppSettingModel.isVibration.value == true) {
                                                 systemRepository.setVibration()
                                             }
+                                            WebOSManager.sendDown()
                                             isPressedA.value = true
                                             tryAwaitRelease()
                                             isPressedA.value = false
@@ -277,6 +282,7 @@ class DirectionButton {
                                     if (AppSettingModel.isVibration.value == true) {
                                         systemRepository.setVibration()
                                     }
+                                    WebOSManager.sendOk()
                                     isPressedCenter.value = true
                                     tryAwaitRelease()
                                     isPressedCenter.value = false

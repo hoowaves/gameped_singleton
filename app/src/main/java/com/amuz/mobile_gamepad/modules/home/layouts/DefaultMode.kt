@@ -30,7 +30,6 @@ import com.amuz.mobile_gamepad.modules.widgets.buttons.RTSButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.SettingButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.ViewButton
 import com.amuz.mobile_gamepad.modules.widgets.buttons.YBXAButton
-import com.amuz.mobile_gamepad.modules.widgets.buttons.testButton
 import com.amuz.mobile_gamepad.modules.widgets.joysticks.LeftJoystick
 import com.amuz.mobile_gamepad.modules.widgets.joysticks.RightJoystick
 import com.amuz.mobile_gamepad.settings.app.AppSettingModel

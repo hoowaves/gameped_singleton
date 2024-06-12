@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.amuz.mobile_gamepad.modules.home.HomeView
+import com.amuz.mobile_gamepad.modules.network.DiscoveryListener
 import com.amuz.mobile_gamepad.settings.AppDatabase
 import com.amuz.mobile_gamepad.settings.app.AppSettingEntity
 import com.amuz.mobile_gamepad.settings.app.AppSettingModel
@@ -34,7 +35,7 @@ class SplashView : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        DiscoveryListener.initialize(this)
         setContent {
             AppRepositoryInit()
             LayoutRepositoryInit()

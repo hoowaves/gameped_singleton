@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.amuz.mobile_gamepad.modules.home.HomeView
+import com.amuz.mobile_gamepad.modules.network.WebOSManager
 import com.amuz.mobile_gamepad.settings.SystemRepository
 import com.amuz.mobile_gamepad.settings.app.AppSettingModel
 import kotlin.math.atan2
@@ -56,7 +57,7 @@ class LeftJoystick {
                     shape = CutCornerShape(topStart = 50.dp, bottomEnd = 50.dp)
                 )
                 .pointerInput(Unit) {
-                    if(!isEnable) return@pointerInput
+                    if (!isEnable) return@pointerInput
                     detectDragGestures(
                         onDragStart = { offset ->
                             touchPosition = offset // 터치 위치 설정
@@ -84,8 +85,9 @@ class LeftJoystick {
                             )
                             // 터치한 곳 기준 x,y값을 -100 ~ 100까지 셋팅
                             val relativeChange = change.position - touchPos
-                            val limitedX = relativeChange.x.coerceIn(-100f, 100f)
-                            val limitedY = relativeChange.y.coerceIn(-100f, 100f)
+                            val limitedX = relativeChange.x.coerceIn(-10f, 10f)
+                            val limitedY = relativeChange.y.coerceIn(-10f, 10f)
+                            WebOSManager.mouseMove(limitedX.toDouble(), limitedY.toDouble())
                             Log.d(
                                 "joystick : ",
                                 "x : ${limitedX}, y : ${limitedY}"
@@ -105,7 +107,7 @@ class LeftJoystick {
                     drawCircle(
                         color = AppSettingModel.getBackgroundColor(),
                         center = it,
-                        radius = ((sizePx*0.8).toFloat()),
+                        radius = ((sizePx * 0.8).toFloat()),
                     )
 
                     handlePosition?.let {
