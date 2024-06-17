@@ -71,10 +71,12 @@ dependencies {
 
     // LiveData
     implementation("androidx.compose.runtime:runtime-livedata:1.0.0")
+
     // Storage
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+
     // ConnectSDK
     implementation("org.java-websocket:Java-WebSocket:1.5.0")
     implementation("javax.jmdns:jmdns:3.4.1")

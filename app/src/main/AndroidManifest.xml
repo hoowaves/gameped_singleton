@@ -27,18 +27,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".modules.splash.SplashView"
+            android:name=".module.splash.SplashView"
             android:exported="false" />
         <activity
-            android:name=".modules.home.HomeView"
+            android:name=".module.activitys.defaultMode.DefaultModeView"
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".modules.layoutCustomList.LayoutCustomListView"
+            android:name=".module.activitys.driving1.Driving1View"
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".modules.layoutCustom.LayoutCustomView"
+            android:name=".module.activitys.driving2.Driving2View"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".module.activitys.casual.CasualView"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".module.activitys.layoutCustomList.LayoutCustomListView"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".module.activitys.layoutCustom.LayoutCustomView"
             android:exported="false"
             android:screenOrientation="landscape" />
     </application>
