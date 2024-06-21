@@ -6,9 +6,13 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,15 +48,13 @@ import com.amuz.mobile_gamepad.module.widgets.buttons.SettingButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.ViewButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.YBXAButton
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
+import com.amuz.mobile_gamepad.module.widgets.commons.LoadingPage
+import com.amuz.mobile_gamepad.module.widgets.commons.SensorProgress
 import com.amuz.mobile_gamepad.module.widgets.joysticks.RightJoystick
 
-class Driving1View : ComponentActivity(), SensorEventListener {
+class Driving1View : ComponentActivity() {
     private lateinit var controller: Driving1ControllerImpl
     private var isDataInitialized by mutableStateOf(false)
-
-    private val y = mutableFloatStateOf(0f)
-    private val leftProgress = mutableFloatStateOf(0f)
-    private val rightProgress = mutableFloatStateOf(0f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,22 +66,26 @@ class Driving1View : ComponentActivity(), SensorEventListener {
                 controller.dataInit()
                 isDataInitialized = true
             }
-            if (isDataInitialized) {
+
+            LoadingPage()
+
+            AnimatedVisibility(
+                visible = isDataInitialized,
+                enter = fadeIn(animationSpec = tween(durationMillis = 500))
+            ) {
                 Render(controller)
             }
+
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     @Composable
     fun Render(controller: IActivityController) {
         val isDarkService = IsDarkService(controller.isDark.value ?: false)
-        val sensorManager =
-            LocalContext.current.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        val accelerometer: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        accelerometer.also { accel ->
-            sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_NORMAL)
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -94,31 +101,22 @@ class Driving1View : ComponentActivity(), SensorEventListener {
                     modifier = Modifier
                         .fillMaxHeight()
                 ) {
+                    val sensorProgress =
+                        SensorProgress(LocalContext.current, controller.isDark.value ?: false)
                     Box(
                         modifier = Modifier
                             .weight(5f)
                             .fillMaxHeight()
                     ) {
-                        LinearProgressIndicator(
-                            progress = animateFloatAsState(targetValue = leftProgress.floatValue).value,
-                            color = Color.Green,
-                            trackColor = isDarkService.getButtonColor(),
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .graphicsLayer(rotationZ = 180f),
-                        )
+                        sensorProgress.LeftProgressRender()
                     }
                     Box(
                         modifier = Modifier
                             .weight(5f)
                             .fillMaxHeight()
                     ) {
-                        LinearProgressIndicator(
-                            progress = animateFloatAsState(targetValue = rightProgress.floatValue).value,
-                            color = Color.Green,
-                            trackColor = isDarkService.getButtonColor(),
-                            modifier = Modifier.fillMaxSize(),
-                        )
+                        sensorProgress.RightProgressRender()
+
                     }
                 }
             }
@@ -378,26 +376,6 @@ class Driving1View : ComponentActivity(), SensorEventListener {
 
             }
         }
-    }
-
-    override fun onSensorChanged(event: SensorEvent?) {
-        event?.let {
-            y.floatValue = it.values[1]
-            if (y.floatValue > 0) {
-                rightProgress.floatValue = normalize(y.floatValue, 0f, 9.81f)
-                leftProgress.floatValue = 0f
-            } else {
-                leftProgress.floatValue = 1 - normalize(y.floatValue, -9.81f, 0f)
-                rightProgress.floatValue = 0f
-            }
-        }
-    }
-
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-    }
-
-    private fun normalize(value: Float, minVal: Float, maxVal: Float): Float {
-        return (value - minVal) / (maxVal - minVal)
     }
 
 }

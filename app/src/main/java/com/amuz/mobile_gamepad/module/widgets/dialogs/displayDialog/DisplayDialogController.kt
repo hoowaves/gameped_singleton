@@ -21,8 +21,8 @@ class DisplayDialogController(private val context: Context) {
     var isVibration: MutableLiveData<Boolean> = MutableLiveData()
     var brightness: MutableLiveData<Int> = MutableLiveData()
 
-    val isDarkText: String get() = if (isDark.value == true) "다크" else "라이트"
-    val powerSavingText: String get() = if (powerSaving.value == 0) "안함" else "${powerSaving.value}분"
+    val isDarkText: String get() = if (isDark.value == true) "Dark" else "Light"
+    val powerSavingText: String get() = if (powerSaving.value == 0) "Off" else "${powerSaving.value}min"
     val isChanged: MutableLiveData<Boolean> = MutableLiveData()
 
     suspend fun dataInit() {

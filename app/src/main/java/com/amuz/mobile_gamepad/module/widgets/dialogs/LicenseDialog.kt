@@ -35,7 +35,7 @@ fun LicenseDialog(onDismissRequest: () -> Unit, controller: IActivityController)
         Card(
             modifier = Modifier
                 .fillMaxWidth(1.1f)
-                .height(250.dp)
+                .height(220.dp)
                 .border(
                     1.5.dp,
                     color = isDarkService.getBorderColor(),
@@ -50,7 +50,7 @@ fun LicenseDialog(onDismissRequest: () -> Unit, controller: IActivityController)
                     .padding(10.dp)
             ) {
                 Text(
-                    text = "오픈소스 라이선스",
+                    text = "Open source license",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
@@ -99,7 +99,7 @@ fun LicenseDialog(onDismissRequest: () -> Unit, controller: IActivityController)
                     .clickable { onDismissRequest() },
             ) {
                 Text(
-                    text = "닫기",
+                    text = "Close",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,

@@ -3,6 +3,9 @@ package com.amuz.mobile_gamepad.module.activitys.casual
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +36,7 @@ import com.amuz.mobile_gamepad.module.widgets.buttons.SettingButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.ViewButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.YBXAButton
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
+import com.amuz.mobile_gamepad.module.widgets.commons.LoadingPage
 import com.amuz.mobile_gamepad.module.widgets.joysticks.LeftJoystick
 
 class CasualView : ComponentActivity() {
@@ -47,9 +52,16 @@ class CasualView : ComponentActivity() {
                 controller.dataInit()
                 isDataInitialized = true
             }
-            if (isDataInitialized) {
+
+            LoadingPage()
+
+            AnimatedVisibility(
+                visible = isDataInitialized,
+                enter = fadeIn(animationSpec = tween(durationMillis = 500))
+            ) {
                 Render(controller)
             }
+
         }
     }
 

@@ -22,6 +22,7 @@ object AppColor {
 
     object CustomColor{
         val tap = Color(0xFFD6D8D6)
+        val check = Color(0xFF009379)
 
         val orange = Color(0xFFFF853C)
         val strawberry = Color(0xFFF44279)

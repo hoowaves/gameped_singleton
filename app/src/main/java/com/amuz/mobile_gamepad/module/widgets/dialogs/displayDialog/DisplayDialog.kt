@@ -52,19 +52,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.module.activitys.IActivityController
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun DisplayDialog(
-    controller: IActivityController,
+    iActivityController: IActivityController,
     onDismissRequest: () -> Unit,
     properties: DialogProperties = DialogProperties()
 ) {
     val context = LocalContext.current
-
     if (!Settings.System.canWrite(context)) {
         Toast
             .makeText(context, "설정 변경을 위한 권한이 필요합니다.", Toast.LENGTH_SHORT)
@@ -89,12 +90,12 @@ fun DisplayDialog(
     LaunchedEffect(Unit) {
         displayDialogController.dataInit()
         isTouchEffectChecked = displayDialogController.touchEffect.value ?: false
-        brightnessPosition = displayDialogController.getModelBrightness().toFloat()
+        brightnessPosition = (displayDialogController.brightness.value ?: 0).toFloat()
         isVibrationChecked = displayDialogController.isVibration.value ?: false
         isChanged = displayDialogController.isChanged.value ?: false
     }
 
-    val isDarkService = IsDarkService(controller.isDark.value ?: false)
+    val isDarkService = IsDarkService(iActivityController.isDark.value ?: false)
     var isDropDownTheme by remember { mutableStateOf(false) }
     var isDropDownPowerSaving by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -168,7 +169,7 @@ fun DisplayDialog(
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 Text(
-                                                    text = "테마",
+                                                    text = "Theme",
                                                     style = TextStyle(
                                                         fontWeight = FontWeight.Bold,
                                                         fontSize = 14.sp,
@@ -195,7 +196,7 @@ fun DisplayDialog(
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
-                                                                text = "다크 모드",
+                                                                text = "Dark",
                                                                 color = isDarkService.getTextColor()
                                                             )
                                                         },
@@ -204,7 +205,7 @@ fun DisplayDialog(
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = null,
-                                                                    tint = Color.Green
+                                                                    tint = AppColor.CustomColor.check
                                                                 )
                                                             }
                                                         },
@@ -227,7 +228,7 @@ fun DisplayDialog(
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
-                                                                text = "라이트 모드",
+                                                                text = "Light",
                                                                 color = isDarkService.getTextColor()
                                                             )
                                                         },
@@ -236,7 +237,7 @@ fun DisplayDialog(
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = null,
-                                                                    tint = Color.Green
+                                                                    tint = AppColor.CustomColor.check
                                                                 )
                                                             }
                                                         },
@@ -299,12 +300,12 @@ fun DisplayDialog(
                                         ) {
                                             Box(
                                                 modifier = Modifier
-                                                    .weight(4f)
+                                                    .weight(5f)
                                                     .fillMaxHeight(),
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 Text(
-                                                    text = "터치 효과*",
+                                                    text = "Touch effect",
                                                     style = TextStyle(
                                                         fontWeight = FontWeight.Bold,
                                                         fontSize = 14.sp,
@@ -317,7 +318,7 @@ fun DisplayDialog(
                                             }
                                             Box(
                                                 modifier = Modifier
-                                                    .weight(2.5f)
+                                                    .weight(1.5f)
                                                     .fillMaxHeight()
                                             ) {
                                             }
@@ -337,7 +338,7 @@ fun DisplayDialog(
                                                     },
                                                     colors = SwitchDefaults.colors(
                                                         checkedThumbColor = Color.White,
-                                                        checkedTrackColor = Color.Green,
+                                                        checkedTrackColor = AppColor.CustomColor.check,
                                                         uncheckedThumbColor = Color.Gray,
                                                         uncheckedTrackColor = Color.DarkGray,
                                                     )
@@ -373,12 +374,12 @@ fun DisplayDialog(
                                         ) {
                                             Box(
                                                 modifier = Modifier
-                                                    .weight(4f)
+                                                    .weight(5f)
                                                     .fillMaxHeight(),
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 Text(
-                                                    text = "자동 절전*",
+                                                    text = "Energy saving*",
                                                     style = TextStyle(
                                                         fontWeight = FontWeight.Bold,
                                                         fontSize = 14.sp,
@@ -391,7 +392,7 @@ fun DisplayDialog(
                                             }
                                             Box(
                                                 modifier = Modifier
-                                                    .weight(2.5f)
+                                                    .weight(1.5f)
                                                     .fillMaxHeight()
                                             ) {
                                                 DropdownMenu(
@@ -407,7 +408,7 @@ fun DisplayDialog(
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
-                                                                text = "안함",
+                                                                text = "Off",
                                                                 color = isDarkService.getTextColor()
                                                             )
                                                         },
@@ -416,7 +417,7 @@ fun DisplayDialog(
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = null,
-                                                                    tint = Color.Green
+                                                                    tint = AppColor.CustomColor.check
                                                                 )
                                                             }
                                                         },
@@ -439,7 +440,7 @@ fun DisplayDialog(
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
-                                                                text = "1분",
+                                                                text = "1min",
                                                                 color = isDarkService.getTextColor()
                                                             )
                                                         },
@@ -448,7 +449,7 @@ fun DisplayDialog(
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = null,
-                                                                    tint = Color.Green
+                                                                    tint = AppColor.CustomColor.check
                                                                 )
                                                             }
                                                         },
@@ -471,7 +472,7 @@ fun DisplayDialog(
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
-                                                                text = "5분",
+                                                                text = "5min",
                                                                 color = isDarkService.getTextColor()
                                                             )
                                                         },
@@ -480,7 +481,7 @@ fun DisplayDialog(
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = null,
-                                                                    tint = Color.Green
+                                                                    tint = AppColor.CustomColor.check
                                                                 )
                                                             }
                                                         },
@@ -503,7 +504,7 @@ fun DisplayDialog(
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
-                                                                text = "15분",
+                                                                text = "15min",
                                                                 color = isDarkService.getTextColor()
                                                             )
                                                         },
@@ -512,7 +513,7 @@ fun DisplayDialog(
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = null,
-                                                                    tint = Color.Green
+                                                                    tint = AppColor.CustomColor.check
                                                                 )
                                                             }
                                                         },
@@ -535,7 +536,7 @@ fun DisplayDialog(
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
-                                                                text = "30분",
+                                                                text = "30min",
                                                                 color = isDarkService.getTextColor()
                                                             )
                                                         },
@@ -544,7 +545,7 @@ fun DisplayDialog(
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = null,
-                                                                    tint = Color.Green
+                                                                    tint = AppColor.CustomColor.check
                                                                 )
                                                             }
                                                         },
@@ -567,7 +568,7 @@ fun DisplayDialog(
                                                     DropdownMenuItem(
                                                         text = {
                                                             Text(
-                                                                text = "60분",
+                                                                text = "60min",
                                                                 color = isDarkService.getTextColor()
                                                             )
                                                         },
@@ -576,7 +577,7 @@ fun DisplayDialog(
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = null,
-                                                                    tint = Color.Green
+                                                                    tint = AppColor.CustomColor.check
                                                                 )
                                                             }
                                                         },
@@ -644,7 +645,7 @@ fun DisplayDialog(
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 Text(
-                                                    text = "진동 설정",
+                                                    text = "Vibration",
                                                     style = TextStyle(
                                                         fontWeight = FontWeight.Bold,
                                                         fontSize = 14.sp,
@@ -677,7 +678,7 @@ fun DisplayDialog(
                                                     },
                                                     colors = SwitchDefaults.colors(
                                                         checkedThumbColor = Color.White,
-                                                        checkedTrackColor = Color.Green,
+                                                        checkedTrackColor = AppColor.CustomColor.check,
                                                         uncheckedThumbColor = Color.Gray,
                                                         uncheckedTrackColor = Color.DarkGray,
                                                     )
@@ -712,7 +713,7 @@ fun DisplayDialog(
                                             contentAlignment = Alignment.Center
                                         ) {
                                             Text(
-                                                text = "밝기",
+                                                text = "Brightness",
                                                 style = TextStyle(
                                                     fontWeight = FontWeight.Bold,
                                                     fontSize = 14.sp,
@@ -739,14 +740,15 @@ fun DisplayDialog(
                                                     },
                                                 colors = SliderDefaults.colors(
                                                     thumbColor = Color.White,
-                                                    activeTrackColor = Color.Green,
+                                                    activeTrackColor = AppColor.CustomColor.check,
                                                     inactiveTrackColor = isDarkService.getBackgroundColor(),
                                                 ),
                                                 valueRange = 0f..255f,
                                                 value = brightnessPosition,
                                                 onValueChange = {
                                                     brightnessPosition = it
-                                                    displayDialogController.brightness.value = it.toInt()
+                                                    displayDialogController.brightness.value =
+                                                        it.toInt()
                                                     systemRepository.setBrightness(it.toInt())
                                                     displayDialogController.isChangedUpdate()
                                                 }
@@ -811,11 +813,11 @@ fun DisplayDialog(
                                             Toast
                                                 .makeText(
                                                     context,
-                                                    "설정이 완료되었습니다.",
+                                                    "Setup is complete.",
                                                     Toast.LENGTH_SHORT
                                                 )
                                                 .show()
-                                            when (controller.layout.value) {
+                                            when (iActivityController.layout.value) {
                                                 0 -> displayDialogController.routeDefaultMode()
                                                 1 -> displayDialogController.routeDriving1()
                                                 2 -> displayDialogController.routeDriving2()

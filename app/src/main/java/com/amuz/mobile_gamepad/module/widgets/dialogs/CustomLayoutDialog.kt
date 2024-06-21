@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +25,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogWindowProvider
+import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomControllerImpl
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 
@@ -47,21 +49,25 @@ fun CustomLayoutDialog(
 
     Dialog(onDismissRequest = { onDismissRequest() }) {
         (LocalView.current.parent as DialogWindowProvider).window.setDimAmount(0f)
-        Card(
+        Box(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .height(200.dp)
+                .background(
+                    color = isDarkService
+                        .getButtonColor()
+                        .copy(alpha = 0.8f),
+                    shape = RoundedCornerShape(16.dp)
+                )
                 .border(
                     1.5.dp,
                     color = isDarkService.getBorderColor(),
                     shape = RoundedCornerShape(16.dp)
-                ),
-            shape = RoundedCornerShape(16.dp),
+                )
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(isDarkService.getBackgroundColor())
             ) {
                 Column(
                     modifier = Modifier
@@ -70,12 +76,11 @@ fun CustomLayoutDialog(
                 ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .background(isDarkService.getBackgroundColor()),
+                            .fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "설정",
+                            text = "Settings",
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp,
@@ -87,91 +92,73 @@ fun CustomLayoutDialog(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(4f)
+                        .weight(3f)
                         .padding(start = 15.dp, end = 15.dp, top = 15.dp)
                 ) {
-                    Text(
-                        text = "레이아웃",
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 12.sp,
-                            color = isDarkService.getTextColor()
-                        )
-                    )
-                    Box(
+                    Row(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 5.dp)
-                            .border(
-                                1.dp,
-                                color = isDarkService.getTextColor(),
-                            ),
+                            .fillMaxHeight()
                     ) {
-                        Row(
+                        Box(
                             modifier = Modifier
-                                .fillMaxHeight()
+                                .weight(2f)
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .weight(5f)
-                                    .fillMaxHeight(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = "기본으로 설정하기",
-                                    style = TextStyle(
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 12.sp,
-                                        color = isDarkService.getTextColor()
-                                    )
-                                )
-                            }
-                            Box(
-                                modifier = Modifier
-                                    .weight(3f)
-                                    .fillMaxHeight()
-                            ) {
-
-                            }
-                            Box(
-                                modifier = Modifier
-                                    .weight(2f)
-                                    .fillMaxHeight(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                BoxWithConstraints {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(maxHeight / 2)
-                                            .border(
-                                                1.dp,
-                                                color = isDarkService.getTextColor(),
-                                            )
-                                            .background(if (isCheck == true) Color.Green else isDarkService.getButtonColor())
-                                            .clickable {
-                                                controller.isDefault.value =
-                                                    controller.isDefault.value != true
+                            BoxWithConstraints {
+                                Box(
+                                    modifier = Modifier
+                                        .size(maxHeight / 2)
+                                        .background(
+                                            color = if (isCheck == true) AppColor.CustomColor.check else isDarkService.getButtonColor(),
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                        .clickable {
+                                            if (controller.isDefault.value == true) {
+                                                controller.isDefault.value = false
+                                                controller.defaultLayout()
+                                            } else {
+                                                controller.isDefault.value = true
                                                 controller.layout.value = controller.layoutId.value
-                                                isCheck = !isCheck!!
-                                            },
-                                    ) {
-                                        if (isCheck == true) {
+                                            }
+                                            isCheck = !isCheck!!
+                                        },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    if (isCheck == true) {
+                                        BoxWithConstraints {
                                             Icon(
                                                 imageVector = Icons.Default.Check,
                                                 contentDescription = null,
-                                                tint = Color.White
+                                                tint = Color.Black,
+                                                modifier = Modifier.size((maxHeight.value * 0.7).dp)
                                             )
                                         }
                                     }
                                 }
                             }
                         }
+                        Box(
+                            modifier = Modifier
+                                .weight(8f)
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            Text(
+                                text = "Set as default",
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 14.sp,
+                                    color = isDarkService.getTextColor()
+                                )
+                            )
+                        }
                     }
                 }
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(4f)
+                        .weight(5f)
                 ) {
 
                 }

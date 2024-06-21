@@ -83,6 +83,11 @@ class LayoutCustomControllerImpl(context: Context) : IActivityController {
                 || this.aButton.value != activityModel.aButton)
     }
 
+    fun defaultLayout() {
+        // Set as default 체크 해제시
+        this.layout.value = 0
+    }
+
     override suspend fun update() {
         activityModel.update(
             AppSettingEntity(

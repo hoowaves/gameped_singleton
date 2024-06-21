@@ -43,21 +43,25 @@ fun CustomColorDialog(
 
     Dialog(onDismissRequest = { onDismissRequest(Color(defaultColor)) }) {
         (LocalView.current.parent as DialogWindowProvider).window.setDimAmount(0f)
-        Card(
+        Box(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .height(160.dp)
+                .background(
+                    color = isDarkService
+                        .getButtonColor()
+                        .copy(alpha = 0.8f),
+                    shape = RoundedCornerShape(16.dp)
+                )
                 .border(
                     1.5.dp,
                     color = isDarkService.getBorderColor(),
                     shape = RoundedCornerShape(16.dp)
-                ),
-            shape = RoundedCornerShape(16.dp),
+                )
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(isDarkService.getBackgroundColor())
             ) {
                 Column(
                     modifier = Modifier
@@ -70,7 +74,7 @@ fun CustomColorDialog(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "색상",
+                            text = "Colors",
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp,
@@ -102,10 +106,14 @@ fun CustomColorDialog(
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(isDarkService.getButtonColor())
+                                .background(
+                                    color = isDarkService.getButtonColor(),
+                                    shape = RoundedCornerShape(12.dp)
+                                )
                                 .border(
                                     1.dp,
-                                    color = isDarkService.getBorderColor()
+                                    color = isDarkService.getBorderColor(),
+                                    shape = RoundedCornerShape(12.dp)
                                 )
                                 .clickable {
                                     onDismissRequest(isDarkService.getButtonColor())
@@ -131,10 +139,14 @@ fun CustomColorDialog(
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.orange)
+                                .background(
+                                    color = AppColor.CustomColor.orange,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
                                 .border(
                                     1.dp,
-                                    color = isDarkService.getBorderColor()
+                                    color = isDarkService.getBorderColor(),
+                                    shape = RoundedCornerShape(12.dp)
                                 )
                                 .clickable {
                                     onDismissRequest(AppColor.CustomColor.orange)
@@ -160,10 +172,14 @@ fun CustomColorDialog(
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.strawberry)
+                                .background(
+                                    color = AppColor.CustomColor.strawberry,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
                                 .border(
                                     1.dp,
-                                    color = isDarkService.getBorderColor()
+                                    color = isDarkService.getBorderColor(),
+                                    shape = RoundedCornerShape(12.dp)
                                 )
                                 .clickable {
                                     onDismissRequest(AppColor.CustomColor.strawberry)
@@ -189,10 +205,14 @@ fun CustomColorDialog(
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.lemon)
+                                .background(
+                                    color = AppColor.CustomColor.lemon,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
                                 .border(
                                     1.dp,
-                                    color = isDarkService.getBorderColor()
+                                    color = isDarkService.getBorderColor(),
+                                    shape = RoundedCornerShape(12.dp)
                                 )
                                 .clickable {
                                     onDismissRequest(AppColor.CustomColor.lemon)
@@ -218,10 +238,14 @@ fun CustomColorDialog(
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.magenta)
+                                .background(
+                                    color = AppColor.CustomColor.magenta,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
                                 .border(
                                     1.dp,
-                                    color = isDarkService.getBorderColor()
+                                    color = isDarkService.getBorderColor(),
+                                    shape = RoundedCornerShape(12.dp)
                                 )
                                 .clickable {
                                     onDismissRequest(AppColor.CustomColor.magenta)
@@ -271,10 +295,14 @@ fun CustomColorDialog(
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.ultramarineBlue)
+                                .background(
+                                    color = AppColor.CustomColor.ultramarineBlue,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
                                 .border(
                                     1.dp,
-                                    color = isDarkService.getBorderColor()
+                                    color = isDarkService.getBorderColor(),
+                                    shape = RoundedCornerShape(12.dp)
                                 )
                                 .clickable {
                                     onDismissRequest(AppColor.CustomColor.ultramarineBlue)
@@ -300,10 +328,14 @@ fun CustomColorDialog(
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.cyan)
+                                .background(
+                                    color = AppColor.CustomColor.cyan,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
                                 .border(
                                     1.dp,
-                                    color = isDarkService.getBorderColor()
+                                    color = isDarkService.getBorderColor(),
+                                    shape = RoundedCornerShape(12.dp)
                                 )
                                 .clickable {
                                     onDismissRequest(AppColor.CustomColor.cyan)
@@ -329,10 +361,14 @@ fun CustomColorDialog(
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.violet)
+                                .background(
+                                    color = AppColor.CustomColor.violet,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
                                 .border(
                                     1.dp,
-                                    color = isDarkService.getBorderColor()
+                                    color = isDarkService.getBorderColor(),
+                                    shape = RoundedCornerShape(12.dp)
                                 )
                                 .clickable {
                                     onDismissRequest(AppColor.CustomColor.violet)
@@ -358,10 +394,14 @@ fun CustomColorDialog(
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.lime)
+                                .background(
+                                    color = AppColor.CustomColor.lime,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
                                 .border(
                                     1.dp,
-                                    color = isDarkService.getBorderColor()
+                                    color = isDarkService.getBorderColor(),
+                                    shape = RoundedCornerShape(12.dp)
                                 )
                                 .clickable {
                                     onDismissRequest(AppColor.CustomColor.lime)
@@ -387,10 +427,14 @@ fun CustomColorDialog(
                             modifier = Modifier
                                 .weight(1.25f)
                                 .fillMaxHeight()
-                                .background(AppColor.CustomColor.realRed)
+                                .background(
+                                    color = AppColor.CustomColor.realRed,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
                                 .border(
                                     1.dp,
-                                    color = isDarkService.getBorderColor()
+                                    color = isDarkService.getBorderColor(),
+                                    shape = RoundedCornerShape(12.dp)
                                 )
                                 .clickable {
                                     onDismissRequest(AppColor.CustomColor.realRed)

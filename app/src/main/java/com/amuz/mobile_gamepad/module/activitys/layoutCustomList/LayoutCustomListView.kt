@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -42,12 +45,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.module.activitys.casual.CasualView
 import com.amuz.mobile_gamepad.module.activitys.defaultMode.DefaultModeView
 import com.amuz.mobile_gamepad.module.activitys.driving1.Driving1View
 import com.amuz.mobile_gamepad.module.activitys.driving2.Driving2View
 import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
+import com.amuz.mobile_gamepad.module.widgets.commons.LoadingPage
 import kotlinx.coroutines.launch
 
 
@@ -65,9 +70,16 @@ class LayoutCustomListView : ComponentActivity() {
                 controller.dataInit()
                 isDataInitialized = true
             }
-            if (isDataInitialized) {
+
+            LoadingPage()
+
+            AnimatedVisibility(
+                visible = isDataInitialized,
+                enter = fadeIn(animationSpec = tween(durationMillis = 500))
+            ) {
                 Render()
             }
+
         }
     }
 
@@ -124,7 +136,7 @@ class LayoutCustomListView : ComponentActivity() {
                             tint = isDarkService.getTextColor(),
                         )
                         Text(
-                            text = "레이아웃",
+                            text = "Layouts",
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp,
@@ -187,21 +199,6 @@ class LayoutCustomListView : ComponentActivity() {
                                     finish()
                                 },
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(isDarkService.getBackgroundColor()),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = "Loading . . .",
-                                    style = TextStyle(
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 16.sp,
-                                        color = isDarkService.getTextColor()
-                                    ),
-                                )
-                            }
                             controller.defaultModeController.value?.let {
                                 controller.defaultModeView.Render(
                                     it
@@ -236,7 +233,7 @@ class LayoutCustomListView : ComponentActivity() {
                                                 Icon(
                                                     imageVector = Icons.Default.Check,
                                                     contentDescription = null,
-                                                    tint = Color.Green,
+                                                    tint = AppColor.CustomColor.check,
                                                     modifier = Modifier.padding()
                                                 )
                                             }
@@ -270,7 +267,7 @@ class LayoutCustomListView : ComponentActivity() {
                                             DropdownMenuItem(
                                                 text = {
                                                     Text(
-                                                        text = "기본으로 설정",
+                                                        text = "Set as default",
                                                         color = isDarkService.getTextColor()
                                                     )
                                                 },
@@ -283,7 +280,7 @@ class LayoutCustomListView : ComponentActivity() {
                                                         }
                                                         Toast.makeText(
                                                             context,
-                                                            "설정이 완료되었습니다.",
+                                                            "Setup is complete.",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                         controller.reloadActivity()
@@ -300,7 +297,7 @@ class LayoutCustomListView : ComponentActivity() {
                                             DropdownMenuItem(
                                                 text = {
                                                     Text(
-                                                        text = "초기화",
+                                                        text = "Reset",
                                                         color = isDarkService.getTextColor()
                                                     )
                                                 },
@@ -312,7 +309,7 @@ class LayoutCustomListView : ComponentActivity() {
                                                         }
                                                         Toast.makeText(
                                                             context,
-                                                            "설정이 완료되었습니다.",
+                                                            "Setup is complete.",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                         controller.reloadActivity()
@@ -380,21 +377,6 @@ class LayoutCustomListView : ComponentActivity() {
                                     finish()
                                 },
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(isDarkService.getBackgroundColor()),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = "Loading . . .",
-                                    style = TextStyle(
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 16.sp,
-                                        color = isDarkService.getTextColor()
-                                    ),
-                                )
-                            }
                             controller.driving1Controller.value?.let {
                                 controller.driving1View.Render(
                                     it
@@ -430,7 +412,7 @@ class LayoutCustomListView : ComponentActivity() {
                                                 Icon(
                                                     imageVector = Icons.Default.Check,
                                                     contentDescription = null,
-                                                    tint = Color.Green,
+                                                    tint = AppColor.CustomColor.check,
                                                     modifier = Modifier.padding()
                                                 )
                                             }
@@ -464,7 +446,7 @@ class LayoutCustomListView : ComponentActivity() {
                                             DropdownMenuItem(
                                                 text = {
                                                     Text(
-                                                        text = "기본으로 설정",
+                                                        text = "Set as default",
                                                         color = isDarkService.getTextColor()
                                                     )
                                                 },
@@ -494,7 +476,7 @@ class LayoutCustomListView : ComponentActivity() {
                                             DropdownMenuItem(
                                                 text = {
                                                     Text(
-                                                        text = "초기화",
+                                                        text = "Reset",
                                                         color = isDarkService.getTextColor()
                                                     )
                                                 },
@@ -593,21 +575,6 @@ class LayoutCustomListView : ComponentActivity() {
                                     finish()
                                 },
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(isDarkService.getBackgroundColor()),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = "Loading . . .",
-                                    style = TextStyle(
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 16.sp,
-                                        color = isDarkService.getTextColor()
-                                    ),
-                                )
-                            }
                             controller.driving2Controller.value?.let {
                                 controller.driving2View.Render(
                                     it
@@ -643,7 +610,7 @@ class LayoutCustomListView : ComponentActivity() {
                                                 Icon(
                                                     imageVector = Icons.Default.Check,
                                                     contentDescription = null,
-                                                    tint = Color.Green,
+                                                    tint = AppColor.CustomColor.check,
                                                     modifier = Modifier.padding()
                                                 )
                                             }
@@ -677,7 +644,7 @@ class LayoutCustomListView : ComponentActivity() {
                                             DropdownMenuItem(
                                                 text = {
                                                     Text(
-                                                        text = "기본으로 설정",
+                                                        text = "Set as default",
                                                         color = isDarkService.getTextColor()
                                                     )
                                                 },
@@ -707,7 +674,7 @@ class LayoutCustomListView : ComponentActivity() {
                                             DropdownMenuItem(
                                                 text = {
                                                     Text(
-                                                        text = "초기화",
+                                                        text = "Reset",
                                                         color = isDarkService.getTextColor()
                                                     )
                                                 },
@@ -787,21 +754,6 @@ class LayoutCustomListView : ComponentActivity() {
                                     finish()
                                 },
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(isDarkService.getBackgroundColor()),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = "Loading . . .",
-                                    style = TextStyle(
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 16.sp,
-                                        color = isDarkService.getTextColor()
-                                    ),
-                                )
-                            }
                             controller.casualController.value?.let {
                                 controller.casualView.Render(
                                     it
@@ -837,7 +789,7 @@ class LayoutCustomListView : ComponentActivity() {
                                                 Icon(
                                                     imageVector = Icons.Default.Check,
                                                     contentDescription = null,
-                                                    tint = Color.Green,
+                                                    tint = AppColor.CustomColor.check,
                                                     modifier = Modifier.padding()
                                                 )
                                             }
@@ -871,7 +823,7 @@ class LayoutCustomListView : ComponentActivity() {
                                             DropdownMenuItem(
                                                 text = {
                                                     Text(
-                                                        text = "기본으로 설정",
+                                                        text = "Set as default",
                                                         color = isDarkService.getTextColor()
                                                     )
                                                 },
@@ -901,7 +853,7 @@ class LayoutCustomListView : ComponentActivity() {
                                             DropdownMenuItem(
                                                 text = {
                                                     Text(
-                                                        text = "초기화",
+                                                        text = "Reset",
                                                         color = isDarkService.getTextColor()
                                                     )
                                                 },

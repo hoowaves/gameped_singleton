@@ -77,6 +77,9 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
 
+    //lottie
+    implementation("com.airbnb.android:lottie-compose:6.1.0")
+
     // ConnectSDK
     implementation("org.java-websocket:Java-WebSocket:1.5.0")
     implementation("javax.jmdns:jmdns:3.4.1")

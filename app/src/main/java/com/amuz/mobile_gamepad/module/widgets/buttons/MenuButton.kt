@@ -6,8 +6,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,11 +21,14 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.amuz.mobile_gamepad.R
+import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.module.activitys.IActivityController
 import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
@@ -38,30 +43,73 @@ class MenuButton(private val controller: IActivityController) {
         val isDarkService = IsDarkService(controller.isDark.value ?: false)
         val isEnable = remember { context !is LayoutCustomView && context !is LayoutCustomListView }
 
+        val menuButton = isDarkService.getButtonColor().toArgb()
+        val menuButtonColor by remember { mutableStateOf(SolidColor(Color(menuButton))) }
+        var menuButtonBrush by remember { mutableStateOf<Brush>(SolidColor(isDarkService.getButtonColor())) }
+        var menuButtonBorderWidth by remember { mutableStateOf(Dp.Unspecified) }
+        var menuButtonBorderColor by remember { mutableStateOf(Color(menuButton)) }
+        var menuButtonTextColor by remember { mutableStateOf(isDarkService.getTextColor()) }
+
+        val isPressed = remember { mutableStateOf(false) }
+
+        if (controller.isDark.value == true) {
+            // 다크 모드일 때
+            menuButtonBorderWidth = 3.dp
+            // 기본 버튼일 때
+            if (isEnable && isPressed.value) {
+                // 기본 버튼 눌렀을 때
+                menuButtonBrush = Brush.verticalGradient(
+                    colors = listOf(
+                        AppColor.DarkMode.pressBorderColor,
+                        isDarkService.getBorderColor()
+                    )
+                )
+                menuButtonBorderColor = AppColor.DarkMode.pressBorderColor
+            } else {
+                // 기본 버튼 안 눌렀을 때
+                menuButtonBrush = menuButtonColor
+                menuButtonBorderColor = isDarkService.getBorderColor()
+                menuButtonTextColor = isDarkService.getTextColor()
+            }
+        } else {
+            // 라이트 모드일 때
+            // 기본 버튼일 때
+            if (isEnable && isPressed.value) {
+                // 기본 버튼 눌렀을 때
+                menuButtonBrush = Brush.verticalGradient(
+                    colors = listOf(
+                        AppColor.LightMode.pressBorderColor,
+                        isDarkService.getButtonColor()
+                    )
+                )
+                menuButtonBorderWidth = 3.dp
+                menuButtonBorderColor = AppColor.LightMode.pressBorderColor
+                menuButtonTextColor = isDarkService.getTextColor()
+            } else {
+                // 기본 버튼 안 눌렀을 때
+                menuButtonBrush = menuButtonColor
+                menuButtonBorderWidth = 1.5.dp
+                menuButtonBorderColor =
+                    isDarkService.getDarken(isDarkService.getButtonColor(), 0.7f)
+            }
+        }
+
         BoxWithConstraints {
-            val isPressed = remember { mutableStateOf(false) }
+
             var showDialog by remember { mutableStateOf(false) }
-            val gradientColor = remember { mutableStateOf(Color.White) }
-            val gradientBrush = Brush.linearGradient(
-                colors = listOf(gradientColor.value, Color.Transparent),
-                start = Offset(0f, 0f),
-                end = Offset(maxWidth.value, maxHeight.value)
-            )
-            val defaultBrush = SolidColor(isDarkService.getButtonColor())
-            val brush = if (isPressed.value) gradientBrush else defaultBrush
             val size = maxWidth / 2
 
             Box(
                 modifier = Modifier
                     .size(size = size)
-                    .innerShadow(
-                        spread = 5.dp,
-                        blur = 10.dp,
-                        color = isDarkService.getBackgroundColor(),
-                        cornersRadius = 15.dp
+                    .background(
+                        brush = menuButtonBrush,
+                        shape = RoundedCornerShape(15.dp))
+                    .border(
+                        width = menuButtonBorderWidth,
+                        color = menuButtonBorderColor,
+                        shape = RoundedCornerShape(15.dp)
                     )
-                    .background(brush = brush, shape = CircleShape)
-                    .border(1.5.dp, isDarkService.getBorderColor(), CircleShape)
                     .pointerInput(Unit) {
                         if (!isEnable) return@pointerInput
                         detectTapGestures(

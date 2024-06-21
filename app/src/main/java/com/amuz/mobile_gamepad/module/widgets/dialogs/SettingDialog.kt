@@ -69,7 +69,7 @@ fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit, cont
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "설정",
+                            text = "Settings",
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp,
@@ -98,7 +98,7 @@ fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit, cont
                         .verticalScroll(scrollState)
                         .verticalScrollbar(scrollState)
                 ) {
-                    val options = listOf("레이아웃", "디스플레이 설정", "LG ThinQ로 이동", "오픈소스 라이선스")
+                    val options = listOf("Layouts", "Display settings", "Go LG ThinQ", "Open source license")
 
                     options.forEachIndexed { index, text ->
                         Row(

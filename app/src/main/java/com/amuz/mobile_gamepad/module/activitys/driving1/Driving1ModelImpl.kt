@@ -1,6 +1,7 @@
 package com.amuz.mobile_gamepad.module.activitys.driving1
 
 import android.content.Context
+import androidx.compose.runtime.mutableFloatStateOf
 import com.amuz.mobile_gamepad.module.activitys.IActivityModel
 import com.amuz.mobile_gamepad.module.settings.appSetting.AppSettingEntity
 import com.amuz.mobile_gamepad.module.settings.database.AppDatabase

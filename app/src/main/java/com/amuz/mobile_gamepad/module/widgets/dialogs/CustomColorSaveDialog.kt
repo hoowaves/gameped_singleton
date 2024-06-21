@@ -66,7 +66,7 @@ fun CustomColorSave(onDismissRequest: (isSave: Boolean) -> Unit, controller: Lay
                         , contentAlignment = Alignment.Center
                     ){
                         Text(
-                            text = "변경된 내용으로 저장할까요?",
+                            text = "Save Changes?",
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp,
@@ -105,7 +105,7 @@ fun CustomColorSave(onDismissRequest: (isSave: Boolean) -> Unit, controller: Lay
                                 },
                         ) {
                             Text(
-                                text = "취소",
+                                text = "Cancel",
                                 style = TextStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 14.sp,
@@ -126,7 +126,7 @@ fun CustomColorSave(onDismissRequest: (isSave: Boolean) -> Unit, controller: Lay
                                 },
                         ) {
                             Text(
-                                text = "저장",
+                                text = "Save",
                                 style = TextStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 14.sp,

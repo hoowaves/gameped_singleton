@@ -34,13 +34,11 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.amuz.mobile_gamepad.module.activitys.IActivityController
-import com.amuz.mobile_gamepad.module.activitys.defaultMode.DefaultModeView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
 import com.amuz.mobile_gamepad.module.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
-import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
 
 class YBXAButton(private val controller: IActivityController) {
 
@@ -141,6 +139,20 @@ class YBXAButton(private val controller: IActivityController) {
             val size = (maxHeight.value * 0.8)
             val fontSize = (maxHeight.value / 8).sp
 
+//            Box(
+//                modifier = Modifier
+//                    .size(size = size.dp + 4.dp)
+//                    .offset(x = (+2).dp, y = (+2).dp)
+//                    .graphicsLayer {
+//                        rotationZ = 45f
+//                    }
+//                    .shadow(elevation = 10.dp,
+//                        shape = RoundedCornerShape(20.dp),
+//                        ambientColor = isDarkService.getBorderColor())
+//            ) {
+//
+//            }
+
             Box(
                 modifier = Modifier
                     .size(size.dp)
@@ -148,13 +160,15 @@ class YBXAButton(private val controller: IActivityController) {
                         rotationZ = 45f
                     }
             ) {
-                Column(modifier = Modifier
-                    .fillMaxSize()
-                    .border(
-                        1.5.dp,
-                        color = isDarkService.getBorderColor(),
-                        shape = RoundedCornerShape(20.dp)
-                    )) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .border(
+                            1.5.dp,
+                            color = isDarkService.getBorderColor(),
+                            shape = RoundedCornerShape(20.dp)
+                        )
+                ) {
                     Row(modifier = Modifier.weight(1f)) {
                         // Y
                         Box(
@@ -170,11 +184,11 @@ class YBXAButton(private val controller: IActivityController) {
                                     color = if (isSetting && isPressedY.value) isDarkService.getTextColor() else isDarkService.getBorderColor(),
                                     shape = RoundedCornerShape(topStart = 20.dp)
                                 )
-                                .innerShadow(
-                                    spread = 3.dp,
-                                    blur = 10.dp,
-                                    color = isDarkService.getBackgroundColor(),
-                                )
+//                                .innerShadow(
+//                                    spread = 3.dp,
+//                                    blur = 10.dp,
+//                                    color = isDarkService.getBackgroundColor(),
+//                                )
                                 .pointerInput(Unit) {
                                     detectTapGestures(
                                         onPress = {
@@ -207,11 +221,11 @@ class YBXAButton(private val controller: IActivityController) {
                                     brush = if (isEnable && isPressedB.value) gradientBrush else defaultBrushB,
                                     shape = RoundedCornerShape(topEnd = 20.dp)
                                 )
-                                .innerShadow(
-                                    spread = 3.dp,
-                                    blur = 10.dp,
-                                    color = isDarkService.getBackgroundColor(),
-                                )
+//                                .innerShadow(
+//                                    spread = 3.dp,
+//                                    blur = 10.dp,
+//                                    color = isDarkService.getBackgroundColor(),
+//                                )
                                 .border(
                                     width = if (isSetting && isPressedB.value) 3.dp else 0.75.dp,
                                     color = if (isSetting && isPressedB.value) isDarkService.getTextColor() else isDarkService.getBorderColor(),
@@ -256,11 +270,11 @@ class YBXAButton(private val controller: IActivityController) {
                                     color = if (isSetting && isPressedX.value) isDarkService.getTextColor() else isDarkService.getBorderColor(),
                                     shape = RoundedCornerShape(bottomStart = 20.dp)
                                 )
-                                .innerShadow(
-                                    spread = 3.dp,
-                                    blur = 10.dp,
-                                    color = isDarkService.getBackgroundColor(),
-                                )
+//                                .innerShadow(
+//                                    spread = 3.dp,
+//                                    blur = 10.dp,
+//                                    color = isDarkService.getBackgroundColor(),
+//                                )
                                 .pointerInput(Unit) {
                                     detectTapGestures(
                                         onPress = {
@@ -298,11 +312,11 @@ class YBXAButton(private val controller: IActivityController) {
                                     color = if (isSetting && isPressedA.value) isDarkService.getTextColor() else isDarkService.getBorderColor(),
                                     shape = RoundedCornerShape(bottomEnd = 20.dp)
                                 )
-                                .innerShadow(
-                                    spread = 3.dp,
-                                    blur = 10.dp,
-                                    color = isDarkService.getBackgroundColor(),
-                                )
+//                                .innerShadow(
+//                                    spread = 3.dp,
+//                                    blur = 10.dp,
+//                                    color = isDarkService.getBackgroundColor(),
+//                                )
                                 .pointerInput(Unit) {
                                     detectTapGestures(
                                         onPress = {

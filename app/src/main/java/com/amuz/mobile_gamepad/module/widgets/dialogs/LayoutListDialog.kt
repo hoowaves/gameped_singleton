@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.module.activitys.IActivityController
 import com.amuz.mobile_gamepad.module.activitys.casual.CasualView
 import com.amuz.mobile_gamepad.module.activitys.defaultMode.DefaultModeView
@@ -83,7 +84,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit, controller: IActivityControll
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "레이아웃",
+                            text = "Layouts",
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp,
@@ -118,7 +119,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit, controller: IActivityControll
                                 Icon(
                                     imageVector = Icons.Default.Check,
                                     contentDescription = null,
-                                    tint = Color.Green,
+                                    tint = AppColor.CustomColor.check,
                                 )
                             }
                             Text(
@@ -158,7 +159,7 @@ fun LayoutListDialog(onDismissRequest: () -> Unit, controller: IActivityControll
                         },
                 ) {
                     Text(
-                        text = "설정 >",
+                        text = "Settings >",
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
