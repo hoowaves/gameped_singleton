@@ -20,6 +20,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -53,6 +56,7 @@ import com.amuz.mobile_gamepad.module.activitys.driving2.Driving2View
 import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.LoadingPage
+import com.amuz.mobile_gamepad.module.widgets.commons.verticalScrollbar
 import kotlinx.coroutines.launch
 
 
@@ -86,7 +90,7 @@ class LayoutCustomListView : ComponentActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         when (controller.layout.value) {
-            0 ->startActivity(Intent(this, DefaultModeView::class.java))
+            0 -> startActivity(Intent(this, DefaultModeView::class.java))
             1 -> startActivity(Intent(this, Driving1View::class.java))
             2 -> startActivity(Intent(this, Driving2View::class.java))
             3 -> startActivity(Intent(this, CasualView::class.java))
@@ -101,6 +105,7 @@ class LayoutCustomListView : ComponentActivity() {
         val context = LocalContext.current
         val isDarkService = IsDarkService(controller.isDark.value ?: false)
         val scope = rememberCoroutineScope()
+        val scrollState = rememberScrollState()
         var isDropDownGameController by remember { mutableStateOf(false) }
         var isDropDownDriving1 by remember { mutableStateOf(false) }
         var isDropDownDriving2 by remember { mutableStateOf(false) }
@@ -165,753 +170,826 @@ class LayoutCustomListView : ComponentActivity() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(4f)
-                    .padding(bottom = 10.dp)
+                    .weight(9f)
+                    .verticalScroll(scrollState)
+                    .verticalScrollbar(scrollState)
             ) {
-                Row(
+                Column(
                     modifier = Modifier
-                        .fillMaxHeight()
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .padding(bottom = 10.dp)
                 ) {
-                    Box(
+                    Row(
                         modifier = Modifier
-                            .weight(0.5f)
                             .fillMaxHeight()
-                    ) {
-
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(4.25f)
-                            .fillMaxHeight()
-                            .border(
-                                1.dp,
-                                color = isDarkService.getBorderColor(),
-                            )
                     ) {
                         Box(
                             modifier = Modifier
-                                .alpha(0.3f)
-                                .clickable {
-                                    val intent = Intent(context, LayoutCustomView::class.java)
-                                    intent.putExtra("layout", controller.defaultModeController.value?.layoutId?.value)
-                                    context.startActivity(intent)
-                                    overridePendingTransition(0, 0)
-                                    finish()
-                                },
+                                .weight(0.5f)
+                                .fillMaxHeight()
                         ) {
-                            controller.defaultModeController.value?.let {
-                                controller.defaultModeView.Render(
-                                    it
-                                )
-                            }
+
                         }
-                        Column(
+                        Box(
                             modifier = Modifier
-                                .fillMaxSize()
+                                .weight(4.25f)
+                                .border(
+                                    width = 1.dp,
+                                    color = isDarkService.getButtonColor(),
+                                    shape = RoundedCornerShape(18.dp)
+                                )
+                                .fillMaxHeight()
                         ) {
                             Column(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(2f)
-                                    .padding(top = 10.dp)
+                                    .fillMaxSize()
                             ) {
-                                Row(
+                                Column(
                                     modifier = Modifier
-                                        .fillMaxHeight()
+                                        .fillMaxWidth()
+                                        .weight(2.5f)
+                                        .background(
+                                            color = isDarkService.getButtonColor(),
+                                            shape = RoundedCornerShape(
+                                                topStart = 18.dp,
+                                                topEnd = 18.dp
+                                            )
+                                        )
                                 ) {
-                                    Box(
+                                    Row(
                                         modifier = Modifier
-                                            .weight(8f)
                                             .fillMaxHeight()
-                                            .padding(start = 10.dp)
                                     ) {
-                                        Row(
+                                        Box(
                                             modifier = Modifier
+                                                .weight(7f)
                                                 .fillMaxHeight()
+                                                .padding(start = 10.dp)
                                         ) {
-                                            if (controller.layout.value == 0) {
-                                                Icon(
-                                                    imageVector = Icons.Default.Check,
-                                                    contentDescription = null,
-                                                    tint = AppColor.CustomColor.check,
-                                                    modifier = Modifier.padding()
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxHeight(),
+                                            ) {
+                                                if (controller.layout.value == 0) {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Check,
+                                                        contentDescription = null,
+                                                        tint = AppColor.CustomColor.check,
+                                                        modifier = Modifier
+                                                            .padding()
+                                                            .align(Alignment.CenterVertically)
+                                                    )
+                                                }
+                                                Text(
+                                                    text = "Game Controller",
+                                                    style = TextStyle(
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 14.sp,
+                                                        color = isDarkService.getTextColor()
+                                                    ),
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(start = 8.dp)
+                                                        .align(Alignment.CenterVertically)
                                                 )
                                             }
-                                            Text(
-                                                text = "Game Controller",
-                                                style = TextStyle(
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontSize = 14.sp,
-                                                    color = isDarkService.getTextColor()
-                                                ),
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(start = 8.dp)
-                                            )
                                         }
-                                    }
 
-                                    Box(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                    ) {
-                                        DropdownMenu(
+                                        Box(
                                             modifier = Modifier
-                                                .width(140.dp)
-                                                .height(90.dp)
-                                                .background(isDarkService.getBackgroundColor()),
-                                            expanded = isDropDownGameController,
-                                            onDismissRequest = { isDropDownGameController = false }
+                                                .weight(1f)
+                                                .fillMaxHeight()
                                         ) {
-                                            DropdownMenuItem(
-                                                text = {
-                                                    Text(
-                                                        text = "Set as default",
-                                                        color = isDarkService.getTextColor()
-                                                    )
-                                                },
-                                                onClick = {
-                                                    if (controller.layout.value != 0) {
-                                                        scope.launch {
-                                                            controller.layout.value = 0
-                                                            controller.update()
-                                                            isDropDownGameController = false
-                                                        }
-                                                        Toast.makeText(
-                                                            context,
-                                                            "Setup is complete.",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                        controller.reloadActivity()
-                                                        if (context is ComponentActivity) {
-                                                            context.finish()
-                                                            context.overridePendingTransition(0, 0)
-                                                        }
-                                                    }
-                                                },
+                                            DropdownMenu(
                                                 modifier = Modifier
-                                                    .height(40.dp)
-                                                    .alpha(if (controller.layout.value == 0) 0.3f else 1f)
-                                            )
-                                            DropdownMenuItem(
-                                                text = {
-                                                    Text(
-                                                        text = "Reset",
-                                                        color = isDarkService.getTextColor()
-                                                    )
-                                                },
-                                                onClick = {
-                                                    if (controller.defaultModeController.value?.isDefault?.value == false) {
-                                                        scope.launch {
-                                                            controller.defaultModeController.value!!.reset()
-                                                            isDropDownGameController = false
+                                                    .width(140.dp)
+                                                    .height(90.dp)
+                                                    .background(isDarkService.getBackgroundColor()),
+                                                expanded = isDropDownGameController,
+                                                onDismissRequest = {
+                                                    isDropDownGameController = false
+                                                }
+                                            ) {
+                                                DropdownMenuItem(
+                                                    text = {
+                                                        Text(
+                                                            text = "Set as default",
+                                                            color = isDarkService.getTextColor()
+                                                        )
+                                                    },
+                                                    onClick = {
+                                                        if (controller.layout.value != 0) {
+                                                            scope.launch {
+                                                                controller.layout.value = 0
+                                                                controller.update()
+                                                                isDropDownGameController = false
+                                                            }
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Setup is complete.",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            controller.reloadActivity()
+                                                            if (context is ComponentActivity) {
+                                                                context.finish()
+                                                                context.overridePendingTransition(
+                                                                    0,
+                                                                    0
+                                                                )
+                                                            }
                                                         }
-                                                        Toast.makeText(
-                                                            context,
-                                                            "Setup is complete.",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                        controller.reloadActivity()
-                                                        if (context is ComponentActivity) {
-                                                            context.finish()
-                                                            context.overridePendingTransition(0, 0)
+                                                    },
+                                                    modifier = Modifier
+                                                        .height(40.dp)
+                                                        .alpha(if (controller.layout.value == 0) 0.3f else 1f)
+                                                )
+                                                DropdownMenuItem(
+                                                    text = {
+                                                        Text(
+                                                            text = "Reset",
+                                                            color = isDarkService.getTextColor()
+                                                        )
+                                                    },
+                                                    onClick = {
+                                                        if (controller.defaultModeController.value?.isDefault?.value == false) {
+                                                            scope.launch {
+                                                                controller.defaultModeController.value!!.reset()
+                                                                isDropDownGameController = false
+                                                            }
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Setup is complete.",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            controller.reloadActivity()
+                                                            if (context is ComponentActivity) {
+                                                                context.finish()
+                                                                context.overridePendingTransition(
+                                                                    0,
+                                                                    0
+                                                                )
+                                                            }
                                                         }
-                                                    }
-                                                },
-                                                modifier = Modifier
-                                                    .height(40.dp)
-                                                    .alpha(if (controller.defaultModeController.value?.isDefault?.value == false) 1f else 0.3f)
+                                                    },
+                                                    modifier = Modifier
+                                                        .height(40.dp)
+                                                        .alpha(if (controller.defaultModeController.value?.isDefault?.value == false) 1f else 0.3f)
+                                                )
+                                            }
+                                        }
+
+                                        Box(
+                                            modifier = Modifier
+                                                .weight(2f)
+                                                .fillMaxHeight()
+                                                .clickable { isDropDownGameController = true },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.MoreVert,
+                                                contentDescription = null,
+                                                tint = isDarkService.getTextColor(),
                                             )
                                         }
                                     }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                            .clickable { isDropDownGameController = true },
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.MoreVert,
-                                            contentDescription = null,
-                                            tint = isDarkService.getTextColor(),
+                                }
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(7.5f)
+                                        .alpha(0.3f)
+                                        .clickable {
+                                            val intent =
+                                                Intent(context, LayoutCustomView::class.java)
+                                            intent.putExtra(
+                                                "layout",
+                                                controller.defaultModeController.value?.layoutId?.value
+                                            )
+                                            context.startActivity(intent)
+                                            overridePendingTransition(0, 0)
+                                            finish()
+                                        },
+                                ) {
+                                    controller.defaultModeController.value?.let {
+                                        controller.defaultModeView.Render(
+                                            it
                                         )
                                     }
                                 }
                             }
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(8f)
-                            ) {
-
-                            }
                         }
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(0.5f)
-                            .fillMaxHeight()
-                    ) {
-
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(4.25f)
-                            .fillMaxHeight()
-                            .border(
-                                1.dp,
-                                color = isDarkService.getBorderColor(),
-                            )
-                    ) {
                         Box(
                             modifier = Modifier
-                                .alpha(0.3f)
-                                .clickable {
-                                    val intent = Intent(context, LayoutCustomView::class.java)
-                                    intent.putExtra("layout", controller.driving1Controller.value?.layoutId?.value)
-                                    context.startActivity(intent)
-                                    overridePendingTransition(0, 0)
-                                    finish()
-                                },
+                                .weight(0.5f)
+                                .fillMaxHeight()
                         ) {
-                            controller.driving1Controller.value?.let {
-                                controller.driving1View.Render(
-                                    it
-                                )
-                            }
-                        }
 
-                        Column(
+                        }
+                        Box(
                             modifier = Modifier
-                                .fillMaxSize()
+                                .weight(4.25f)
+                                .border(
+                                    width = 1.dp,
+                                    color = isDarkService.getButtonColor(),
+                                    shape = RoundedCornerShape(18.dp)
+                                )
+                                .fillMaxHeight()
                         ) {
                             Column(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(2f)
-                                    .padding(top = 10.dp)
+                                    .fillMaxSize()
                             ) {
-                                Row(
+                                Column(
                                     modifier = Modifier
-                                        .fillMaxHeight()
+                                        .fillMaxWidth()
+                                        .weight(2.5f)
+                                        .background(
+                                            color = isDarkService.getButtonColor(),
+                                            shape = RoundedCornerShape(
+                                                topStart = 18.dp,
+                                                topEnd = 18.dp
+                                            )
+                                        )
                                 ) {
-                                    Box(
+                                    Row(
                                         modifier = Modifier
-                                            .weight(8f)
                                             .fillMaxHeight()
-                                            .padding(start = 10.dp)
                                     ) {
-                                        Row(
+                                        Box(
                                             modifier = Modifier
+                                                .weight(7f)
                                                 .fillMaxHeight()
+                                                .padding(start = 10.dp)
                                         ) {
-                                            if (controller.layout.value == 1) {
-                                                Icon(
-                                                    imageVector = Icons.Default.Check,
-                                                    contentDescription = null,
-                                                    tint = AppColor.CustomColor.check,
-                                                    modifier = Modifier.padding()
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxHeight(),
+                                            ) {
+                                                if (controller.layout.value == 1) {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Check,
+                                                        contentDescription = null,
+                                                        tint = AppColor.CustomColor.check,
+                                                        modifier = Modifier
+                                                            .padding()
+                                                            .align(Alignment.CenterVertically)
+                                                    )
+                                                }
+                                                Text(
+                                                    text = "Driving 1",
+                                                    style = TextStyle(
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 14.sp,
+                                                        color = isDarkService.getTextColor()
+                                                    ),
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(start = 8.dp)
+                                                        .align(Alignment.CenterVertically)
                                                 )
                                             }
-                                            Text(
-                                                text = "Driving 1",
-                                                style = TextStyle(
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontSize = 14.sp,
-                                                    color = isDarkService.getTextColor()
-                                                ),
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(start = 8.dp)
-                                            )
                                         }
-                                    }
 
-                                    Box(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                    ) {
-                                        DropdownMenu(
+                                        Box(
                                             modifier = Modifier
-                                                .width(140.dp)
-                                                .height(90.dp)
-                                                .background(isDarkService.getBackgroundColor()),
-                                            expanded = isDropDownDriving1,
-                                            onDismissRequest = { isDropDownDriving1 = false }
+                                                .weight(1f)
+                                                .fillMaxHeight()
                                         ) {
-                                            DropdownMenuItem(
-                                                text = {
-                                                    Text(
-                                                        text = "Set as default",
-                                                        color = isDarkService.getTextColor()
-                                                    )
-                                                },
-                                                onClick = {
-                                                    if (controller.layout.value != 1) {
-                                                        scope.launch {
-                                                            controller.layout.value = 1
-                                                            controller.update()
-                                                            isDropDownGameController = false
-                                                        }
-                                                        Toast.makeText(
-                                                            context,
-                                                            "설정이 완료되었습니다.",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                        controller.reloadActivity()
-                                                        if (context is ComponentActivity) {
-                                                            context.finish()
-                                                            context.overridePendingTransition(0, 0)
-                                                        }
-                                                    }
-                                                },
+                                            DropdownMenu(
                                                 modifier = Modifier
-                                                    .height(40.dp)
-                                                    .alpha(if (controller.layout.value == 1) 0.3f else 1f)
-                                            )
-                                            DropdownMenuItem(
-                                                text = {
-                                                    Text(
-                                                        text = "Reset",
-                                                        color = isDarkService.getTextColor()
-                                                    )
-                                                },
-                                                onClick = {
-                                                    if (controller.driving1Controller.value?.isDefault?.value == false) {
-                                                        scope.launch {
-                                                            controller.driving1Controller.value!!.reset()
-                                                            isDropDownGameController = false
+                                                    .width(140.dp)
+                                                    .height(90.dp)
+                                                    .background(isDarkService.getBackgroundColor()),
+                                                expanded = isDropDownDriving1,
+                                                onDismissRequest = {
+                                                    isDropDownDriving1 = false
+                                                }
+                                            ) {
+                                                DropdownMenuItem(
+                                                    text = {
+                                                        Text(
+                                                            text = "Set as default",
+                                                            color = isDarkService.getTextColor()
+                                                        )
+                                                    },
+                                                    onClick = {
+                                                        if (controller.layout.value != 1) {
+                                                            scope.launch {
+                                                                controller.layout.value = 1
+                                                                controller.update()
+                                                                isDropDownDriving1 = false
+                                                            }
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Setup is complete.",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            controller.reloadActivity()
+                                                            if (context is ComponentActivity) {
+                                                                context.finish()
+                                                                context.overridePendingTransition(
+                                                                    0,
+                                                                    0
+                                                                )
+                                                            }
                                                         }
-                                                        Toast.makeText(
-                                                            context,
-                                                            "설정이 완료되었습니다.",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                        controller.reloadActivity()
-                                                        if (context is ComponentActivity) {
-                                                            context.finish()
-                                                            context.overridePendingTransition(0, 0)
+                                                    },
+                                                    modifier = Modifier
+                                                        .height(40.dp)
+                                                        .alpha(if (controller.layout.value == 1) 0.3f else 1f)
+                                                )
+                                                DropdownMenuItem(
+                                                    text = {
+                                                        Text(
+                                                            text = "Reset",
+                                                            color = isDarkService.getTextColor()
+                                                        )
+                                                    },
+                                                    onClick = {
+                                                        if (controller.driving1Controller.value?.isDefault?.value == false) {
+                                                            scope.launch {
+                                                                controller.driving1Controller.value!!.reset()
+                                                                isDropDownDriving1 = false
+                                                            }
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Setup is complete.",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            controller.reloadActivity()
+                                                            if (context is ComponentActivity) {
+                                                                context.finish()
+                                                                context.overridePendingTransition(
+                                                                    0,
+                                                                    0
+                                                                )
+                                                            }
                                                         }
-                                                    }
-                                                },
-                                                modifier = Modifier
-                                                    .height(40.dp)
-                                                    .alpha(if (controller.driving1Controller.value?.isDefault?.value == false) 1f else 0.3f)
+                                                    },
+                                                    modifier = Modifier
+                                                        .height(40.dp)
+                                                        .alpha(if (controller.driving1Controller.value?.isDefault?.value == false) 1f else 0.3f)
+                                                )
+                                            }
+                                        }
+
+                                        Box(
+                                            modifier = Modifier
+                                                .weight(2f)
+                                                .fillMaxHeight()
+                                                .clickable { isDropDownDriving1 = true },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.MoreVert,
+                                                contentDescription = null,
+                                                tint = isDarkService.getTextColor(),
                                             )
                                         }
                                     }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                            .clickable { isDropDownDriving1 = true },
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.MoreVert,
-                                            contentDescription = null,
-                                            tint = isDarkService.getTextColor(),
+                                }
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(7.5f)
+                                        .alpha(0.3f)
+                                        .clickable {
+                                            val intent =
+                                                Intent(context, LayoutCustomView::class.java)
+                                            intent.putExtra(
+                                                "layout",
+                                                controller.driving1Controller.value?.layoutId?.value
+                                            )
+                                            context.startActivity(intent)
+                                            overridePendingTransition(0, 0)
+                                            finish()
+                                        },
+                                ) {
+                                    controller.driving1Controller.value?.let {
+                                        controller.driving1View.Render(
+                                            it
                                         )
                                     }
                                 }
                             }
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(8f)
-                            ) {
-
-                            }
                         }
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(0.5f)
-                            .fillMaxHeight()
-                    ) {
+                        Box(
+                            modifier = Modifier
+                                .weight(0.5f)
+                                .fillMaxHeight()
+                        ) {
 
+                        }
                     }
                 }
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(4f)
-                    .padding(top = 10.dp)
-            ) {
-                Row(
+                Column(
                     modifier = Modifier
-                        .fillMaxHeight()
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .padding(top = 10.dp)
                 ) {
-                    Box(
+                    Row(
                         modifier = Modifier
-                            .weight(0.5f)
                             .fillMaxHeight()
-                    ) {
-
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(4.25f)
-                            .fillMaxHeight()
-                            .border(
-                                1.dp,
-                                color = isDarkService.getBorderColor(),
-                            )
                     ) {
                         Box(
                             modifier = Modifier
-                                .alpha(0.3f)
-                                .clickable {
-                                    val intent = Intent(context, LayoutCustomView::class.java)
-                                    intent.putExtra("layout", controller.driving2Controller.value?.layoutId?.value)
-                                    context.startActivity(intent)
-                                    overridePendingTransition(0, 0)
-                                    finish()
-                                },
+                                .weight(0.5f)
+                                .fillMaxHeight()
                         ) {
-                            controller.driving2Controller.value?.let {
-                                controller.driving2View.Render(
-                                    it
-                                )
-                            }
-                        }
 
-                        Column(
+                        }
+                        Box(
                             modifier = Modifier
-                                .fillMaxSize()
+                                .weight(4.25f)
+                                .border(
+                                    width = 1.dp,
+                                    color = isDarkService.getButtonColor(),
+                                    shape = RoundedCornerShape(18.dp)
+                                )
+                                .fillMaxHeight()
                         ) {
                             Column(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(2f)
-                                    .padding(top = 10.dp)
+                                    .fillMaxSize()
                             ) {
-                                Row(
+                                Column(
                                     modifier = Modifier
-                                        .fillMaxHeight()
+                                        .fillMaxWidth()
+                                        .weight(2.5f)
+                                        .background(
+                                            color = isDarkService.getButtonColor(),
+                                            shape = RoundedCornerShape(
+                                                topStart = 18.dp,
+                                                topEnd = 18.dp
+                                            )
+                                        )
                                 ) {
-                                    Box(
+                                    Row(
                                         modifier = Modifier
-                                            .weight(8f)
                                             .fillMaxHeight()
-                                            .padding(start = 10.dp)
                                     ) {
-                                        Row(
+                                        Box(
                                             modifier = Modifier
+                                                .weight(7f)
                                                 .fillMaxHeight()
+                                                .padding(start = 10.dp)
                                         ) {
-                                            if (controller.layout.value == 2) {
-                                                Icon(
-                                                    imageVector = Icons.Default.Check,
-                                                    contentDescription = null,
-                                                    tint = AppColor.CustomColor.check,
-                                                    modifier = Modifier.padding()
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxHeight(),
+                                            ) {
+                                                if (controller.layout.value == 2) {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Check,
+                                                        contentDescription = null,
+                                                        tint = AppColor.CustomColor.check,
+                                                        modifier = Modifier
+                                                            .padding()
+                                                            .align(Alignment.CenterVertically)
+                                                    )
+                                                }
+                                                Text(
+                                                    text = "Driving 2",
+                                                    style = TextStyle(
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 14.sp,
+                                                        color = isDarkService.getTextColor()
+                                                    ),
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(start = 8.dp)
+                                                        .align(Alignment.CenterVertically)
                                                 )
                                             }
-                                            Text(
-                                                text = "Driving 2",
-                                                style = TextStyle(
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontSize = 14.sp,
-                                                    color = isDarkService.getTextColor()
-                                                ),
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(start = 8.dp)
-                                            )
                                         }
-                                    }
 
-                                    Box(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                    ) {
-                                        DropdownMenu(
+                                        Box(
                                             modifier = Modifier
-                                                .width(140.dp)
-                                                .height(90.dp)
-                                                .background(isDarkService.getBackgroundColor()),
-                                            expanded = isDropDownDriving2,
-                                            onDismissRequest = { isDropDownDriving2 = false }
+                                                .weight(1f)
+                                                .fillMaxHeight()
                                         ) {
-                                            DropdownMenuItem(
-                                                text = {
-                                                    Text(
-                                                        text = "Set as default",
-                                                        color = isDarkService.getTextColor()
-                                                    )
-                                                },
-                                                onClick = {
-                                                    if (controller.layout.value != 2) {
-                                                        scope.launch {
-                                                            controller.layout.value = 2
-                                                            controller.update()
-                                                            isDropDownGameController = false
-                                                        }
-                                                        Toast.makeText(
-                                                            context,
-                                                            "설정이 완료되었습니다.",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                        controller.reloadActivity()
-                                                        if (context is ComponentActivity) {
-                                                            context.finish()
-                                                            context.overridePendingTransition(0, 0)
-                                                        }
-                                                    }
-                                                },
+                                            DropdownMenu(
                                                 modifier = Modifier
-                                                    .height(40.dp)
-                                                    .alpha(if (controller.layout.value == 2) 0.3f else 1f)
-                                            )
-                                            DropdownMenuItem(
-                                                text = {
-                                                    Text(
-                                                        text = "Reset",
-                                                        color = isDarkService.getTextColor()
-                                                    )
-                                                },
-                                                onClick = {
-                                                    if (controller.driving2Controller.value?.isDefault?.value == false) {
-                                                        scope.launch {
-                                                            controller.driving2Controller.value!!.reset()
-                                                            isDropDownGameController = false
+                                                    .width(140.dp)
+                                                    .height(90.dp)
+                                                    .background(isDarkService.getBackgroundColor()),
+                                                expanded = isDropDownDriving2,
+                                                onDismissRequest = {
+                                                    isDropDownDriving2 = false
+                                                }
+                                            ) {
+                                                DropdownMenuItem(
+                                                    text = {
+                                                        Text(
+                                                            text = "Set as default",
+                                                            color = isDarkService.getTextColor()
+                                                        )
+                                                    },
+                                                    onClick = {
+                                                        if (controller.layout.value != 2) {
+                                                            scope.launch {
+                                                                controller.layout.value = 2
+                                                                controller.update()
+                                                                isDropDownDriving2 = false
+                                                            }
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Setup is complete.",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            controller.reloadActivity()
+                                                            if (context is ComponentActivity) {
+                                                                context.finish()
+                                                                context.overridePendingTransition(
+                                                                    0,
+                                                                    0
+                                                                )
+                                                            }
                                                         }
-                                                        Toast.makeText(
-                                                            context,
-                                                            "설정이 완료되었습니다.",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                        controller.reloadActivity()
-                                                        if (context is ComponentActivity) {
-                                                            context.finish()
-                                                            context.overridePendingTransition(0, 0)
+                                                    },
+                                                    modifier = Modifier
+                                                        .height(40.dp)
+                                                        .alpha(if (controller.layout.value == 2) 0.3f else 1f)
+                                                )
+                                                DropdownMenuItem(
+                                                    text = {
+                                                        Text(
+                                                            text = "Reset",
+                                                            color = isDarkService.getTextColor()
+                                                        )
+                                                    },
+                                                    onClick = {
+                                                        if (controller.driving2Controller.value?.isDefault?.value == false) {
+                                                            scope.launch {
+                                                                controller.driving2Controller.value!!.reset()
+                                                                isDropDownDriving2 = false
+                                                            }
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Setup is complete.",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            controller.reloadActivity()
+                                                            if (context is ComponentActivity) {
+                                                                context.finish()
+                                                                context.overridePendingTransition(
+                                                                    0,
+                                                                    0
+                                                                )
+                                                            }
                                                         }
-                                                    }
-                                                },
-                                                modifier = Modifier
-                                                    .height(40.dp)
-                                                    .alpha(if (controller.driving2Controller.value?.isDefault?.value == false) 1f else 0.3f)
+                                                    },
+                                                    modifier = Modifier
+                                                        .height(40.dp)
+                                                        .alpha(if (controller.driving2Controller.value?.isDefault?.value == false) 1f else 0.3f)
+                                                )
+                                            }
+                                        }
+
+                                        Box(
+                                            modifier = Modifier
+                                                .weight(2f)
+                                                .fillMaxHeight()
+                                                .clickable { isDropDownDriving2 = true },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.MoreVert,
+                                                contentDescription = null,
+                                                tint = isDarkService.getTextColor(),
                                             )
                                         }
                                     }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                            .clickable { isDropDownDriving2 = true },
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.MoreVert,
-                                            contentDescription = null,
-                                            tint = isDarkService.getTextColor(),
+                                }
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(7.5f)
+                                        .alpha(0.3f)
+                                        .clickable {
+                                            val intent =
+                                                Intent(context, LayoutCustomView::class.java)
+                                            intent.putExtra(
+                                                "layout",
+                                                controller.driving2Controller.value?.layoutId?.value
+                                            )
+                                            context.startActivity(intent)
+                                            overridePendingTransition(0, 0)
+                                            finish()
+                                        },
+                                ) {
+                                    controller.driving2Controller.value?.let {
+                                        controller.driving2View.Render(
+                                            it
                                         )
                                     }
                                 }
                             }
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(8f)
-                            ) {
-
-                            }
                         }
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(0.5f)
-                            .fillMaxHeight()
-                    ) {
-
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(4.25f)
-                            .fillMaxHeight()
-                            .border(
-                                1.dp,
-                                color = isDarkService.getBorderColor(),
-                            )
-                    ) {
                         Box(
                             modifier = Modifier
-                                .alpha(0.3f)
-                                .clickable {
-                                    val intent = Intent(context, LayoutCustomView::class.java)
-                                    intent.putExtra("layout", controller.casualController.value?.layoutId?.value)
-                                    context.startActivity(intent)
-                                    overridePendingTransition(0, 0)
-                                    finish()
-                                },
+                                .weight(0.5f)
+                                .fillMaxHeight()
                         ) {
-                            controller.casualController.value?.let {
-                                controller.casualView.Render(
-                                    it
-                                )
-                            }
-                        }
 
-                        Column(
+                        }
+                        Box(
                             modifier = Modifier
-                                .fillMaxSize()
+                                .weight(4.25f)
+                                .border(
+                                    width = 1.dp,
+                                    color = isDarkService.getButtonColor(),
+                                    shape = RoundedCornerShape(18.dp)
+                                )
+                                .fillMaxHeight()
                         ) {
                             Column(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(2f)
-                                    .padding(top = 10.dp)
+                                    .fillMaxSize()
                             ) {
-                                Row(
+                                Column(
                                     modifier = Modifier
-                                        .fillMaxHeight()
+                                        .fillMaxWidth()
+                                        .weight(2.5f)
+                                        .background(
+                                            color = isDarkService.getButtonColor(),
+                                            shape = RoundedCornerShape(
+                                                topStart = 18.dp,
+                                                topEnd = 18.dp
+                                            )
+                                        )
                                 ) {
-                                    Box(
+                                    Row(
                                         modifier = Modifier
-                                            .weight(8f)
                                             .fillMaxHeight()
-                                            .padding(start = 10.dp)
                                     ) {
-                                        Row(
+                                        Box(
                                             modifier = Modifier
+                                                .weight(7f)
                                                 .fillMaxHeight()
+                                                .padding(start = 10.dp)
                                         ) {
-                                            if (controller.layout.value == 3) {
-                                                Icon(
-                                                    imageVector = Icons.Default.Check,
-                                                    contentDescription = null,
-                                                    tint = AppColor.CustomColor.check,
-                                                    modifier = Modifier.padding()
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxHeight(),
+                                            ) {
+                                                if (controller.layout.value == 3) {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Check,
+                                                        contentDescription = null,
+                                                        tint = AppColor.CustomColor.check,
+                                                        modifier = Modifier
+                                                            .padding()
+                                                            .align(Alignment.CenterVertically)
+                                                    )
+                                                }
+                                                Text(
+                                                    text = "Casual",
+                                                    style = TextStyle(
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 14.sp,
+                                                        color = isDarkService.getTextColor()
+                                                    ),
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(start = 8.dp)
+                                                        .align(Alignment.CenterVertically)
                                                 )
                                             }
-                                            Text(
-                                                text = "Casual",
-                                                style = TextStyle(
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontSize = 14.sp,
-                                                    color = isDarkService.getTextColor()
-                                                ),
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(start = 8.dp)
-                                            )
                                         }
-                                    }
 
-                                    Box(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                    ) {
-                                        DropdownMenu(
+                                        Box(
                                             modifier = Modifier
-                                                .width(140.dp)
-                                                .height(90.dp)
-                                                .background(isDarkService.getBackgroundColor()),
-                                            expanded = isDropDownCasual,
-                                            onDismissRequest = { isDropDownCasual = false }
+                                                .weight(1f)
+                                                .fillMaxHeight()
                                         ) {
-                                            DropdownMenuItem(
-                                                text = {
-                                                    Text(
-                                                        text = "Set as default",
-                                                        color = isDarkService.getTextColor()
-                                                    )
-                                                },
-                                                onClick = {
-                                                    if (controller.layout.value != 3) {
-                                                        scope.launch {
-                                                            controller.layout.value = 3
-                                                            controller.update()
-                                                            isDropDownGameController = false
-                                                        }
-                                                        Toast.makeText(
-                                                            context,
-                                                            "설정이 완료되었습니다.",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                        controller.reloadActivity()
-                                                        if (context is ComponentActivity) {
-                                                            context.finish()
-                                                            context.overridePendingTransition(0, 0)
-                                                        }
-                                                    }
-                                                },
+                                            DropdownMenu(
                                                 modifier = Modifier
-                                                    .height(40.dp)
-                                                    .alpha(if (controller.layout.value == 3) 0.3f else 1f)
-                                            )
-                                            DropdownMenuItem(
-                                                text = {
-                                                    Text(
-                                                        text = "Reset",
-                                                        color = isDarkService.getTextColor()
-                                                    )
-                                                },
-                                                onClick = {
-                                                    if (controller.casualController.value?.isDefault?.value == false) {
-                                                        scope.launch {
-                                                            controller.casualController.value!!.reset()
-                                                            isDropDownGameController = false
+                                                    .width(140.dp)
+                                                    .height(90.dp)
+                                                    .background(isDarkService.getBackgroundColor()),
+                                                expanded = isDropDownCasual,
+                                                onDismissRequest = {
+                                                    isDropDownCasual = false
+                                                }
+                                            ) {
+                                                DropdownMenuItem(
+                                                    text = {
+                                                        Text(
+                                                            text = "Set as default",
+                                                            color = isDarkService.getTextColor()
+                                                        )
+                                                    },
+                                                    onClick = {
+                                                        if (controller.layout.value != 3) {
+                                                            scope.launch {
+                                                                controller.layout.value = 3
+                                                                controller.update()
+                                                                isDropDownCasual = false
+                                                            }
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Setup is complete.",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            controller.reloadActivity()
+                                                            if (context is ComponentActivity) {
+                                                                context.finish()
+                                                                context.overridePendingTransition(
+                                                                    0,
+                                                                    0
+                                                                )
+                                                            }
                                                         }
-                                                        Toast.makeText(
-                                                            context,
-                                                            "설정이 완료되었습니다.",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                        controller.reloadActivity()
-                                                        if (context is ComponentActivity) {
-                                                            context.finish()
-                                                            context.overridePendingTransition(0, 0)
+                                                    },
+                                                    modifier = Modifier
+                                                        .height(40.dp)
+                                                        .alpha(if (controller.layout.value == 3) 0.3f else 1f)
+                                                )
+                                                DropdownMenuItem(
+                                                    text = {
+                                                        Text(
+                                                            text = "Reset",
+                                                            color = isDarkService.getTextColor()
+                                                        )
+                                                    },
+                                                    onClick = {
+                                                        if (controller.casualController.value?.isDefault?.value == false) {
+                                                            scope.launch {
+                                                                controller.casualController.value!!.reset()
+                                                                isDropDownCasual = false
+                                                            }
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Setup is complete.",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            controller.reloadActivity()
+                                                            if (context is ComponentActivity) {
+                                                                context.finish()
+                                                                context.overridePendingTransition(
+                                                                    0,
+                                                                    0
+                                                                )
+                                                            }
                                                         }
-                                                    }
-                                                },
-                                                modifier = Modifier
-                                                    .height(40.dp)
-                                                    .alpha(if (controller.driving2Controller.value?.isDefault?.value == false) 1f else 0.3f)
+                                                    },
+                                                    modifier = Modifier
+                                                        .height(40.dp)
+                                                        .alpha(if (controller.casualController.value?.isDefault?.value == false) 1f else 0.3f)
+                                                )
+                                            }
+                                        }
+
+                                        Box(
+                                            modifier = Modifier
+                                                .weight(2f)
+                                                .fillMaxHeight()
+                                                .clickable { isDropDownCasual = true },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.MoreVert,
+                                                contentDescription = null,
+                                                tint = isDarkService.getTextColor(),
                                             )
                                         }
                                     }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                            .clickable { isDropDownCasual = true },
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.MoreVert,
-                                            contentDescription = null,
-                                            tint = isDarkService.getTextColor(),
+                                }
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(7.5f)
+                                        .alpha(0.3f)
+                                        .clickable {
+                                            val intent =
+                                                Intent(context, LayoutCustomView::class.java)
+                                            intent.putExtra(
+                                                "layout",
+                                                controller.casualController.value?.layoutId?.value
+                                            )
+                                            context.startActivity(intent)
+                                            overridePendingTransition(0, 0)
+                                            finish()
+                                        },
+                                ) {
+                                    controller.casualController.value?.let {
+                                        controller.casualView.Render(
+                                            it
                                         )
                                     }
                                 }
                             }
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(8f)
-                            ) {
-
-                            }
                         }
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(0.5f)
-                            .fillMaxHeight()
-                    ) {
+                        Box(
+                            modifier = Modifier
+                                .weight(0.5f)
+                                .fillMaxHeight()
+                        ) {
 
+                        }
                     }
                 }
             }
@@ -923,5 +1001,6 @@ class LayoutCustomListView : ComponentActivity() {
 
             }
         }
+
     }
 }

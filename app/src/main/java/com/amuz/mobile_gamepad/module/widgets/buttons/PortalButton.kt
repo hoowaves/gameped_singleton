@@ -161,7 +161,7 @@ class PortalButton(private val controller: IActivityController) {
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.mapping),
+                    painter = if (controller.isDark.value == true) painterResource(id = R.drawable.portal_default) else painterResource(id = R.drawable.portal_light),
                     contentDescription = "포털 버튼",
                     modifier = Modifier
                         .size(size = size / 2)

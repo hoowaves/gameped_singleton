@@ -36,10 +36,10 @@ class SplashController(private val context: Context) {
         if (layoutSettingRepository.getSetting(1) == null) {
             layoutSettingRepository.createDefaultDriving1()
         }
-        if (layoutSettingRepository.getSetting(1) == null) {
+        if (layoutSettingRepository.getSetting(2) == null) {
             layoutSettingRepository.createDefaultDriving2()
         }
-        if (layoutSettingRepository.getSetting(2) == null) {
+        if (layoutSettingRepository.getSetting(3) == null) {
             layoutSettingRepository.createDefaultCasual()
         }
     }

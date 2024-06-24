@@ -18,9 +18,9 @@ class AppSettingRepository(private val appSettingDao: AppSettingDao) {
                 id = 0,
                 layout = 0,
                 isDark = true,
-                touchEffect = false,
+                touchEffect = true,
                 powerSaving = 0,
-                isVibration = false
+                isVibration = true
             )
         )
     }

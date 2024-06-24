@@ -58,6 +58,7 @@ class DefaultModeModelImpl(context: Context) : IActivityModel {
             this.rtsButton = layoutData.rtsButton
             this.directionButton = layoutData.directionButton
             this.yButton = layoutData.yButton
+            this.bButton = layoutData.bButton
             this.xButton = layoutData.xButton
             this.aButton = layoutData.aButton
         }

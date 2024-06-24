@@ -133,7 +133,8 @@ class ViewButton(private val controller: IActivityController) {
 //                    )
                     .background(
                         brush = viewButtonBrush,
-                        shape = RoundedCornerShape(15.dp))
+                        shape = RoundedCornerShape(15.dp)
+                    )
                     .border(
                         width = viewButtonBorderWidth,
                         color = viewButtonBorderColor,
@@ -152,13 +153,12 @@ class ViewButton(private val controller: IActivityController) {
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.view),
+                    painter = if (controller.isDark.value == true) painterResource(id = R.drawable.view_default) else painterResource(id = R.drawable.view_light),
                     contentDescription = "보기 버튼",
-                    modifier = androidx.compose.ui.Modifier
+                    modifier = Modifier
                         .size(size = size / 2)
                 )
             }
-
 
         }
     }

@@ -6,9 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -34,7 +31,6 @@ import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
 import com.amuz.mobile_gamepad.module.widgets.dialogs.ConnectDialog
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
-import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
 
 class MenuButton(private val controller: IActivityController) {
     @Composable
@@ -126,7 +122,7 @@ class MenuButton(private val controller: IActivityController) {
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.menu),
+                    painter = if (controller.isDark.value == true) painterResource(id = R.drawable.menu_default) else painterResource(id = R.drawable.menu_light),
                     contentDescription = "메뉴 버튼",
                     modifier = Modifier
                         .size(size = size / 2)

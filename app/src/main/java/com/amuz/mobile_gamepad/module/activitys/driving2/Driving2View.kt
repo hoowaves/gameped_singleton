@@ -1,38 +1,36 @@
 package com.amuz.mobile_gamepad.module.activitys.driving2
 
-import android.content.Context
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.amuz.mobile_gamepad.R
 import com.amuz.mobile_gamepad.module.activitys.IActivityController
+import com.amuz.mobile_gamepad.module.widgets.buttons.AButton
+import com.amuz.mobile_gamepad.module.widgets.buttons.BButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.DirectionButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.LBButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.LTButton
@@ -44,7 +42,8 @@ import com.amuz.mobile_gamepad.module.widgets.buttons.RTButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.RTSButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.SettingButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.ViewButton
-import com.amuz.mobile_gamepad.module.widgets.buttons.YBXAButton
+import com.amuz.mobile_gamepad.module.widgets.buttons.XButton
+import com.amuz.mobile_gamepad.module.widgets.buttons.YButton
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.LoadingPage
 import com.amuz.mobile_gamepad.module.widgets.commons.SensorProgress
@@ -407,8 +406,17 @@ class Driving2View : ComponentActivity() {
                     Box(
                         modifier = Modifier
                             .weight(4f)
-                            .fillMaxHeight()
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.Center
                     ) {
+                        BoxWithConstraints {
+                            Image(
+                                painter = painterResource(id = R.drawable.joystick),
+                                contentDescription = "조이스틱",
+                                modifier = Modifier
+                                    .size(size = (maxHeight.value * 0.9).dp)
+                            )
+                        }
                         val rightJoystick = RightJoystick(controller)
                         rightJoystick.Render()
                     }
@@ -418,8 +426,44 @@ class Driving2View : ComponentActivity() {
                             .fillMaxHeight(),
                         contentAlignment = Alignment.Center
                     ) {
-                        val ybxaButton = YBXAButton(controller)
-                        ybxaButton.Render()
+
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .graphicsLayer {
+                                    rotationZ = 45f
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            BoxWithConstraints {
+                                Column(
+                                    modifier = Modifier
+                                        .size((maxHeight.value * 0.8).dp)
+                                ) {
+                                    Row(modifier = Modifier.weight(1f)) {
+                                        Box(modifier = Modifier.weight(5f)) {
+                                            val yButton = YButton(controller)
+                                            yButton.Render()
+                                        }
+                                        Box(modifier = Modifier.weight(5f)) {
+                                            val bButton = BButton(controller)
+                                            bButton.Render()
+                                        }
+                                    }
+                                    Row(modifier = Modifier.weight(1f)) {
+                                        Box(modifier = Modifier.weight(5f)) {
+                                            val xButton = XButton(controller)
+                                            xButton.Render()
+                                        }
+                                        Box(modifier = Modifier.weight(5f)) {
+                                            val aButton = AButton(controller)
+                                            aButton.Render()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                     }
                     Box(
                         modifier = Modifier

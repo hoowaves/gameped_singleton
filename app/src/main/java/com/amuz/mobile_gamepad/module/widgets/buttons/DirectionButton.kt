@@ -72,33 +72,33 @@ class DirectionButton(private val controller: IActivityController) {
             val maxHeight = maxHeight
             val size = (maxHeight.value)
 
-            Box(
-                modifier = Modifier
-                    .size(size = size.dp + 10.dp)
-                    .offset(x = (-10).dp, y = (-10).dp)
-                    .background(
-                        Brush.radialGradient(
-                            colors = listOf(isDarkService.getButtonColor(), Color.Transparent),
-                        ),
-                        shape = RoundedCornerShape(15.dp)
-                    )
-            ) {
-
-            }
-
-            Box(
-                modifier = Modifier
-                    .size(size = size.dp + 10.dp)
-                    .offset(x = (+10).dp, y = (+10).dp)
-                    .background(
-                        Brush.radialGradient(
-                            colors = listOf(isDarkService.getBorderColor(), Color.Transparent),
-                        ),
-                        shape = RoundedCornerShape(15.dp)
-                    )
-            ) {
-
-            }
+//            Box(
+//                modifier = Modifier
+//                    .size(size = size.dp + 10.dp)
+//                    .offset(x = (-10).dp, y = (-10).dp)
+//                    .background(
+//                        Brush.radialGradient(
+//                            colors = listOf(isDarkService.getButtonColor(), Color.Transparent),
+//                        ),
+//                        shape = RoundedCornerShape(15.dp)
+//                    )
+//            ) {
+//
+//            }
+//
+//            Box(
+//                modifier = Modifier
+//                    .size(size = size.dp + 10.dp)
+//                    .offset(x = (+10).dp, y = (+10).dp)
+//                    .background(
+//                        Brush.radialGradient(
+//                            colors = listOf(isDarkService.getBorderColor(), Color.Transparent),
+//                        ),
+//                        shape = RoundedCornerShape(15.dp)
+//                    )
+//            ) {
+//
+//            }
 
 
             Box(

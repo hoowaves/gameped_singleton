@@ -157,7 +157,7 @@ class SettingButton(private val controller: IActivityController) {
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.setting),
+                    painter = if (controller.isDark.value == true) painterResource(id = R.drawable.setting_default) else painterResource(id = R.drawable.setting_light),
                     contentDescription = "설정 버튼",
                     modifier = Modifier
                         .size(size = size / 2)

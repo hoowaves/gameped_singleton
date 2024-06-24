@@ -207,7 +207,7 @@ class LayoutCustomView : ComponentActivity() {
                             controller.update()
                             Toast.makeText(
                                 this@LayoutCustomView,
-                                "설정이 완료되었습니다.",
+                                "Setup is complete.",
                                 Toast.LENGTH_SHORT
                             ).show()
                             onBackPressed()
