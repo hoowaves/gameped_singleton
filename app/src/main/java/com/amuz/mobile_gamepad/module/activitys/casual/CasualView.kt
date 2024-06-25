@@ -46,6 +46,7 @@ import com.amuz.mobile_gamepad.module.widgets.buttons.XButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.YButton
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.LoadingPage
+import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
 import com.amuz.mobile_gamepad.module.widgets.joysticks.LeftJoystick
 
 class CasualView : ComponentActivity() {
@@ -374,19 +375,38 @@ class CasualView : ComponentActivity() {
                                 .fillMaxHeight(),
                             contentAlignment = Alignment.Center
                         ) {
-
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .graphicsLayer {
-                                        rotationZ = 45f
-                                    },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                BoxWithConstraints {
+                            BoxWithConstraints {
+                                val size = (maxHeight.value * 0.8).dp
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .graphicsLayer {
+                                            rotationZ = 45f
+                                        },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(size)
+                                            .shadowCustom(
+                                                color = isDarkService.getDarkShadow(),
+                                                offsetX = 10.dp,
+                                                offsetY = 0.dp,
+                                                blurRadius = 10.dp,
+                                                shapeRadius = 20.dp,
+                                            )
+                                            .shadowCustom(
+                                                color = isDarkService.getLightShadow(),
+                                                offsetX = (-10).dp,
+                                                offsetY = 0.dp,
+                                                blurRadius = 10.dp,
+                                                shapeRadius = 20.dp,
+                                            )
+                                    ) {
+                                    }
                                     Column(
                                         modifier = Modifier
-                                            .size((maxHeight.value * 0.8).dp)
+                                            .size(size)
                                     ) {
                                         Row(modifier = Modifier.weight(1f)) {
                                             Box(modifier = Modifier.weight(5f)) {

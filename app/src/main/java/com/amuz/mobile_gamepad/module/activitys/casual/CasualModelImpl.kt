@@ -28,11 +28,14 @@ class CasualModelImpl(context: Context): IActivityModel {
     override var rbButton: Int = 0
     override var ltsButton: Int = 0
     override var rtsButton: Int = 0
-    override var directionButton: Int = 0
     override var yButton: Int = 0
     override var bButton: Int = 0
     override var xButton: Int = 0
     override var aButton: Int = 0
+    override var upButton: Int = 0
+    override var rightButton: Int = 0
+    override var downButton: Int = 0
+    override var leftButton: Int = 0
 
     override suspend fun dataInit() {
         val appData = appRepository.getSetting()
@@ -56,11 +59,14 @@ class CasualModelImpl(context: Context): IActivityModel {
             this.rbButton = layoutData.rbButton
             this.ltsButton = layoutData.ltsButton
             this.rtsButton = layoutData.rtsButton
-            this.directionButton = layoutData.directionButton
             this.yButton = layoutData.yButton
             this.bButton = layoutData.bButton
             this.xButton = layoutData.xButton
             this.aButton = layoutData.aButton
+            this.upButton = layoutData.upButton
+            this.rightButton = layoutData.rightButton
+            this.downButton = layoutData.downButton
+            this.leftButton = layoutData.leftButton
         }
     }
 

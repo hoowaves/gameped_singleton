@@ -14,9 +14,12 @@ data class LayoutSettingEntity(
     var rbButton: Int,
     var ltsButton: Int,
     var rtsButton: Int,
-    var directionButton: Int,
     var yButton: Int,
     var bButton: Int,
     var xButton: Int,
-    var aButton: Int
+    var aButton: Int,
+    var upButton: Int,
+    var rightButton: Int,
+    var downButton: Int,
+    var leftButton: Int
 )

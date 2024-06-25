@@ -49,6 +49,7 @@ import com.amuz.mobile_gamepad.module.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
+import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
 import kotlinx.coroutines.launch
 
 class RTSButton(private val controller: IActivityController) {
@@ -167,6 +168,25 @@ class RTSButton(private val controller: IActivityController) {
         BoxWithConstraints {
             val size = (maxWidth.value * 0.7).dp
             val fontSize = (maxWidth.value / 5).sp
+
+            Box(
+                modifier = Modifier
+                    .size(size)
+                    .shadowCustom(
+                        color = isDarkService.getDarkShadow(),
+                        offsetX = ((size.value * 0.7)+10).dp,
+                        offsetY = 10.dp,
+                        blurRadius = 18.dp,
+                    )
+                    .shadowCustom(
+                        color = isDarkService.getLightShadow(),
+                        offsetX = ((size.value * 0.7)-10).dp,
+                        offsetY = (-10).dp,
+                        blurRadius = 18.dp,
+                    )
+            ) {
+
+            }
 
             Box(
                 modifier = Modifier

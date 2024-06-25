@@ -1,14 +1,17 @@
 package com.amuz.mobile_gamepad.module.widgets.dialogs
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -21,17 +24,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.amuz.mobile_gamepad.R
 import com.amuz.mobile_gamepad.module.activitys.IActivityController
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.verticalScrollbar
 
 @Composable
-fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit, controller: IActivityController) {
+fun SettingDialog(
+    onDismissRequest: () -> Unit,
+    onItemClick: (Int) -> Unit,
+    controller: IActivityController
+) {
 
     val isDarkService = IsDarkService(controller.isDark.value ?: false)
     val scrollState = rememberScrollState()
@@ -82,11 +91,15 @@ fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit, cont
                             .weight(1f),
                         contentAlignment = Alignment.CenterEnd
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Info,
-                            contentDescription = null,
-                            tint = isDarkService.getTextColor(),
-                        )
+                        BoxWithConstraints {
+                            Image(
+                                painter = if (controller.isDark.value == true) painterResource(id = R.drawable.help_default) else painterResource(
+                                    id = R.drawable.help_light
+                                ),
+                                contentDescription = "도움말 버튼",
+                                modifier = Modifier.size((maxWidth.value / 3.5).dp)
+                            )
+                        }
                     }
 
 
@@ -98,7 +111,8 @@ fun SettingDialog(onDismissRequest: () -> Unit, onItemClick: (Int) -> Unit, cont
                         .verticalScroll(scrollState)
                         .verticalScrollbar(scrollState)
                 ) {
-                    val options = listOf("Layouts", "Display settings", "Go LG ThinQ", "Open source license")
+                    val options =
+                        listOf("Layouts", "Display settings", "Go LG ThinQ", "Open source license")
 
                     options.forEachIndexed { index, text ->
                         Row(

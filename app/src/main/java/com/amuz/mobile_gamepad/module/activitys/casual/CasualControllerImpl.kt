@@ -26,11 +26,14 @@ class CasualControllerImpl(context: Context) : IActivityController {
     override var rbButton: MutableLiveData<Int> = MutableLiveData()
     override var ltsButton: MutableLiveData<Int> = MutableLiveData()
     override var rtsButton: MutableLiveData<Int> = MutableLiveData()
-    override var directionButton: MutableLiveData<Int> = MutableLiveData()
     override var yButton: MutableLiveData<Int> = MutableLiveData()
     override var bButton: MutableLiveData<Int> = MutableLiveData()
     override var xButton: MutableLiveData<Int> = MutableLiveData()
     override var aButton: MutableLiveData<Int> = MutableLiveData()
+    override var upButton: MutableLiveData<Int> = MutableLiveData()
+    override var rightButton: MutableLiveData<Int> = MutableLiveData()
+    override var downButton: MutableLiveData<Int> = MutableLiveData()
+    override var leftButton: MutableLiveData<Int> = MutableLiveData()
     override var isDefault: MutableLiveData<Boolean> = MutableLiveData()
 
     override suspend fun dataInit() {
@@ -51,11 +54,14 @@ class CasualControllerImpl(context: Context) : IActivityController {
         this.rbButton.value = activityModel.rbButton
         this.ltsButton.value = activityModel.ltsButton
         this.rtsButton.value = activityModel.rtsButton
-        this.directionButton.value = activityModel.directionButton
         this.yButton.value = activityModel.yButton
         this.bButton.value = activityModel.bButton
         this.xButton.value = activityModel.xButton
         this.aButton.value = activityModel.aButton
+        this.upButton.value = activityModel.upButton
+        this.rightButton.value = activityModel.rightButton
+        this.downButton.value = activityModel.downButton
+        this.leftButton.value = activityModel.leftButton
         this.isDefault.value = listOf(
             activityModel.ltButton,
             activityModel.lbButton,
@@ -63,7 +69,10 @@ class CasualControllerImpl(context: Context) : IActivityController {
             activityModel.rbButton,
             activityModel.ltsButton,
             activityModel.rtsButton,
-            activityModel.directionButton,
+            activityModel.upButton,
+            activityModel.rightButton,
+            activityModel.downButton,
+            activityModel.leftButton,
             activityModel.yButton,
             activityModel.bButton,
             activityModel.xButton,
@@ -82,11 +91,14 @@ class CasualControllerImpl(context: Context) : IActivityController {
                 rbButton = 0,
                 ltsButton = 0,
                 rtsButton = 0,
-                directionButton = 0,
                 yButton = 0,
                 bButton = 0,
                 xButton = 0,
                 aButton = 0,
+                upButton = 0,
+                rightButton = 0,
+                downButton = 0,
+                leftButton = 0
             )
         )
     }

@@ -72,4 +72,20 @@ class IsDarkService(private val isDark: Boolean) {
             else -> Color.Black
         }
     }
+
+    fun getDarkShadow(): Color {
+        return if (isDark) {
+            getDarken(AppColor.DarkMode.buttonColor, 0.3f)
+        } else {
+            AppColor.LightMode.buttonColor
+        }
+    }
+
+    fun getLightShadow(): Color {
+        return if (isDark) {
+            getDarken(AppColor.DarkMode.buttonColor, 0.7f)
+        } else {
+            Color.White
+        }
+    }
 }

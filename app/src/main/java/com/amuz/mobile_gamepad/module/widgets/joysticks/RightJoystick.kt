@@ -19,6 +19,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.module.activitys.IActivityController
 import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
@@ -43,8 +44,8 @@ class RightJoystick(private val controller: IActivityController) {
 
         val density = LocalDensity.current
         val sizePx = with(density) { size.toPx() }
-        val middleCircleRadiusPx = sizePx * 0.6f // 중간 원은 조이스틱 크기의 60%
-        val handleRadiusPx = sizePx * 0.3f // 핸들은 조이스틱 크기의 30%
+        val middleCircleRadiusPx = sizePx * 0.65f // 중간 원은 조이스틱 크기의 65%
+        val handleRadiusPx = sizePx * 0.45f // 핸들은 조이스틱 크기의 45%
 
         var touchPosition by remember { mutableStateOf<Offset?>(null) }
         var handlePosition by remember { mutableStateOf<Offset?>(null) }
@@ -99,7 +100,7 @@ class RightJoystick(private val controller: IActivityController) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 touchPosition?.let {
                     drawCircle(
-                        color = Color.Green,
+                        color = AppColor.CustomColor.check,
                         center = it,
                         radius = sizePx,
                     )
@@ -107,7 +108,7 @@ class RightJoystick(private val controller: IActivityController) {
                     drawCircle(
                         color = isDarkService.getBackgroundColor(),
                         center = it,
-                        radius = ((sizePx*0.8).toFloat()),
+                        radius = ((sizePx*0.85).toFloat()),
                     )
 
                     handlePosition?.let {

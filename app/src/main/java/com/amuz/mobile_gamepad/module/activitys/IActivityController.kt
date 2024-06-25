@@ -23,12 +23,16 @@ interface IActivityController {
     val rbButton: MutableLiveData<Int>
     val ltsButton: MutableLiveData<Int>
     val rtsButton: MutableLiveData<Int>
-    val directionButton: MutableLiveData<Int>
     val yButton: MutableLiveData<Int>
     val bButton: MutableLiveData<Int>
     val xButton: MutableLiveData<Int>
     val aButton: MutableLiveData<Int>
     val isDefault: MutableLiveData<Boolean>
+    var upButton: MutableLiveData<Int>
+    var rightButton: MutableLiveData<Int>
+    var downButton: MutableLiveData<Int>
+    var leftButton: MutableLiveData<Int>
+
 
     suspend fun dataInit()
     suspend fun reset()

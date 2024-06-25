@@ -154,6 +154,11 @@ class BButton(private val controller: IActivityController) {
             }
         }
 
+        if (isSetting && isPressed.value) {
+            bButtonBorderWidth = 3.dp
+            bButtonBorderColor = AppColor.DarkMode.pressBorderColor
+        }
+
 
         BoxWithConstraints {
             val fontSize = (maxHeight.value / 4).sp

@@ -6,7 +6,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +33,7 @@ import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
 import com.amuz.mobile_gamepad.module.widgets.dialogs.ConnectDialog
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
+import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
 
 class MenuButton(private val controller: IActivityController) {
     @Composable
@@ -93,7 +96,26 @@ class MenuButton(private val controller: IActivityController) {
         BoxWithConstraints {
 
             var showDialog by remember { mutableStateOf(false) }
-            val size = maxWidth / 2
+            val size = (maxWidth.value / 1.7).dp
+
+            Box(
+                modifier = Modifier
+                    .size(size)
+                    .shadowCustom(
+                        color = isDarkService.getDarkShadow(),
+                        offsetX = 10.dp,
+                        offsetY = 10.dp,
+                        blurRadius = 15.dp,
+                    )
+                    .shadowCustom(
+                        color = isDarkService.getLightShadow(),
+                        offsetX = (-10).dp,
+                        offsetY = (-10).dp,
+                        blurRadius = 15.dp,
+                    )
+            ) {
+
+            }
 
             Box(
                 modifier = Modifier

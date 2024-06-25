@@ -32,6 +32,7 @@ import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
+import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
 
 class ViewButton(private val controller: IActivityController) {
     @Composable
@@ -92,45 +93,30 @@ class ViewButton(private val controller: IActivityController) {
         }
 
         BoxWithConstraints {
-            val size = maxWidth / 2
+            val size = (maxWidth.value / 1.7).dp
 
-//            Box(
-//                modifier = Modifier
-//                    .size(size = size + 4.dp)
-//                    .offset(x = (-4).dp, y = (-4).dp)
-//                    .background(
-//                        Brush.radialGradient(
-//                            colors = listOf(isDarkService.getButtonColor(), Color.Transparent),
-//                        ),
-//                        shape = RoundedCornerShape(15.dp)
-//                    )
-//            ) {
-//
-//            }
+            Box(
+                modifier = Modifier
+                    .size(size)
+                    .shadowCustom(
+                        color = isDarkService.getDarkShadow(),
+                        offsetX = 10.dp,
+                        offsetY = 10.dp,
+                        blurRadius = 15.dp,
+                    )
+                    .shadowCustom(
+                        color = isDarkService.getLightShadow(),
+                        offsetX = (-10).dp,
+                        offsetY = (-10).dp,
+                        blurRadius = 15.dp,
+                    )
+            ) {
 
-//            Box(
-//                modifier = Modifier
-//                    .size(size = size + 4.dp)
-//                    .offset(x = (+4).dp, y = (+4).dp)
-//                    .background(
-//                        Brush.radialGradient(
-//                            colors = listOf(isDarkService.getBorderColor(), Color.Transparent),
-//                        ),
-//                        shape = RoundedCornerShape(15.dp)
-//                    )
-//            ) {
-//
-//            }
+            }
 
             Box(
                 modifier = Modifier
                     .size(size = size)
-//                    .innerShadow(
-//                        spread = 5.dp,
-//                        blur = 10.dp,
-//                        color = isDarkService.getBackgroundColor(),
-//                        cornersRadius = 15.dp
-//                    )
                     .background(
                         brush = viewButtonBrush,
                         shape = RoundedCornerShape(15.dp)

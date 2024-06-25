@@ -36,11 +36,14 @@ class LayoutCustomControllerImpl(context: Context) : IActivityController {
     override var rbButton: MutableLiveData<Int> = MutableLiveData()
     override var ltsButton: MutableLiveData<Int> = MutableLiveData()
     override var rtsButton: MutableLiveData<Int> = MutableLiveData()
-    override var directionButton: MutableLiveData<Int> = MutableLiveData()
     override var yButton: MutableLiveData<Int> = MutableLiveData()
     override var bButton: MutableLiveData<Int> = MutableLiveData()
     override var xButton: MutableLiveData<Int> = MutableLiveData()
     override var aButton: MutableLiveData<Int> = MutableLiveData()
+    override var upButton: MutableLiveData<Int> = MutableLiveData()
+    override var rightButton: MutableLiveData<Int> = MutableLiveData()
+    override var downButton: MutableLiveData<Int> = MutableLiveData()
+    override var leftButton: MutableLiveData<Int> = MutableLiveData()
     override var isDefault: MutableLiveData<Boolean> = MutableLiveData()
 
     suspend fun dataInit(layoutId: Int) {
@@ -60,11 +63,14 @@ class LayoutCustomControllerImpl(context: Context) : IActivityController {
         this.rbButton.value = activityModel.rbButton
         this.ltsButton.value = activityModel.ltsButton
         this.rtsButton.value = activityModel.rtsButton
-        this.directionButton.value = activityModel.directionButton
         this.yButton.value = activityModel.yButton
         this.bButton.value = activityModel.bButton
         this.xButton.value = activityModel.xButton
         this.aButton.value = activityModel.aButton
+        this.upButton.value = activityModel.upButton
+        this.rightButton.value = activityModel.rightButton
+        this.downButton.value = activityModel.downButton
+        this.leftButton.value = activityModel.leftButton
         this.isDefault.value = activityModel.layout == layoutId
     }
 
@@ -76,11 +82,15 @@ class LayoutCustomControllerImpl(context: Context) : IActivityController {
                 || this.rbButton.value != activityModel.rbButton
                 || this.ltsButton.value != activityModel.ltsButton
                 || this.rtsButton.value != activityModel.rtsButton
-                || this.directionButton.value != activityModel.directionButton
                 || this.yButton.value != activityModel.yButton
                 || this.bButton.value != activityModel.bButton
                 || this.xButton.value != activityModel.xButton
-                || this.aButton.value != activityModel.aButton)
+                || this.aButton.value != activityModel.aButton
+                || this.upButton.value != activityModel.upButton
+                || this.rightButton.value != activityModel.rightButton
+                || this.downButton.value != activityModel.downButton
+                || this.leftButton.value != activityModel.leftButton
+                )
     }
 
     fun defaultLayout() {
@@ -107,11 +117,14 @@ class LayoutCustomControllerImpl(context: Context) : IActivityController {
                 rbButton = this.rbButton.value ?: 0,
                 ltsButton = this.ltsButton.value ?: 0,
                 rtsButton = this.rtsButton.value ?: 0,
-                directionButton = this.directionButton.value ?: 0,
                 yButton = this.yButton.value ?: 0,
                 bButton = this.bButton.value ?: 0,
                 xButton = this.xButton.value ?: 0,
                 aButton = this.aButton.value ?: 0,
+                upButton = this.upButton.value ?: 0,
+                rightButton = this.rightButton.value ?: 0,
+                downButton = this.downButton.value ?: 0,
+                leftButton = this.leftButton.value ?: 0
             )
         )
     }

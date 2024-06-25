@@ -25,11 +25,14 @@ class LayoutSettingRepository(private val layoutSettingDao: LayoutSettingDao) {
                 rbButton = 0,
                 ltsButton = 0,
                 rtsButton = 0,
-                directionButton = 0,
                 yButton = 0,
                 bButton = 0,
                 xButton = 0,
                 aButton = 0,
+                upButton = 0,
+                rightButton = 0,
+                downButton = 0,
+                leftButton = 0
             )
         )
     }
@@ -45,11 +48,14 @@ class LayoutSettingRepository(private val layoutSettingDao: LayoutSettingDao) {
                 rbButton = 0,
                 ltsButton = 0,
                 rtsButton = 0,
-                directionButton = 0,
                 yButton = 0,
                 bButton = 0,
                 xButton = 0,
                 aButton = 0,
+                upButton = 0,
+                rightButton = 0,
+                downButton = 0,
+                leftButton = 0
             )
         )
     }
@@ -65,11 +71,14 @@ class LayoutSettingRepository(private val layoutSettingDao: LayoutSettingDao) {
                 rbButton = 0,
                 ltsButton = 0,
                 rtsButton = 0,
-                directionButton = 0,
                 yButton = 0,
                 bButton = 0,
                 xButton = 0,
                 aButton = 0,
+                upButton = 0,
+                rightButton = 0,
+                downButton = 0,
+                leftButton = 0
             )
         )
     }
@@ -85,11 +94,14 @@ class LayoutSettingRepository(private val layoutSettingDao: LayoutSettingDao) {
                 rbButton = 0,
                 ltsButton = 0,
                 rtsButton = 0,
-                directionButton = 0,
                 yButton = 0,
                 bButton = 0,
                 xButton = 0,
                 aButton = 0,
+                upButton = 0,
+                rightButton = 0,
+                downButton = 0,
+                leftButton = 0
             )
         )
     }

@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,11 +28,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -46,7 +45,7 @@ import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.dialogs.CustomColorDialog
 import kotlinx.coroutines.launch
 
-class XButton(private val controller: IActivityController) {
+class UpButton(private val controller: IActivityController) {
     @Composable
     fun Render() {
         val context = LocalContext.current
@@ -56,12 +55,12 @@ class XButton(private val controller: IActivityController) {
         val isSetting = remember { context is LayoutCustomView }
         val isPressed = remember { mutableStateOf(false) }
 
-        val xButton = controller.xButton.value
-        var xButtonColor by remember { mutableStateOf(SolidColor(Color(xButton ?: 0))) }
-        var xButtonBrush by remember { mutableStateOf<Brush>(SolidColor(isDarkService.getButtonColor())) }
-        var xButtonBorderWidth by remember { mutableStateOf(Dp.Unspecified) }
-        var xButtonBorderColor by remember { mutableStateOf(Color(xButton ?: 0)) }
-        var xButtonTextColor by remember { mutableStateOf(isDarkService.getTextColor()) }
+        val upButton = controller.upButton.value
+        var upButtonColor by remember { mutableStateOf(SolidColor(Color(upButton ?: 0))) }
+        var upButtonBrush by remember { mutableStateOf<Brush>(SolidColor(isDarkService.getButtonColor())) }
+        var upButtonBorderWidth by remember { mutableStateOf(Dp.Unspecified) }
+        var upButtonBorderColor by remember { mutableStateOf(Color(upButton ?: 0)) }
+        var upButtonTextColor by remember { mutableStateOf(isDarkService.getTextColor()) }
 
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.touch_effect))
         val lottieAnimatable = rememberLottieAnimatable()
@@ -69,111 +68,109 @@ class XButton(private val controller: IActivityController) {
 
         var customColorDialog by remember { mutableStateOf(false) }
 
-        xButtonColor = if (xButton == 0) {
+        upButtonColor = if (upButton == 0) {
             SolidColor(isDarkService.getButtonColor())
         } else {
-            SolidColor(Color(xButton ?: 0))
+            SolidColor(Color(upButton ?: 0))
         }
 
         if (controller.isDark.value == true) {
             // 다크 모드일 때
-            if (xButton == 0) {
+            if (upButton == 0) {
                 // 기본 버튼일 때
                 if (isEnable && isPressed.value) {
                     // 기본 버튼 눌렀을 때
-                    xButtonBorderWidth = 3.dp
-                    xButtonBrush = Brush.linearGradient(
+                    upButtonBorderWidth = 3.dp
+                    upButtonBrush = Brush.linearGradient(
                         colors = listOf(
                             AppColor.DarkMode.pressBorderColor,
                             isDarkService.getBorderColor()
                         )
                     )
-                    xButtonBorderColor = AppColor.DarkMode.pressBorderColor
+                    upButtonBorderColor = AppColor.DarkMode.pressBorderColor
                 } else {
                     // 기본 버튼 안 눌렀을 때
-                    xButtonBorderWidth = 1.dp
-                    xButtonBrush = xButtonColor
-                    xButtonBorderColor = isDarkService.getBorderColor()
-                    xButtonTextColor = isDarkService.getTextColor()
+                    upButtonBorderWidth = 1.dp
+                    upButtonBrush = upButtonColor
+                    upButtonBorderColor = isDarkService.getBorderColor()
+                    upButtonTextColor = isDarkService.getTextColor()
                 }
             } else {
                 // 커스텀 버튼일 때
                 if (isEnable && isPressed.value) {
                     // 커스텀 버튼 눌렀을 때
-                    xButtonBorderWidth = 3.dp
-                    xButtonBrush = Brush.linearGradient(
-                        colors = listOf(Color(xButton ?: 0), isDarkService.getBorderColor())
+                    upButtonBorderWidth = 3.dp
+                    upButtonBrush = Brush.linearGradient(
+                        colors = listOf(Color(upButton ?: 0), isDarkService.getBorderColor())
                     )
-                    xButtonBorderColor = Color(xButton ?: 0)
-                    xButtonTextColor = isDarkService.getTextColor()
+                    upButtonBorderColor = Color(upButton ?: 0)
+                    upButtonTextColor = isDarkService.getTextColor()
                 } else {
                     // 커스텀 버튼 안 눌렀을 때
-                    xButtonBorderWidth = 1.dp
-                    xButtonBrush = xButtonColor
-                    xButtonBorderColor = isDarkService.getBorderColor()
-                    xButtonTextColor = isDarkService.getButtonTextColor(Color(xButton ?: 0))
+                    upButtonBorderWidth = 1.dp
+                    upButtonBrush = upButtonColor
+                    upButtonBorderColor = isDarkService.getBorderColor()
+                    upButtonTextColor = isDarkService.getButtonTextColor(Color(upButton ?: 0))
                 }
             }
         } else {
             // 라이트 모드일 때
-            if (xButton == 0) {
+            if (upButton == 0) {
                 // 기본 버튼일 때
                 if (isEnable && isPressed.value) {
                     // 기본 버튼 눌렀을 때
-                    xButtonBrush = Brush.verticalGradient(
+                    upButtonBrush = Brush.verticalGradient(
                         colors = listOf(
                             AppColor.LightMode.pressBorderColor,
                             isDarkService.getButtonColor()
                         )
                     )
-                    xButtonBorderWidth = 3.dp
-                    xButtonBorderColor = AppColor.LightMode.pressBorderColor
-                    xButtonTextColor = isDarkService.getTextColor()
+                    upButtonBorderWidth = 3.dp
+                    upButtonBorderColor = AppColor.LightMode.pressBorderColor
+                    upButtonTextColor = isDarkService.getTextColor()
                 } else {
                     // 기본 버튼 안 눌렀을 때
-                    xButtonBrush = xButtonColor
-                    xButtonBorderWidth = 1.dp
-                    xButtonBorderColor =
+                    upButtonBrush = upButtonColor
+                    upButtonBorderWidth = 1.dp
+                    upButtonBorderColor =
                         isDarkService.getDarken(isDarkService.getButtonColor(), 0.7f)
                 }
             } else {
                 // 커스텀 버튼일 때
                 if (isEnable && isPressed.value) {
                     // 커스텀 버튼 눌렀을 때
-                    xButtonBrush = SolidColor(isDarkService.getDarken(Color(xButton ?: 0), 0.7f))
-                    xButtonBorderWidth = 3.dp
-                    xButtonBorderColor = Color(xButton ?: 0)
-                    xButtonTextColor = isDarkService.getTextColor()
+                    upButtonBrush = SolidColor(isDarkService.getDarken(Color(upButton ?: 0), 0.7f))
+                    upButtonBorderWidth = 3.dp
+                    upButtonBorderColor = Color(upButton ?: 0)
+                    upButtonTextColor = isDarkService.getTextColor()
                 } else {
                     // 커스텀 버튼 안 눌렀을 때
-                    xButtonBrush = xButtonColor
-                    xButtonBorderWidth = 1.dp
-                    xButtonBorderColor = isDarkService.getDarken(Color(xButton ?: 0), 0.7f)
-                    xButtonTextColor = isDarkService.getButtonTextColor(Color(xButton ?: 0))
+                    upButtonBrush = upButtonColor
+                    upButtonBorderWidth = 1.dp
+                    upButtonBorderColor = isDarkService.getDarken(Color(upButton ?: 0), 0.7f)
+                    upButtonTextColor = isDarkService.getButtonTextColor(Color(upButton ?: 0))
                 }
             }
         }
 
         if (isSetting && isPressed.value) {
-            xButtonBorderWidth = 3.dp
-            xButtonBorderColor = AppColor.DarkMode.pressBorderColor
+            upButtonBorderWidth = 3.dp
+            upButtonBorderColor = AppColor.DarkMode.pressBorderColor
         }
 
-
         BoxWithConstraints {
-            val fontSize = (maxHeight.value / 4).sp
 
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
-                        brush = xButtonBrush,
-                        shape = RoundedCornerShape(bottomStart = 20.dp)
+                        brush = upButtonBrush,
+                        shape = RoundedCornerShape(topStart = (maxHeight.value+10).dp)
                     )
                     .border(
-                        width = xButtonBorderWidth,
-                        color = xButtonBorderColor,
-                        shape = RoundedCornerShape(bottomStart = 20.dp)
+                        width = upButtonBorderWidth,
+                        color = upButtonBorderColor,
+                        shape = RoundedCornerShape(topStart = maxHeight.value.dp)
                     )
                     .pointerInput(Unit) {
                         detectTapGestures(
@@ -204,16 +201,11 @@ class XButton(private val controller: IActivityController) {
                     },
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "X",
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = fontSize,
-                        color = xButtonTextColor
-                    ),
-                    modifier = Modifier.graphicsLayer(
-                        rotationZ = -45f
-                    )
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowUp,
+                    contentDescription = null,
+                    tint = isDarkService.getTextColor(),
+                    modifier = Modifier.graphicsLayer { rotationZ = -45f }
                 )
                 if (isEnable && isPressed.value) {
                     BoxWithConstraints {
@@ -238,17 +230,17 @@ class XButton(private val controller: IActivityController) {
 
         if (customColorDialog) {
             CustomColorDialog(
-                defaultColor = if (controller.xButton.value == 0) isDarkService.getButtonColor()
-                    .toArgb() else controller.xButton.value ?: 0,
+                defaultColor = if (controller.upButton.value == 0) isDarkService.getButtonColor()
+                    .toArgb() else controller.upButton.value ?: 0,
                 controller = controller,
                 onDismissRequest = { color ->
                     customColorDialog = false
                     isPressed.value = false
-                    xButtonColor = SolidColor(color)
+                    upButtonColor = SolidColor(color)
                     if (color.toArgb() == isDarkService.getButtonColor().toArgb()) {
-                        controller.xButton.value = 0
+                        controller.upButton.value = 0
                     } else {
-                        controller.xButton.value = color.toArgb()
+                        controller.upButton.value = color.toArgb()
                     }
                 }
             )

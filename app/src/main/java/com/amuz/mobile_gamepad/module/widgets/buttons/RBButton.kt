@@ -49,6 +49,7 @@ import com.amuz.mobile_gamepad.module.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
+import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
 import kotlinx.coroutines.launch
 
 class RBButton(private val controller: IActivityController) {
@@ -166,6 +167,26 @@ class RBButton(private val controller: IActivityController) {
 
         BoxWithConstraints {
             val fontSize = (maxWidth.value / 4).sp
+
+            Box(
+                modifier = Modifier
+                    .width((maxWidth.value * 0.7).dp)
+                    .height((maxHeight.value).dp)
+                    .shadowCustom(
+                        color = isDarkService.getDarkShadow(),
+                        offsetX = 10.dp,
+                        offsetY = 10.dp,
+                        blurRadius = 18.dp,
+                    )
+                    .shadowCustom(
+                        color = isDarkService.getLightShadow(),
+                        offsetX = (-10).dp,
+                        offsetY = (-10).dp,
+                        blurRadius = 18.dp,
+                    )
+            ) {
+
+            }
 
             Box(
                 modifier = Modifier

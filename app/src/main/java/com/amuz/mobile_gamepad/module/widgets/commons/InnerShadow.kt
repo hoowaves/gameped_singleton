@@ -90,7 +90,7 @@ fun Modifier.outerShadow(
 )
 
 
-private class ShadowModifier(
+class ShadowModifier(
     val shadow: Shadow,
     val shape: Shape
 ) : DrawModifier {

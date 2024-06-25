@@ -42,6 +42,7 @@ import com.amuz.mobile_gamepad.module.widgets.dialogs.LicenseDialog
 import com.amuz.mobile_gamepad.module.widgets.dialogs.SettingDialog
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
+import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
 
 class SettingButton(private val controller: IActivityController) {
 
@@ -105,34 +106,30 @@ class SettingButton(private val controller: IActivityController) {
         }
 
         BoxWithConstraints {
-            val size = maxWidth / 2
-//            Box(
-//                modifier = Modifier
-//                    .size(size = size + 2.dp)
-//                    .offset(x = (+2).dp, y = (+2).dp)
-//                    .shadow(elevation = 10.dp,
-//                        shape = RoundedCornerShape(15.dp),
-//                        ambientColor = Color.Black)
-//            ) {
-//
-//            }
+            val size = (maxWidth.value / 1.7).dp
+
+            Box(
+                modifier = Modifier
+                    .size(size)
+                    .shadowCustom(
+                        color = isDarkService.getDarkShadow(),
+                        offsetX = 10.dp,
+                        offsetY = 10.dp,
+                        blurRadius = 15.dp,
+                    )
+                    .shadowCustom(
+                        color = isDarkService.getLightShadow(),
+                        offsetX = (-10).dp,
+                        offsetY = (-10).dp,
+                        blurRadius = 15.dp,
+                    )
+            ) {
+
+            }
 
             Box(
                 modifier = Modifier
                     .size(size = size)
-//                    .innerShadow(
-//                        spread = 5.dp,
-//                        blur = 10.dp,
-//                        color = isDarkService.getBackgroundColor(),
-//                        cornersRadius = 15.dp
-//                    )
-//                    .neu(
-//                        lightShadowColor = Color(0xFF2d2d2d),
-//                        darkShadowColor = Color(0xFF080808),
-//                        shadowElevation = 6.dp,
-//                        lightSource = LightSource.LEFT_TOP,
-//                        shape = Flat(RoundedCorner(15.dp))
-//                    )
                     .background(
                         brush = settingButtonBrush,
                         shape = RoundedCornerShape(15.dp))

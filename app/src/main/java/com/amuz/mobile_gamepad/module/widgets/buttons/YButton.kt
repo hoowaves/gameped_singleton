@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -156,6 +157,11 @@ class YButton(private val controller: IActivityController) {
                     yButtonTextColor = isDarkService.getButtonTextColor(Color(yButton ?: 0))
                 }
             }
+        }
+
+        if (isSetting && isPressed.value) {
+            yButtonBorderWidth = 3.dp
+            yButtonBorderColor = AppColor.DarkMode.pressBorderColor
         }
 
 
