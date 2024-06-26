@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -38,6 +39,7 @@ import androidx.compose.ui.window.DialogWindowProvider
 import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomControllerImpl
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
+import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
 
 @Composable
 fun CustomLayoutDialog(
@@ -49,6 +51,20 @@ fun CustomLayoutDialog(
 
     Dialog(onDismissRequest = { onDismissRequest() }) {
         (LocalView.current.parent as DialogWindowProvider).window.setDimAmount(0f)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.9f)
+                .height(200.dp)
+                .background(
+                    color = isDarkService
+                        .getButtonColor()
+                        .copy(alpha = 0.8f),
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .blur(5.dp)
+        ) {
+
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
@@ -110,7 +126,12 @@ fun CustomLayoutDialog(
                                     modifier = Modifier
                                         .size(maxHeight / 2)
                                         .background(
-                                            color = if (isCheck == true) AppColor.CustomColor.check else isDarkService.getButtonColor(),
+                                            color = if (isCheck == true) AppColor.CustomColor.check else Color.Unspecified,
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                        .border(
+                                            width = if (isCheck == false) 1.5.dp else 0.dp,
+                                            color = if (isCheck == false) isDarkService.getTextColor() else Color.Unspecified,
                                             shape = RoundedCornerShape(8.dp)
                                         )
                                         .clickable {

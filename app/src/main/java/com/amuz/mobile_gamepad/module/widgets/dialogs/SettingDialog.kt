@@ -102,7 +102,6 @@ fun SettingDialog(
                         }
                     }
 
-
                 }
                 Column(
                     modifier = Modifier

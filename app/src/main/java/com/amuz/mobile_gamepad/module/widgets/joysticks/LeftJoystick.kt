@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CutCornerShape
@@ -14,7 +15,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -115,14 +118,44 @@ class LeftJoystick(private val controller: IActivityController) {
                     )
 
                     handlePosition?.let {
+                        val middleCircleBrush =
+                            if (controller.isDark.value == true) {
+                                Brush.verticalGradient(
+                                    colors = listOf(Color(0xFF3b3b3b), Color(0xFF2c2c2c)),
+                                    startY = it.y - 50f,
+                                    endY = it.y + 100f,
+                                )
+                            } else {
+                                Brush.verticalGradient(
+                                    colors = listOf(Color(0xFFb8bdc8), Color(0xFF6e747e)),
+                                    startY = it.y - 50f,
+                                    endY = it.y + 100f,
+                                )
+                            }
+
+                        val handleCircleBrush =
+                            if (controller.isDark.value == true) {
+                                Brush.verticalGradient(
+                                    colors = listOf(Color(0xFF2b2b2b), Color(0xFFa1a1a1)),
+                                    startY = it.y - 50f,
+                                    endY = it.y + 200f,
+                                )
+                            } else {
+                                Brush.verticalGradient(
+                                    colors = listOf(Color(0xFF88919e), Color(0xFFffffff)),
+                                    startY = it.y - 50f,
+                                    endY = it.y + 200f,
+                                )
+                            }
+
                         drawCircle(
-                            color = Color.Gray,
+                            brush = middleCircleBrush,
                             center = it,
                             radius = middleCircleRadiusPx,
                         )
 
                         drawCircle(
-                            color = Color.DarkGray,
+                            brush = handleCircleBrush,
                             center = it,
                             radius = handleRadiusPx,
                         )

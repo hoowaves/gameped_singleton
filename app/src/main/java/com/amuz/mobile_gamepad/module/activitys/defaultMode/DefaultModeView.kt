@@ -376,6 +376,7 @@ class DefaultModeView : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(5f)
+                    .zIndex(1f)
             ) {
                 Row(modifier = Modifier.fillMaxHeight()) {
                     Box(
@@ -387,6 +388,7 @@ class DefaultModeView : ComponentActivity() {
                     Box(
                         modifier = Modifier
                             .weight(4f)
+                            .zIndex(1f)
                             .fillMaxHeight(),
                         contentAlignment = Alignment.Center
                     ) {
@@ -405,7 +407,6 @@ class DefaultModeView : ComponentActivity() {
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .zIndex(1f)
                             .fillMaxHeight(),
                         contentAlignment = Alignment.BottomCenter
                     ) {
@@ -417,6 +418,7 @@ class DefaultModeView : ComponentActivity() {
                     Box(
                         modifier = Modifier
                             .weight(4f)
+                            .zIndex(1f)
                             .fillMaxHeight(),
                         contentAlignment = Alignment.Center
                     ) {
