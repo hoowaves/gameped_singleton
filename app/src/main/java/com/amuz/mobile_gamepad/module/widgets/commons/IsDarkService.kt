@@ -73,7 +73,23 @@ class IsDarkService(private val isDark: Boolean) {
         }
     }
 
-    fun getDarkShadow(): Color {
+    fun getDarkInnerShadow(): Color{
+        return if(isDark){
+            AppColor.DarkMode.darkInnerColor.copy(alpha = 0.58f)
+        }else {
+            AppColor.LightMode.darkInnerColor
+        }
+    }
+
+    fun getLightInnerShadow(): Color{
+        return if(isDark){
+            AppColor.DarkMode.lightInnerColor.copy(alpha = 0.25f)
+        }else {
+            AppColor.LightMode.lightInnerColor
+        }
+    }
+
+    fun getDarkOuterShadow(): Color {
         return if (isDark) {
             getDarken(AppColor.DarkMode.buttonColor, 0.3f)
         } else {
@@ -81,11 +97,27 @@ class IsDarkService(private val isDark: Boolean) {
         }
     }
 
-    fun getLightShadow(): Color {
+    fun getLightOuterShadow(): Color {
         return if (isDark) {
             getDarken(AppColor.DarkMode.buttonColor, 0.7f)
         } else {
             Color.White
         }
     }
+
+    fun getCustomBorderColor(color: Color): Color {
+        return when (color) {
+            AppColor.CustomColor.orange -> Color(0xFF9E3B00)
+            AppColor.CustomColor.strawberry -> Color(0xFF8F002C)
+            AppColor.CustomColor.lemon -> Color(0xFFC7A000)
+            AppColor.CustomColor.magenta -> Color(0xFFFF4EF4)
+            AppColor.CustomColor.ultramarineBlue -> Color(0xFF130093)
+            AppColor.CustomColor.cyan -> Color(0xFF003776)
+            AppColor.CustomColor.violet -> Color(0xFF520081)
+            AppColor.CustomColor.lime -> Color(0xFF579C00)
+            AppColor.CustomColor.realRed -> Color(0xFFA60000)
+            else -> Color.Black
+        }
+    }
+
 }

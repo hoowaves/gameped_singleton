@@ -34,7 +34,6 @@ import com.amuz.mobile_gamepad.module.activitys.IActivityController
 import com.amuz.mobile_gamepad.module.widgets.buttons.AButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.BButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.CenterButton
-import com.amuz.mobile_gamepad.module.widgets.buttons.DirectionButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.DownButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.LBButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.LTButton
@@ -54,7 +53,7 @@ import com.amuz.mobile_gamepad.module.widgets.buttons.YButton
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.LoadingPage
 import com.amuz.mobile_gamepad.module.widgets.commons.SensorProgress
-import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
+import com.amuz.mobile_gamepad.module.widgets.commons.outerShadow
 import com.amuz.mobile_gamepad.module.widgets.joysticks.RightJoystick
 
 class Driving2View : ComponentActivity() {
@@ -414,15 +413,15 @@ class Driving2View : ComponentActivity() {
                             Box(
                                 modifier = Modifier
                                     .size(size.dp)
-                                    .shadowCustom(
-                                        color = isDarkService.getDarkShadow(),
+                                    .outerShadow(
+                                        color = isDarkService.getDarkOuterShadow(),
                                         offsetX = 10.dp,
                                         offsetY = 10.dp,
                                         blurRadius = 10.dp,
                                         shapeRadius = 100.dp,
                                     )
-                                    .shadowCustom(
-                                        color = isDarkService.getLightShadow(),
+                                    .outerShadow(
+                                        color = isDarkService.getLightOuterShadow(),
                                         offsetX = (-10).dp,
                                         offsetY = (-10).dp,
                                         blurRadius = 10.dp,
@@ -511,15 +510,15 @@ class Driving2View : ComponentActivity() {
                                 Box(
                                     modifier = Modifier
                                         .size(size)
-                                        .shadowCustom(
-                                            color = isDarkService.getDarkShadow(),
+                                        .outerShadow(
+                                            color = isDarkService.getDarkOuterShadow(),
                                             offsetX = 10.dp,
                                             offsetY = 0.dp,
                                             blurRadius = 10.dp,
                                             shapeRadius = 20.dp,
                                         )
-                                        .shadowCustom(
-                                            color = isDarkService.getLightShadow(),
+                                        .outerShadow(
+                                            color = isDarkService.getLightOuterShadow(),
                                             offsetX = (-10).dp,
                                             offsetY = 0.dp,
                                             blurRadius = 10.dp,

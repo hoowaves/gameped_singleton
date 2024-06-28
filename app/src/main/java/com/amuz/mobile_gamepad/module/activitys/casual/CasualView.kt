@@ -46,7 +46,7 @@ import com.amuz.mobile_gamepad.module.widgets.buttons.XButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.YButton
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.LoadingPage
-import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
+import com.amuz.mobile_gamepad.module.widgets.commons.outerShadow
 import com.amuz.mobile_gamepad.module.widgets.joysticks.LeftJoystick
 
 class CasualView : ComponentActivity() {
@@ -388,15 +388,15 @@ class CasualView : ComponentActivity() {
                                     Box(
                                         modifier = Modifier
                                             .size(size)
-                                            .shadowCustom(
-                                                color = isDarkService.getDarkShadow(),
+                                            .outerShadow(
+                                                color = isDarkService.getDarkOuterShadow(),
                                                 offsetX = 10.dp,
                                                 offsetY = 0.dp,
                                                 blurRadius = 10.dp,
                                                 shapeRadius = 20.dp,
                                             )
-                                            .shadowCustom(
-                                                color = isDarkService.getLightShadow(),
+                                            .outerShadow(
+                                                color = isDarkService.getLightOuterShadow(),
                                                 offsetX = (-10).dp,
                                                 offsetY = 0.dp,
                                                 blurRadius = 10.dp,

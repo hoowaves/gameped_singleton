@@ -27,9 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -38,7 +36,6 @@ import com.amuz.mobile_gamepad.module.activitys.IActivityController
 import com.amuz.mobile_gamepad.module.widgets.buttons.AButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.BButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.CenterButton
-import com.amuz.mobile_gamepad.module.widgets.buttons.DirectionButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.DownButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.LBButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.LTButton
@@ -57,7 +54,7 @@ import com.amuz.mobile_gamepad.module.widgets.buttons.XButton
 import com.amuz.mobile_gamepad.module.widgets.buttons.YButton
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.LoadingPage
-import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
+import com.amuz.mobile_gamepad.module.widgets.commons.outerShadow
 import com.amuz.mobile_gamepad.module.widgets.joysticks.LeftJoystick
 import com.amuz.mobile_gamepad.module.widgets.joysticks.RightJoystick
 
@@ -157,15 +154,15 @@ class DefaultModeView : ComponentActivity() {
                                 Box(
                                     modifier = Modifier
                                         .size(size.dp)
-                                        .shadowCustom(
-                                            color = isDarkService.getDarkShadow(),
+                                        .outerShadow(
+                                            color = isDarkService.getDarkOuterShadow(),
                                             offsetX = 10.dp,
                                             offsetY = 10.dp,
                                             blurRadius = 10.dp,
                                             shapeRadius = 100.dp,
                                         )
-                                        .shadowCustom(
-                                            color = isDarkService.getLightShadow(),
+                                        .outerShadow(
+                                            color = isDarkService.getLightOuterShadow(),
                                             offsetX = (-10).dp,
                                             offsetY = (-10).dp,
                                             blurRadius = 10.dp,
@@ -281,15 +278,15 @@ class DefaultModeView : ComponentActivity() {
                                     Box(
                                         modifier = Modifier
                                             .size(size)
-                                            .shadowCustom(
-                                                color = isDarkService.getDarkShadow(),
+                                            .outerShadow(
+                                                color = isDarkService.getDarkOuterShadow(),
                                                 offsetX = 10.dp,
                                                 offsetY = 0.dp,
                                                 blurRadius = 10.dp,
                                                 shapeRadius = 20.dp,
                                             )
-                                            .shadowCustom(
-                                                color = isDarkService.getLightShadow(),
+                                            .outerShadow(
+                                                color = isDarkService.getLightOuterShadow(),
                                                 offsetX = (-10).dp,
                                                 offsetY = 0.dp,
                                                 blurRadius = 10.dp,
@@ -303,7 +300,7 @@ class DefaultModeView : ComponentActivity() {
                                             .border(
                                                 1.5.dp,
                                                 color = isDarkService.getBorderColor(),
-                                                shape = RoundedCornerShape(20.dp)
+                                                shape = RoundedCornerShape(19.dp)
                                             )
                                     ) {
                                         Row(modifier = Modifier.weight(1f)) {

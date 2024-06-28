@@ -34,6 +34,7 @@ import com.amuz.mobile_gamepad.R
 import com.amuz.mobile_gamepad.module.activitys.IActivityController
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.verticalScrollbar
+import com.amuz.mobile_gamepad.module.widgets.dialogs.guideDialog.GuideDialog
 
 @Composable
 fun SettingDialog(
@@ -98,6 +99,9 @@ fun SettingDialog(
                                 ),
                                 contentDescription = "도움말 버튼",
                                 modifier = Modifier.size((maxWidth.value / 3.5).dp)
+                                    .clickable {
+                                        onItemClick(0)
+                                    }
                             )
                         }
                     }
@@ -118,7 +122,7 @@ fun SettingDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(8.dp)
-                                .clickable { onItemClick(index) },
+                                .clickable { onItemClick(index + 1) },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(

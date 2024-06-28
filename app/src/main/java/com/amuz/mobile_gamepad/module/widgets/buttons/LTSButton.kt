@@ -42,14 +42,13 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.amuz.mobile_gamepad.R
 import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.module.activitys.IActivityController
-import com.amuz.mobile_gamepad.module.activitys.defaultMode.DefaultModeView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
 import com.amuz.mobile_gamepad.module.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
-import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
+import com.amuz.mobile_gamepad.module.widgets.commons.outerShadow
 import kotlinx.coroutines.launch
 
 class LTSButton(private val controller: IActivityController) {
@@ -171,14 +170,14 @@ class LTSButton(private val controller: IActivityController) {
             Box(
                 modifier = Modifier
                     .size(size)
-                    .shadowCustom(
-                        color = isDarkService.getDarkShadow(),
+                    .outerShadow(
+                        color = isDarkService.getDarkOuterShadow(),
                         offsetX = ((-size.value * 0.7)+10).dp,
                         offsetY = 10.dp,
                         blurRadius = 18.dp,
                     )
-                    .shadowCustom(
-                        color = isDarkService.getLightShadow(),
+                    .outerShadow(
+                        color = isDarkService.getLightOuterShadow(),
                         offsetX = ((-size.value * 0.7)-10).dp,
                         offsetY = (-10).dp,
                         blurRadius = 18.dp,
@@ -201,10 +200,20 @@ class LTSButton(private val controller: IActivityController) {
                         shape = RoundedCornerShape(18.dp)
                     )
                     .innerShadow(
-                        spread = 1.dp,
-                        blur = 20.dp,
-                        color = ltsButtonInnerShadowColor,
-                        cornersRadius = 18.dp
+                        shape = RoundedCornerShape(18.dp),
+                        color = isDarkService.getLightInnerShadow(),
+                        offsetX = 2.dp,
+                        offsetY = 2.dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(18.dp),
+                        color = isDarkService.getDarkInnerShadow(),
+                        offsetX = (-2).dp,
+                        offsetY = (-4).dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
                     )
                     .pointerInput(Unit) {
                         detectTapGestures(

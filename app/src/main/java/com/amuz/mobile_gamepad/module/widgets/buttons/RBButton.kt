@@ -49,7 +49,7 @@ import com.amuz.mobile_gamepad.module.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
-import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
+import com.amuz.mobile_gamepad.module.widgets.commons.outerShadow
 import kotlinx.coroutines.launch
 
 class RBButton(private val controller: IActivityController) {
@@ -172,14 +172,14 @@ class RBButton(private val controller: IActivityController) {
                 modifier = Modifier
                     .width((maxWidth.value * 0.7).dp)
                     .height((maxHeight.value).dp)
-                    .shadowCustom(
-                        color = isDarkService.getDarkShadow(),
+                    .outerShadow(
+                        color = isDarkService.getDarkOuterShadow(),
                         offsetX = 10.dp,
                         offsetY = 10.dp,
                         blurRadius = 18.dp,
                     )
-                    .shadowCustom(
-                        color = isDarkService.getLightShadow(),
+                    .outerShadow(
+                        color = isDarkService.getLightOuterShadow(),
                         offsetX = (-10).dp,
                         offsetY = (-10).dp,
                         blurRadius = 18.dp,
@@ -202,10 +202,20 @@ class RBButton(private val controller: IActivityController) {
                         shape = RoundedCornerShape(18.dp)
                     )
                     .innerShadow(
-                        spread = 1.dp,
-                        blur = 20.dp,
-                        color = rbButtonInnerShadowColor,
-                        cornersRadius = 18.dp
+                        shape = RoundedCornerShape(18.dp),
+                        color = isDarkService.getLightInnerShadow(),
+                        offsetX = 2.dp,
+                        offsetY = 2.dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(18.dp),
+                        color = isDarkService.getDarkInnerShadow(),
+                        offsetX = (-2).dp,
+                        offsetY = (-4).dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
                     )
                     .pointerInput(Unit) {
                         detectTapGestures(

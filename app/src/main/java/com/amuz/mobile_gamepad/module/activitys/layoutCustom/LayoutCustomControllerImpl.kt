@@ -8,6 +8,7 @@ import com.amuz.mobile_gamepad.module.activitys.casual.CasualView
 import com.amuz.mobile_gamepad.module.activitys.defaultMode.DefaultModeView
 import com.amuz.mobile_gamepad.module.activitys.driving1.Driving1View
 import com.amuz.mobile_gamepad.module.activitys.driving2.Driving2View
+import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
 import com.amuz.mobile_gamepad.module.settings.appSetting.AppSettingEntity
 import com.amuz.mobile_gamepad.module.settings.layoutSetting.LayoutSettingEntity
 import com.amuz.mobile_gamepad.module.system.SystemRepository
@@ -46,6 +47,8 @@ class LayoutCustomControllerImpl(context: Context) : IActivityController {
     override var leftButton: MutableLiveData<Int> = MutableLiveData()
     override var isDefault: MutableLiveData<Boolean> = MutableLiveData()
 
+    override var isGuide: MutableLiveData<Boolean> = MutableLiveData()
+
     suspend fun dataInit(layoutId: Int) {
         activityModel.dataInit(layoutId)
         this.appId.value = activityModel.appId
@@ -72,6 +75,9 @@ class LayoutCustomControllerImpl(context: Context) : IActivityController {
         this.downButton.value = activityModel.downButton
         this.leftButton.value = activityModel.leftButton
         this.isDefault.value = activityModel.layout == layoutId
+
+        this.isGuide.value = false
+
     }
 
     fun isChanged(): Boolean {

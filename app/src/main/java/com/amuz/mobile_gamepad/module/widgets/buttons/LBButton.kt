@@ -22,6 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -47,7 +48,8 @@ import com.amuz.mobile_gamepad.module.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
-import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
+import com.amuz.mobile_gamepad.module.widgets.commons.outerShadow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LBButton(private val controller: IActivityController) {
@@ -57,14 +59,15 @@ class LBButton(private val controller: IActivityController) {
         val isDarkService = IsDarkService(controller.isDark.value ?: false)
         val systemRepository = SystemRepository(context)
 
-        val isEnable = remember { context !is LayoutCustomView && context !is LayoutCustomListView }
-
         val isSetting = remember { context is LayoutCustomView }
         val isPressed = remember { mutableStateOf(false) }
+        val isGuide = controller.isGuide.value
+        val isEnable =
+            remember { context !is LayoutCustomView && context !is LayoutCustomListView && isGuide == false }
+
         var customColorDialog by remember { mutableStateOf(false) }
 
         val lbButton = controller.lbButton.value
-        Color(lbButton ?: 0)
         var lbButtonColor by remember { mutableStateOf(SolidColor(Color(lbButton ?: 0))) }
         var lbButtonBrush by remember { mutableStateOf<Brush>(SolidColor(isDarkService.getButtonColor())) }
         var lbButtonBorderWidth by remember { mutableStateOf(Dp.Unspecified) }
@@ -82,13 +85,14 @@ class LBButton(private val controller: IActivityController) {
             SolidColor(Color(lbButton ?: 0))
         }
 
+        // color Setting
         if (controller.isDark.value == true) {
             lbButtonInnerShadowColor = isDarkService.getDarken(Color(lbButton ?: 0), 0.5f)
             // 다크 모드일 때
             lbButtonBorderWidth = 3.dp
             if (lbButton == 0) {
                 // 기본 버튼일 때
-                if (isEnable && isPressed.value) {
+                if (isEnable && isPressed.value || isGuide == true && isPressed.value) {
                     // 기본 버튼 눌렀을 때
                     lbButtonBrush = Brush.verticalGradient(
                         colors = listOf(
@@ -105,7 +109,7 @@ class LBButton(private val controller: IActivityController) {
                 }
             } else {
                 // 커스텀 버튼일 때
-                if (isEnable && isPressed.value) {
+                if (isEnable && isPressed.value || isGuide == true && isPressed.value) {
                     // 커스텀 버튼 눌렀을 때
                     lbButtonBrush = Brush.verticalGradient(
                         colors = listOf(Color(lbButton ?: 0), isDarkService.getBorderColor())
@@ -123,7 +127,7 @@ class LBButton(private val controller: IActivityController) {
             // 라이트 모드일 때
             if (lbButton == 0) {
                 // 기본 버튼일 때
-                if (isEnable && isPressed.value) {
+                if (isEnable && isPressed.value || isGuide == true && isPressed.value) {
                     // 기본 버튼 눌렀을 때
                     lbButtonBrush = Brush.verticalGradient(
                         colors = listOf(
@@ -145,7 +149,7 @@ class LBButton(private val controller: IActivityController) {
                 }
             } else {
                 // 커스텀 버튼일 때
-                if (isEnable && isPressed.value) {
+                if (isEnable && isPressed.value || isGuide == true && isPressed.value) {
                     // 커스텀 버튼 눌렀을 때
                     lbButtonBrush = SolidColor(isDarkService.getDarken(Color(lbButton ?: 0), 0.7f))
                     lbButtonBorderWidth = 3.dp
@@ -163,6 +167,31 @@ class LBButton(private val controller: IActivityController) {
             }
         }
 
+        // Guide
+        val isHover = remember { mutableStateOf(false) }
+        if (isGuide == true) {
+            LaunchedEffect(Unit) {
+                while (true) {
+                    delay(1000L)
+                    if (controller.isVibration.value == true) {
+                        systemRepository.setVibration()
+                    }
+                    if (controller.touchEffect.value == true) {
+                        coroutineScope.launch {
+                            lottieAnimatable.animate(
+                                composition,
+                                iterations = LottieConstants.IterateForever
+                            )
+                        }
+                    }
+                    isPressed.value = true
+                    delay(1000L)
+                    isPressed.value = false
+                }
+
+            }
+        }
+
         BoxWithConstraints {
             val fontSize = (maxWidth.value / 4).sp
 
@@ -170,14 +199,14 @@ class LBButton(private val controller: IActivityController) {
                 modifier = Modifier
                     .width((maxWidth.value * 0.7).dp)
                     .height((maxHeight.value).dp)
-                    .shadowCustom(
-                        color = isDarkService.getDarkShadow(),
+                    .outerShadow(
+                        color = isDarkService.getDarkOuterShadow(),
                         offsetX = 10.dp,
                         offsetY = 10.dp,
                         blurRadius = 18.dp,
                     )
-                    .shadowCustom(
-                        color = isDarkService.getLightShadow(),
+                    .outerShadow(
+                        color = isDarkService.getLightOuterShadow(),
                         offsetX = (-10).dp,
                         offsetY = (-10).dp,
                         blurRadius = 18.dp,
@@ -200,10 +229,20 @@ class LBButton(private val controller: IActivityController) {
                         shape = RoundedCornerShape(18.dp)
                     )
                     .innerShadow(
-                        spread = 1.dp,
-                        blur = 20.dp,
-                        color = lbButtonInnerShadowColor,
-                        cornersRadius = 18.dp
+                        shape = RoundedCornerShape(18.dp),
+                        color = isDarkService.getLightInnerShadow(),
+                        offsetX = 2.dp,
+                        offsetY = 2.dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(18.dp),
+                        color = isDarkService.getDarkInnerShadow(),
+                        offsetX = (-2).dp,
+                        offsetY = (-4).dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
                     )
                     .pointerInput(Unit) {
                         detectTapGestures(
@@ -258,7 +297,7 @@ class LBButton(private val controller: IActivityController) {
                         }
                     }
                 }
-                if (isEnable && isPressed.value) {
+                if (isEnable && isPressed.value || isGuide == true && isPressed.value) {
                     BoxWithConstraints {
                         Box(
                             modifier = Modifier

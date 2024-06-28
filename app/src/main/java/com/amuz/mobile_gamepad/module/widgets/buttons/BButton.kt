@@ -43,6 +43,7 @@ import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
+import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
 import com.amuz.mobile_gamepad.module.widgets.dialogs.CustomColorDialog
 import kotlinx.coroutines.launch
 
@@ -168,12 +169,28 @@ class BButton(private val controller: IActivityController) {
                     .fillMaxSize()
                     .background(
                         brush = bButtonBrush,
-                        shape = RoundedCornerShape(topEnd = 20.dp)
+                        shape = RoundedCornerShape(topEnd = 19.dp)
                     )
                     .border(
                         width = bButtonBorderWidth,
                         color = bButtonBorderColor,
-                        shape = RoundedCornerShape(topEnd = 20.dp)
+                        shape = RoundedCornerShape(topEnd = 19.dp)
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(topEnd = 19.dp),
+                        color = isDarkService.getLightInnerShadow(),
+                        offsetX = 2.dp,
+                        offsetY = 2.dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(topEnd = 19.dp),
+                        color = isDarkService.getDarkInnerShadow(),
+                        offsetX = (-2).dp,
+                        offsetY = (-4).dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
                     )
                     .pointerInput(Unit) {
                         detectTapGestures(

@@ -31,6 +31,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,7 +49,7 @@ import com.amuz.mobile_gamepad.module.widgets.dialogs.CustomColorDialog
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
 import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
-import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
+import com.amuz.mobile_gamepad.module.widgets.commons.outerShadow
 import kotlinx.coroutines.launch
 
 
@@ -60,9 +61,9 @@ class LTButton(private val controller: IActivityController) {
         val systemRepository = SystemRepository(context)
 
         val isEnable = remember { context !is LayoutCustomView && context !is LayoutCustomListView }
-
         val isSetting = remember { context is LayoutCustomView }
         val isPressed = remember { mutableStateOf(false) }
+
         var customColorDialog by remember { mutableStateOf(false) }
 
         val ltButton = controller.ltButton.value
@@ -83,86 +84,86 @@ class LTButton(private val controller: IActivityController) {
             SolidColor(Color(ltButton ?: 0))
         }
 
-        if (controller.isDark.value == true) {
-            ltButtonInnerShadowColor = isDarkService.getDarken(Color(ltButton ?: 0), 0.5f)
-            // 다크 모드일 때
-            ltButtonBorderWidth = 3.dp
-            if (ltButton == 0) {
-                // 기본 버튼일 때
-                if (isEnable && isPressed.value) {
-                    // 기본 버튼 눌렀을 때
-                    ltButtonBrush = Brush.verticalGradient(
-                        colors = listOf(
-                            AppColor.DarkMode.pressBorderColor,
-                            isDarkService.getBorderColor()
-                        )
-                    )
-                    ltButtonBorderColor = AppColor.DarkMode.pressBorderColor
-                } else {
-                    // 기본 버튼 안 눌렀을 때
-                    ltButtonBrush = ltButtonColor
-                    ltButtonBorderColor = isDarkService.getBorderColor()
-                    ltButtonTextColor = isDarkService.getTextColor()
-                }
-            } else {
-                // 커스텀 버튼일 때
-                if (isEnable && isPressed.value) {
-                    // 커스텀 버튼 눌렀을 때
-                    ltButtonBrush = Brush.verticalGradient(
-                        colors = listOf(Color(ltButton ?: 0), isDarkService.getBorderColor())
-                    )
-                    ltButtonBorderColor = Color(ltButton ?: 0)
-                    ltButtonTextColor = isDarkService.getTextColor()
-                } else {
-                    // 커스텀 버튼 안 눌렀을 때
-                    ltButtonBrush = ltButtonColor
-                    ltButtonBorderColor = isDarkService.getBorderColor()
-                    ltButtonTextColor = isDarkService.getButtonTextColor(Color(ltButton ?: 0))
-                }
-            }
-        } else {
-            // 라이트 모드일 때
-            if (ltButton == 0) {
-                // 기본 버튼일 때
-                if (isEnable && isPressed.value) {
-                    // 기본 버튼 눌렀을 때
-                    ltButtonBrush = Brush.verticalGradient(
-                        colors = listOf(
-                            AppColor.LightMode.pressBorderColor,
-                            isDarkService.getButtonColor()
-                        )
-                    )
-                    ltButtonBorderWidth = 3.dp
-                    ltButtonBorderColor = AppColor.LightMode.pressBorderColor
-                } else {
-                    // 기본 버튼 안 눌렀을 때
-                    ltButtonBrush = ltButtonColor
-                    ltButtonBorderWidth = 1.5.dp
-                    ltButtonBorderColor =
-                        isDarkService.getDarken(isDarkService.getButtonColor(), 0.7f)
-                    ltButtonInnerShadowColor =
-                        isDarkService.getDarken(isDarkService.getButtonColor(), 0.9f)
-                    ltButtonTextColor = isDarkService.getTextColor()
-                }
-            } else {
-                // 커스텀 버튼일 때
-                if (isEnable && isPressed.value) {
-                    // 커스텀 버튼 눌렀을 때
-                    ltButtonBrush = SolidColor(isDarkService.getDarken(Color(ltButton ?: 0), 0.7f))
-                    ltButtonBorderWidth = 3.dp
-                    ltButtonBorderColor = Color(ltButton ?: 0)
-                    ltButtonInnerShadowColor = isDarkService.getDarken(Color(ltButton ?: 0), 0.5f)
-                    ltButtonTextColor = isDarkService.getTextColor()
-                } else {
-                    // 커스텀 버튼 안 눌렀을 때
-                    ltButtonBrush = ltButtonColor
-                    ltButtonBorderWidth = 1.5.dp
-                    ltButtonBorderColor = isDarkService.getDarken(Color(ltButton ?: 0), 0.7f)
-                    ltButtonInnerShadowColor = isDarkService.getDarken(Color(ltButton ?: 0), 0.7f)
-                    ltButtonTextColor = isDarkService.getButtonTextColor(Color(ltButton ?: 0))
-                }
-            }
-        }
+//        if (controller.isDark.value == true) {
+//            ltButtonInnerShadowColor = isDarkService.getDarken(Color(ltButton ?: 0), 0.5f)
+//            // 다크 모드일 때
+//            ltButtonBorderWidth = 3.dp
+//            if (ltButton == 0) {
+//                // 기본 버튼일 때
+//                if (isEnable && isPressed.value) {
+//                    // 기본 버튼 눌렀을 때
+//                    ltButtonBrush = Brush.verticalGradient(
+//                        colors = listOf(
+//                            AppColor.DarkMode.pressBorderColor,
+//                            isDarkService.getBorderColor()
+//                        )
+//                    )
+//                    ltButtonBorderColor = AppColor.DarkMode.pressBorderColor
+//                } else {
+//                    // 기본 버튼 안 눌렀을 때
+//                    ltButtonBrush = ltButtonColor
+//                    ltButtonBorderColor = isDarkService.getBorderColor()
+//                    ltButtonTextColor = isDarkService.getTextColor()
+//                }
+//            } else {
+//                // 커스텀 버튼일 때
+//                if (isEnable && isPressed.value) {
+//                    // 커스텀 버튼 눌렀을 때
+//                    ltButtonBrush = Brush.verticalGradient(
+//                        colors = listOf(Color(ltButton ?: 0), isDarkService.getBorderColor())
+//                    )
+//                    ltButtonBorderColor = Color(ltButton ?: 0)
+//                    ltButtonTextColor = isDarkService.getTextColor()
+//                } else {
+//                    // 커스텀 버튼 안 눌렀을 때
+//                    ltButtonBrush = ltButtonColor
+//                    ltButtonBorderColor = isDarkService.getBorderColor()
+//                    ltButtonTextColor = isDarkService.getButtonTextColor(Color(ltButton ?: 0))
+//                }
+//            }
+//        } else {
+//            // 라이트 모드일 때
+//            if (ltButton == 0) {
+//                // 기본 버튼일 때
+//                if (isEnable && isPressed.value) {
+//                    // 기본 버튼 눌렀을 때
+//                    ltButtonBrush = Brush.verticalGradient(
+//                        colors = listOf(
+//                            AppColor.LightMode.pressBorderColor,
+//                            isDarkService.getButtonColor()
+//                        )
+//                    )
+//                    ltButtonBorderWidth = 3.dp
+//                    ltButtonBorderColor = AppColor.LightMode.pressBorderColor
+//                } else {
+//                    // 기본 버튼 안 눌렀을 때
+//                    ltButtonBrush = ltButtonColor
+//                    ltButtonBorderWidth = 1.5.dp
+//                    ltButtonBorderColor =
+//                        isDarkService.getDarken(isDarkService.getButtonColor(), 0.7f)
+//                    ltButtonInnerShadowColor =
+//                        isDarkService.getDarken(isDarkService.getButtonColor(), 0.9f)
+//                    ltButtonTextColor = isDarkService.getTextColor()
+//                }
+//            } else {
+//                // 커스텀 버튼일 때
+//                if (isEnable && isPressed.value) {
+//                    // 커스텀 버튼 눌렀을 때
+//                    ltButtonBrush = SolidColor(isDarkService.getDarken(Color(ltButton ?: 0), 0.7f))
+//                    ltButtonBorderWidth = 3.dp
+//                    ltButtonBorderColor = Color(ltButton ?: 0)
+//                    ltButtonInnerShadowColor = isDarkService.getDarken(Color(ltButton ?: 0), 0.5f)
+//                    ltButtonTextColor = isDarkService.getTextColor()
+//                } else {
+//                    // 커스텀 버튼 안 눌렀을 때
+//                    ltButtonBrush = ltButtonColor
+//                    ltButtonBorderWidth = 1.5.dp
+//                    ltButtonBorderColor = isDarkService.getDarken(Color(ltButton ?: 0), 0.7f)
+//                    ltButtonInnerShadowColor = isDarkService.getDarken(Color(ltButton ?: 0), 0.7f)
+//                    ltButtonTextColor = isDarkService.getButtonTextColor(Color(ltButton ?: 0))
+//                }
+//            }
+//        }
 
 
         BoxWithConstraints {
@@ -170,16 +171,18 @@ class LTButton(private val controller: IActivityController) {
 
             Box(
                 modifier = Modifier
+                    .wrapContentSize(unbounded = true)
                     .width((maxWidth.value * 0.7).dp)
                     .height((maxHeight.value).dp)
-                    .shadowCustom(
-                        color = isDarkService.getDarkShadow(),
+                    .background(color = isDarkService.getBackgroundColor())
+                    .outerShadow(
+                        color = isDarkService.getDarkOuterShadow(),
                         offsetX = 10.dp,
                         offsetY = 10.dp,
                         blurRadius = 18.dp,
                     )
-                    .shadowCustom(
-                        color = isDarkService.getLightShadow(),
+                    .outerShadow(
+                        color = isDarkService.getLightOuterShadow(),
                         offsetX = (-10).dp,
                         offsetY = (-10).dp,
                         blurRadius = 18.dp,
@@ -202,10 +205,20 @@ class LTButton(private val controller: IActivityController) {
                         shape = RoundedCornerShape(18.dp)
                     )
                     .innerShadow(
-                        spread = 1.dp,
-                        blur = 20.dp,
-                        color = ltButtonInnerShadowColor,
-                        cornersRadius = 18.dp
+                        shape = RoundedCornerShape(18.dp),
+                        color = isDarkService.getLightInnerShadow(),
+                        offsetX = 2.dp,
+                        offsetY = 2.dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(18.dp),
+                        color = isDarkService.getDarkInnerShadow(),
+                        offsetX = (-2).dp,
+                        offsetY = (-4).dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
                     )
                     .pointerInput(Unit) {
                         detectTapGestures(

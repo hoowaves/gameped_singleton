@@ -39,7 +39,7 @@ class DefaultModeControllerImpl(context: Context) : IActivityController {
     override var leftButton: MutableLiveData<Int> = MutableLiveData()
     override var isDefault: MutableLiveData<Boolean> = MutableLiveData()
 
-    var isEnable: MutableLiveData<Boolean> = MutableLiveData()
+    override var isGuide: MutableLiveData<Boolean> = MutableLiveData()
 
     override suspend fun dataInit() {
         activityModel.dataInit()
@@ -83,6 +83,9 @@ class DefaultModeControllerImpl(context: Context) : IActivityController {
             activityModel.xButton,
             activityModel.aButton
         ).all { it == 0 }
+
+        this.isGuide.value = false
+
     }
 
     override suspend fun reset() {
@@ -107,5 +110,6 @@ class DefaultModeControllerImpl(context: Context) : IActivityController {
             )
         )
     }
-    override suspend fun update() { }
+
+    override suspend fun update() {}
 }

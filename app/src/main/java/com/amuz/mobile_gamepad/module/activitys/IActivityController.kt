@@ -33,6 +33,7 @@ interface IActivityController {
     var downButton: MutableLiveData<Int>
     var leftButton: MutableLiveData<Int>
 
+    var isGuide: MutableLiveData<Boolean>
 
     suspend fun dataInit()
     suspend fun reset()

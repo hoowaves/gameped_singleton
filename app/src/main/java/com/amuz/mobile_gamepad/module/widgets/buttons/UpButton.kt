@@ -42,6 +42,7 @@ import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
+import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
 import com.amuz.mobile_gamepad.module.widgets.dialogs.CustomColorDialog
 import kotlinx.coroutines.launch
 
@@ -165,12 +166,28 @@ class UpButton(private val controller: IActivityController) {
                     .fillMaxSize()
                     .background(
                         brush = upButtonBrush,
-                        shape = RoundedCornerShape(topStart = (maxHeight.value+10).dp)
+                        shape = RoundedCornerShape(topStart = (maxHeight.value + 10).dp)
                     )
                     .border(
                         width = upButtonBorderWidth,
                         color = upButtonBorderColor,
                         shape = RoundedCornerShape(topStart = maxHeight.value.dp)
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(topStart = (maxHeight.value + 10).dp),
+                        color = isDarkService.getLightInnerShadow(),
+                        offsetX = 2.dp,
+                        offsetY = 2.dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(topStart = (maxHeight.value + 10).dp),
+                        color = isDarkService.getDarkInnerShadow(),
+                        offsetX = (-2).dp,
+                        offsetY = (-4).dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
                     )
                     .pointerInput(Unit) {
                         detectTapGestures(
@@ -213,7 +230,7 @@ class UpButton(private val controller: IActivityController) {
                             modifier = Modifier
                                 .wrapContentSize(unbounded = true)
                                 .size(maxWidth * 3)
-                                .offset(x = (-maxHeight/2),y = (-maxHeight/2))
+                                .offset(x = (-maxHeight / 2), y = (-maxHeight / 2))
                                 .graphicsLayer(rotationZ = -45f),
                             contentAlignment = Alignment.BottomCenter
                         ) {

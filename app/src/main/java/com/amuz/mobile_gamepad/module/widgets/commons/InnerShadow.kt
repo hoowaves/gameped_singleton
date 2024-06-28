@@ -1,151 +1,56 @@
+@file:JvmName("InnerShadowKt")
+
 package com.amuz.mobile_gamepad.module.widgets.commons
 
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.DrawModifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 fun Modifier.innerShadow(
-    color: Color = Color.Black,
-    cornersRadius: Dp = 0.dp,
-    spread: Dp = 0.dp,
-    blur: Dp = 0.dp,
-    offsetY: Dp = 0.dp,
-    offsetX: Dp = 0.dp,
+    shape: Shape,
+    color: Color,
+    blur: Dp,
+    offsetY: Dp,
+    offsetX: Dp,
+    spread: Dp
 ) = drawWithContent {
-
     drawContent()
 
     val rect = Rect(Offset.Zero, size)
-    val paint = Paint()
+    val paint = Paint().apply {
+        this.color = color
+        this.isAntiAlias = true
+    }
 
-    drawIntoCanvas {
+    val shadowOutline = shape.createOutline(size, layoutDirection, this)
 
-        paint.color = color
-        paint.isAntiAlias = true
-        it.saveLayer(rect, paint)
-        it.drawRoundRect(
-            left = rect.left,
-            top = rect.top,
-            right = rect.right,
-            bottom = rect.bottom,
-            cornersRadius.toPx(),
-            cornersRadius.toPx(),
-            paint
-        )
+    drawIntoCanvas { canvas ->
+        canvas.saveLayer(rect, paint)
+        canvas.drawOutline(shadowOutline, paint)
+
         val frameworkPaint = paint.asFrameworkPaint()
         frameworkPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
         if (blur.toPx() > 0) {
             frameworkPaint.maskFilter = BlurMaskFilter(blur.toPx(), BlurMaskFilter.Blur.NORMAL)
         }
-        val left = if (offsetX > 0.dp) {
-            rect.left + offsetX.toPx()
-        } else {
-            rect.left
-        }
-        val top = if (offsetY > 0.dp) {
-            rect.top + offsetY.toPx()
-        } else {
-            rect.top
-        }
-        val right = if (offsetX < 0.dp) {
-            rect.right + offsetX.toPx()
-        } else {
-            rect.right
-        }
-        val bottom = if (offsetY < 0.dp) {
-            rect.bottom + offsetY.toPx()
-        } else {
-            rect.bottom
-        }
         paint.color = Color.Black
-        it.drawRoundRect(
-            left = left + spread.toPx() / 2,
-            top = top + spread.toPx() / 2,
-            right = right - spread.toPx() / 2,
-            bottom = bottom - spread.toPx() / 2,
-            cornersRadius.toPx(),
-            cornersRadius.toPx(),
-            paint
-        )
-        frameworkPaint.xfermode = null
-        frameworkPaint.maskFilter = null
-    }
-}
 
-fun Modifier.outerShadow(
-    shadow: Shadow,
-    shape: Shape = RectangleShape
-) = this.then(
-    ShadowModifier(shadow, shape)
-)
+        val spreadOffsetX = offsetX.toPx() + if (offsetX.toPx() < 0) -spread.toPx() else spread.toPx()
+        val spreadOffsetY = offsetY.toPx() + if (offsetY.toPx() < 0) -spread.toPx() else spread.toPx()
 
-
-class ShadowModifier(
-    val shadow: Shadow,
-    val shape: Shape
-) : DrawModifier {
-
-    override fun ContentDrawScope.draw() {
-        drawIntoCanvas { canvas ->
-            val paint = Paint().apply {
-                color = shadow.color
-                asFrameworkPaint().apply {
-                    maskFilter = BlurMaskFilter(
-                        convertRadiusToSigma(shadow.blurRadius),
-                        BlurMaskFilter.Blur.NORMAL
-                    )
-                }
-            }
-            shape.createOutline(
-                size, layoutDirection, this
-            ).let { outline ->
-                canvas.drawWithOffset(shadow.offset) {
-                    when (outline) {
-                        is Outline.Rectangle -> {
-                            drawRect(outline.rect, paint)
-                        }
-                        is Outline.Rounded -> {
-                            drawPath(
-                                Path().apply { addRoundRect(outline.roundRect) },
-                                paint
-                            )
-                        }
-                        is Outline.Generic -> {
-                            drawPath(outline.path, paint)
-                        }
-                    }
-                }
-            }
-        }
-        drawContent()
+        canvas.translate(spreadOffsetX, spreadOffsetY)
+        canvas.drawOutline(shadowOutline, paint)
+        canvas.restore()
     }
 
-    private fun convertRadiusToSigma(
-        radius: Float,
-        enable: Boolean = true
-    ): Float = if (enable) {
-        (radius * 0.57735 + 0.5).toFloat()
-    } else {
-        radius
-    }
-
-    private fun Canvas.drawWithOffset(
-        offset: Offset,
-        block: Canvas.() -> Unit
-    ) {
-        save()
-        translate(offset.x, offset.y)
-        block()
-        restore()
-    }
 }

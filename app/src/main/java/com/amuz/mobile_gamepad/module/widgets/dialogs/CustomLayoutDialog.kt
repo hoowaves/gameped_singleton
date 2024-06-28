@@ -39,7 +39,6 @@ import androidx.compose.ui.window.DialogWindowProvider
 import com.amuz.mobile_gamepad.constants.AppColor
 import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomControllerImpl
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
-import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
 
 @Composable
 fun CustomLayoutDialog(

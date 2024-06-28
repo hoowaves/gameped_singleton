@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.amuz.mobile_gamepad.module.activitys.IActivityController
 import com.amuz.mobile_gamepad.module.activitys.IActivityModel
+import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
+import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
 import com.amuz.mobile_gamepad.module.settings.layoutSetting.LayoutSettingEntity
 import com.amuz.mobile_gamepad.module.system.SystemRepository
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
@@ -36,6 +38,8 @@ class Driving1ControllerImpl(context: Context) : IActivityController {
     override var downButton: MutableLiveData<Int> = MutableLiveData()
     override var leftButton: MutableLiveData<Int> = MutableLiveData()
     override var isDefault: MutableLiveData<Boolean> = MutableLiveData()
+
+    override var isGuide: MutableLiveData<Boolean> = MutableLiveData()
 
     override suspend fun dataInit() {
         activityModel.dataInit()
@@ -79,6 +83,9 @@ class Driving1ControllerImpl(context: Context) : IActivityController {
             activityModel.xButton,
             activityModel.aButton
         ).all { it == 0 }
+
+        this.isGuide.value = false
+
     }
 
     override suspend fun reset() {

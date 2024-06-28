@@ -33,7 +33,8 @@ import com.amuz.mobile_gamepad.module.activitys.layoutCustom.LayoutCustomView
 import com.amuz.mobile_gamepad.module.activitys.layoutCustomList.LayoutCustomListView
 import com.amuz.mobile_gamepad.module.widgets.dialogs.ConnectDialog
 import com.amuz.mobile_gamepad.module.widgets.commons.IsDarkService
-import com.amuz.mobile_gamepad.module.widgets.commons.shadowCustom
+import com.amuz.mobile_gamepad.module.widgets.commons.innerShadow
+import com.amuz.mobile_gamepad.module.widgets.commons.outerShadow
 
 class MenuButton(private val controller: IActivityController) {
     @Composable
@@ -101,17 +102,17 @@ class MenuButton(private val controller: IActivityController) {
             Box(
                 modifier = Modifier
                     .size(size)
-                    .shadowCustom(
-                        color = isDarkService.getDarkShadow(),
+                    .outerShadow(
+                        color = isDarkService.getDarkOuterShadow(),
                         offsetX = 10.dp,
                         offsetY = 10.dp,
-                        blurRadius = 15.dp,
+                        blurRadius = 18.dp,
                     )
-                    .shadowCustom(
-                        color = isDarkService.getLightShadow(),
+                    .outerShadow(
+                        color = isDarkService.getLightOuterShadow(),
                         offsetX = (-10).dp,
                         offsetY = (-10).dp,
-                        blurRadius = 15.dp,
+                        blurRadius = 18.dp,
                     )
             ) {
 
@@ -122,11 +123,27 @@ class MenuButton(private val controller: IActivityController) {
                     .size(size = size)
                     .background(
                         brush = menuButtonBrush,
-                        shape = RoundedCornerShape(15.dp))
+                        shape = RoundedCornerShape(18.dp))
                     .border(
                         width = menuButtonBorderWidth,
                         color = menuButtonBorderColor,
-                        shape = RoundedCornerShape(15.dp)
+                        shape = RoundedCornerShape(18.dp)
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(18.dp),
+                        color = isDarkService.getLightInnerShadow(),
+                        offsetX = 2.dp,
+                        offsetY = 2.dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(18.dp),
+                        color = isDarkService.getDarkInnerShadow(),
+                        offsetX = (-2).dp,
+                        offsetY = (-4).dp,
+                        blur = 10.dp,
+                        spread = 0.dp,
                     )
                     .pointerInput(Unit) {
                         if (!isEnable) return@pointerInput
